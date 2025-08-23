@@ -6,6 +6,7 @@ use Alizharb\FilamentModuleManager\Widgets\ModulesOverview;
 use Alizharb\FilamentModuleManager\Models\Module;
 use UnitEnum;
 use BackedEnum;
+use Htmlable;
 use Filament\Pages\Page;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;

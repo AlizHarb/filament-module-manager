@@ -8,7 +8,7 @@ return [
     |--------------------------------------------------------------------------
     */
     'navigation' => [
-        'group' => 'Extensions'
+        'group' => 'Extensions',
         'label' => 'Modules Manager',
     ],
 

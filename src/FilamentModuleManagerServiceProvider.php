@@ -14,7 +14,7 @@ class FilamentModuleManagerServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('filament-module-manager')
-            ->hasViewComponent('alizharb.filament-module-manager.widgets.modules-overview', ModulesOverview::class)
+            ->hasViewComponent('filament-module-manager.widgets.modules-overview', ModulesOverview::class)
             ->hasTranslations()
             ->hasViews();
     }

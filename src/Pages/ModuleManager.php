@@ -25,8 +25,6 @@ class ModuleManager extends Page implements HasTable
     use InteractsWithTable;
 
     protected string $view = 'filament-module-manager::module-manager';
-    protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-puzzle-piece';
-    protected static ?string $navigationLabel = 'Module Manager';
 
     protected ModuleManagerService $service;
 
@@ -152,7 +150,6 @@ class ModuleManager extends Page implements HasTable
     {
         $result = $this->service->installModulesFromZip($zipPath);
 
-        // Notify about installed modules
         if (!empty($result->installed)) {
             Notification::make()
                 ->title(__('filament-module-manager::filament-module.notifications.modules_installed'))
@@ -163,7 +160,6 @@ class ModuleManager extends Page implements HasTable
                 ->send();
         }
 
-        // Notify about skipped modules
         if (!empty($result->skipped)) {
             Notification::make()
                 ->title(__('filament-module-manager::filament-module.notifications.modules_skipped'))
@@ -174,7 +170,6 @@ class ModuleManager extends Page implements HasTable
                 ->send();
         }
 
-        // Only show an error if **nothing at all** was installed or skipped
         if (empty($result->installed) && empty($result->skipped)) {
             Notification::make()
                 ->title(__('filament-module-manager::filament-module.notifications.module_install_error'))
@@ -219,10 +214,10 @@ class ModuleManager extends Page implements HasTable
             FileUpload::make('zip')
                 ->label(__('filament-module-manager::filament-module.form.zip_file'))
                 ->acceptedFileTypes(['application/zip', 'application/x-zip-compressed', 'multipart/x-zip'])
-                ->disk('public')
-                ->directory('temp/modules')
+                ->disk(config('filament-module-manager.upload.disk', 'public'))
+                ->directory(config('filament-module-manager.upload.temp_directory', 'temp/modules'))
                 ->required()
-                ->maxSize(intdiv($this->service->getMaxZipUploadSize(), 1024)),
+                ->maxSize(intdiv(config('filament-module-manager.upload.max_size', (20 * 1024 * 1024)), 1024)),
         ];
     }
 
@@ -245,4 +240,29 @@ class ModuleManager extends Page implements HasTable
             ModulesOverview::class,
         ];
     }*/
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return config('filament-module-manager.navigation.register', true);
+    }
+    
+    public static function getNavigationSort(): ?int
+    {
+        return config('filament-module-manager.navigation.sort', 100);
+    }
+
+    public static function getNavigationIcon(): string | BackedEnum | Htmlable | null
+    {
+        return config('filament-module-manager.navigation.icon', 'heroicon-code-bracket');
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __(config('filament-module-manager.navigation.group', 'filament-module-manager::filament-module.navigation.group'));
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __(config('filament-module-manager.navigation.label', 'filament-module-manager::filament-module.navigation.label'));
+    }
 }

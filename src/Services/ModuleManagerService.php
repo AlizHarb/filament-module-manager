@@ -15,8 +15,6 @@ use Throwable;
 
 class ModuleManagerService
 {
-    protected int $maxZipUploadSize = 20 * 1024 * 1024; // 20 MB
-
     /**
      * Enable or disable a module.
      */
@@ -290,13 +288,5 @@ class ModuleManagerService
         }
 
         return $zip->extractTo($extractTo);
-    }
-
-    /**
-     * Get max ZIP upload size in BYTES.
-     */
-    public function getMaxZipUploadSize(): int
-    {
-        return $this->maxZipUploadSize;
     }
 }

@@ -24,7 +24,7 @@ class ModuleManager extends Page implements HasTable
     use InteractsWithTable;
 
     protected string $view = 'filament-module-manager::module-manager';
-    protected static ?string $navigationIcon = 'heroicon-o-puzzle-piece';
+    protected static BackedEnum|string|null $navigationIcon = 'heroicon-o-puzzle-piece';
     protected static UnitEnum|string|null $navigationLabel = 'Module Manager';
 
     protected ModuleManagerService $service;

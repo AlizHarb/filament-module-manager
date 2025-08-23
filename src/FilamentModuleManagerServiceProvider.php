@@ -4,6 +4,7 @@ namespace Alizharb\FilamentModuleManager;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Alizharb\FilamentModuleManager\Widgets\ModulesOverview;
 
 class FilamentModuleManagerServiceProvider extends PackageServiceProvider
 {
@@ -13,6 +14,7 @@ class FilamentModuleManagerServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('filament-module-manager')
+            ->hasViewComponent('alizharb.filament-module-manager.widgets.modules-overview', ModulesOverview::class)
             ->hasTranslations()
             ->hasViews();
     }

@@ -239,10 +239,10 @@ class ModuleManager extends Page implements HasTable
         ];
     }
 
-    protected function getHeaderWidgets(): array
+    /*protected function getHeaderWidgets(): array
     {
         return [
             ModulesOverview::class,
         ];
-    }
+    }*/
 }

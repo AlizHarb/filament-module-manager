@@ -1,0 +1,41 @@
+{
+  "name": "alizharb/filament-module-manager",
+  "description": "Filament v4 plugin: Module Manager page + Modules overview widget (Nwidart modules integration).",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ali Harb",
+      "email": "harbzali@gmail.com"
+    }
+  ],
+  "keywords": [
+    "alizharb",
+    "filament-module-manager"
+  ],
+  "require": {
+    "php": "^8.2",
+    "filament/filament": "^4.0",
+    "nwidart/laravel-modules": "^12.0",
+    "spatie/laravel-package-tools": "^1.16",
+    "spatie/laravel-data": "^4.17",
+    "calebporzio/sushi": "^2.5"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^10.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Alizharb\\FilamentModuleManager\\": "src"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Alizharb\\FilamentModuleManager\\FilamentModuleManagerServiceProvider"
+      ]
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}

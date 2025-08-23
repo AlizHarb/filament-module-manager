@@ -12,7 +12,7 @@ class FilamentModuleManagerServiceProvider extends PackageServiceProvider
     public function configurePackage(Package $package): void
     {
         $package
-            ->name(static::name)
+            ->name('filament-module-manager')
             ->hasTranslations()
             ->hasViews();
     }

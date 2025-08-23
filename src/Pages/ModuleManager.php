@@ -5,6 +5,7 @@ namespace Alizharb\FilamentModuleManager\Pages;
 use Alizharb\FilamentModuleManager\Widgets\ModulesOverview;
 use Alizharb\FilamentModuleManager\Models\Module;
 use UnitEnum;
+use BackedEnum;
 use Filament\Pages\Page;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
@@ -24,7 +25,7 @@ class ModuleManager extends Page implements HasTable
     use InteractsWithTable;
 
     protected string $view = 'filament-module-manager::module-manager';
-    protected static BackedEnum|string|null $navigationIcon = 'heroicon-o-puzzle-piece';
+    protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-puzzle-piece';
     protected static ?string $navigationLabel = 'Module Manager';
 
     protected ModuleManagerService $service;

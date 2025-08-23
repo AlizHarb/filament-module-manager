@@ -6,7 +6,6 @@ use Alizharb\FilamentModuleManager\Widgets\ModulesOverview;
 use Alizharb\FilamentModuleManager\Models\Module;
 use UnitEnum;
 use BackedEnum;
-use Htmlable;
 use Filament\Pages\Page;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
@@ -252,7 +251,7 @@ class ModuleManager extends Page implements HasTable
         return config('filament-module-manager.navigation.sort', 100);
     }
 
-    public static function getNavigationIcon(): string | BackedEnum | Htmlable | null
+    public static function getNavigationIcon(): string | BackedEnum | null
     {
         return config('filament-module-manager.navigation.icon', 'heroicon-code-bracket');
     }

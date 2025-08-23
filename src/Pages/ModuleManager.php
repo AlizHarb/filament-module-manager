@@ -244,9 +244,4 @@ class ModuleManager extends Page implements HasTable
             ModulesOverview::class,
         ];
     }
-
-    public static function getSlug(): string
-    {
-        return 'module-manager';
-    }
 }

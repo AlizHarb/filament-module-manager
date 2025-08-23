@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Alizharb\FilamentModuleManager\Services;
 
-use Alizharb\FilamentModuleManagerData\Data\ModuleData;
-use Alizharb\FilamentModuleManagerData\Data\ModuleInstallResultData;
-use Alizharb\FilamentModuleManagerModels\Models\Module;
+use Alizharb\FilamentModuleManager\Data\ModuleData;
+use Alizharb\FilamentModuleManager\Data\ModuleInstallResultData;
+use Alizharb\FilamentModuleManager\Models\Module;
 use Illuminate\Support\Facades\{Artisan, DB, File, Log};
 use Illuminate\Support\Str;
 use Nwidart\Modules\Facades\Module as ModuleFacade;

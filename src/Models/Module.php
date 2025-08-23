@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 use Nwidart\Modules\Facades\Module as ModuleFacade;
 use Nwidart\Modules\Module as NwidartModule;
 use Sushi\Sushi;
-use Alizharb\FilamentModuleManagerData\Data\ModuleData;
+use Alizharb\FilamentModuleManager\Data\ModuleData;
 
 /**
  * Module model representing application modules with Sushi-powered in-memory storage.

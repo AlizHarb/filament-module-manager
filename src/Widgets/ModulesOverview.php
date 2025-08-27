@@ -4,7 +4,7 @@ namespace Alizharb\FilamentModuleManager\Widgets;
 
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
-use Alizharb\FilamentModuleManagerModels\Models\Module;
+use Alizharb\FilamentModuleManager\Models\Module;
 
 class ModulesOverview extends StatsOverviewWidget
 {

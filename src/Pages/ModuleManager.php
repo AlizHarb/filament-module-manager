@@ -2,7 +2,6 @@
 
 namespace Alizharb\FilamentModuleManager\Pages;
 
-use Alizharb\FilamentModuleManager\Widgets\ModulesOverview;
 use Alizharb\FilamentModuleManager\Models\Module;
 use UnitEnum;
 use BackedEnum;
@@ -31,6 +30,16 @@ class ModuleManager extends Page implements HasTable
     public function boot(ModuleManagerService $service): void
     {
         $this->service = $service;
+    }
+
+    /**
+     * Tell Livewire to listen for refreshTable event
+     */
+    protected function getListeners(): array
+    {
+        return [
+            'refreshTable' => '$refresh',
+        ];
     }
 
     public function table(Table $table): Table
@@ -122,28 +131,42 @@ class ModuleManager extends Page implements HasTable
                 Action::make('refresh')
                     ->label(__('filament-module-manager::filament-module.actions.refresh'))
                     ->icon('heroicon-o-arrow-path')
-                    ->action(fn() => $this->resetTable()),
+                    ->action(fn() => $this->dispatch('refreshTable')),
             ]);
     }
 
     protected function handleEnable(string $name): void
     {
         if ($this->service->toggleModuleStatus($name, true)) {
-            Notification::make()->title(__('filament-module-manager::filament-module.notifications.module_enabled', ['name' => $name]))->success()->send();
+            Notification::make()
+                ->title(__('filament-module-manager::filament-module.notifications.module_enabled', ['name' => $name]))
+                ->success()
+                ->send();
         } else {
-            Notification::make()->title(__('filament-module-manager::filament-module.notifications.module_not_found'))->danger()->send();
+            Notification::make()
+                ->title(__('filament-module-manager::filament-module.notifications.module_not_found'))
+                ->danger()
+                ->send();
         }
-        $this->resetTable();
+
+        $this->dispatch('refreshTable');
     }
 
     protected function handleDisable(string $name): void
     {
         if ($this->service->toggleModuleStatus($name, false)) {
-            Notification::make()->title(__('filament-module-manager::filament-module.notifications.module_disabled', ['name' => $name]))->success()->send();
+            Notification::make()
+                ->title(__('filament-module-manager::filament-module.notifications.module_disabled', ['name' => $name]))
+                ->success()
+                ->send();
         } else {
-            Notification::make()->title(__('filament-module-manager::filament-module.notifications.module_not_found'))->danger()->send();
+            Notification::make()
+                ->title(__('filament-module-manager::filament-module.notifications.module_not_found'))
+                ->danger()
+                ->send();
         }
-        $this->resetTable();
+
+        $this->dispatch('refreshTable');
     }
 
     protected function handleInstall(string $zipPath): void
@@ -177,7 +200,7 @@ class ModuleManager extends Page implements HasTable
                 ->send();
         }
 
-        $this->resetTable();
+        $this->dispatch('refreshTable');
     }
 
     protected function handleUninstall(string $name): void
@@ -194,7 +217,8 @@ class ModuleManager extends Page implements HasTable
                 ->danger()
                 ->send();
         }
-        $this->resetTable();
+
+        $this->dispatch('refreshTable');
     }
 
     protected function formatAuthors(array|string|null $authors): string
@@ -234,18 +258,18 @@ class ModuleManager extends Page implements HasTable
         ];
     }
 
-    /*protected function getHeaderWidgets(): array
+    protected function getHeaderWidgets(): array
     {
         return [
-            ModulesOverview::class,
+            \Alizharb\FilamentModuleManager\Widgets\ModulesOverview::class,
         ];
-    }*/
+    }
 
     public static function shouldRegisterNavigation(): bool
     {
         return config('filament-module-manager.navigation.register', true);
     }
-    
+
     public static function getNavigationSort(): ?int
     {
         return config('filament-module-manager.navigation.sort', 100);

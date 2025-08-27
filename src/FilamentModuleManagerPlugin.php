@@ -17,6 +17,9 @@ class FilamentModuleManagerPlugin implements Plugin
         $panel
             ->pages([
               \Alizharb\FilamentModuleManager\Pages\ModuleManager::class,
+            ])
+            ->widgets([
+                \Alizharb\FilamentModuleManager\Widgets\ModulesOverview::class,
             ]);
     }
 

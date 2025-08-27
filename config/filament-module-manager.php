@@ -43,7 +43,7 @@ return [
          *
          * @var string
          */
-        'icon' => 'heroicon-code-bracket',
+        'icon' => 'heroicon-o-code-bracket',
 
         /**
          * Translation key for the navigation group.

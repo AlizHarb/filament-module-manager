@@ -36,6 +36,8 @@
 - 📊 **Dashboard Widget** with statistics
 - 🌍 **Multi-Language Support** (20+ languages)
 - ⚙️ **Configurable Navigation** (icon, group, sort order)
+- 🆕 **Configurable Widget** (enable, dashboard, page)
+- 🆕 **GitHub Repository Installation** – Install modules directly from GitHub (branch fallback included)
 
 </td>
 <td width="50%">
@@ -47,6 +49,11 @@
 - 📋 **Spatie DTO Integration** for type safety
 - 🗄️ **Sushi In-Memory Storage** for dynamic queries
 - ⚙️ **Configurable Upload Limits** (default: 20MB)
+- 🆕 **Accurate Module Naming** Reads name directly from module.json for ZIP and GitHub installs.
+- 🆕 **Automatic Folder Renaming** Module directories are automatically renamed to match module.json.
+- 🆕 **Metadata Handling** Reads description and version from module.json for accurate display and notifications.
+- 🆕 **GitHub Branch Fallback** Installs from main branch, automatically falling back to master if needed.
+- 🆕 **Full Cache & Config Clearing** Clears config, route, and cache after install/uninstall for immediate availability.
 
 </td>
 </tr>

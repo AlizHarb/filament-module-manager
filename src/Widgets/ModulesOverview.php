@@ -8,6 +8,20 @@ use Alizharb\FilamentModuleManager\Models\Module;
 
 class ModulesOverview extends StatsOverviewWidget
 {
+    public static function canView(): bool
+    {
+        if (! config('filament-module-manager.widgets.enabled', true)) {
+            return false;
+        }
+
+        if (Route::currentRouteName() === 'filament.admin.pages.dashboard'
+            && ! config('filament-module-manager.widgets.dashboard', false)) {
+            return false;
+        }
+
+        return true;
+    }
+    
     protected function getStats(): array
     {
         $total = Module::count();

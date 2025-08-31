@@ -17,10 +17,13 @@ class FilamentModuleManagerPlugin implements Plugin
         $panel
             ->pages([
               \Alizharb\FilamentModuleManager\Pages\ModuleManager::class,
-            ])
-            ->widgets([
-                \Alizharb\FilamentModuleManager\Widgets\ModulesOverview::class,
             ]);
+
+        if (config('filament-module-manager.widgets.enabled', true)) {
+            $panel->widgets(
+                config('filament-module-manager.widgets.widgets', [])
+            );
+        }
     }
 
     public static function make(): static

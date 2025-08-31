@@ -3,6 +3,7 @@
 namespace Alizharb\FilamentModuleManager\Pages;
 
 use Alizharb\FilamentModuleManager\Models\Module;
+use Filament\Forms\Components\Select;
 use UnitEnum;
 use BackedEnum;
 use Filament\Pages\Page;
@@ -12,7 +13,7 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
 use Filament\Notifications\Notification;
-use Filament\Actions\{Action, ActionGroup};
+use Filament\Actions\{Action, ActionGroup, BulkAction, BulkActionGroup};
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Grid;
 use Filament\Tables\Concerns\InteractsWithTable;
@@ -62,6 +63,7 @@ class ModuleManager extends Page implements HasTable
                     ->label(__('filament-module-manager::filament-module.table.status'))
                     ->sortable()
                     ->badge()
+                    ->icon(fn(Module $record) => $record->active ? 'heroicon-o-check-circle' : 'heroicon-o-x-circle')
                     ->color(fn (Module $record) => $record->active ? 'success' : 'danger')
                     ->formatStateUsing(fn(Module $record) => $record->active ? 'enabled' : 'disabled')
                     ->tooltip(fn(Module $record) => !$record->active && !$this->service->canDisable($record->name) ? __('filament-module-manager::filament-module.status.cannot_be_disabled') : null),
@@ -127,11 +129,32 @@ class ModuleManager extends Page implements HasTable
                     ->label(__('filament-module-manager::filament-module.actions.install'))
                     ->icon('heroicon-o-arrow-up-tray')
                     ->schema($this->getUploadSchema())
-                    ->action(fn(array $data) => $this->handleInstall($data['zip'])),
+                    ->action(fn(array $data) => $this->handleInstall($data)),
                 Action::make('refresh')
                     ->label(__('filament-module-manager::filament-module.actions.refresh'))
                     ->icon('heroicon-o-arrow-path')
                     ->action(fn() => $this->dispatch('refreshTable')),
+            ])
+            ->bulkActions([
+                BulkActionGroup::make([
+                    BulkAction::make('enable')
+                        ->label(__('filament-module-manager::filament-module.actions.enable'))
+                        ->icon('heroicon-o-check-circle')
+                        ->color('success')
+                        ->requiresConfirmation()
+                        ->deselectRecordsAfterCompletion(),
+                    BulkAction::make('disable')
+                        ->label(__('filament-module-manager::filament-module.actions.disable'))
+                        ->icon('heroicon-o-x-circle')
+                        ->color('danger')
+                        ->requiresConfirmation()
+                        ->deselectRecordsAfterCompletion(),
+                    BulkAction::make('uninstall')
+                        ->label(__('filament-module-manager::filament-module.actions.uninstall'))
+                        ->icon('heroicon-o-trash')
+                        ->color('danger')
+                        ->requiresConfirmation(),
+                ]),
             ]);
     }
 
@@ -169,15 +192,38 @@ class ModuleManager extends Page implements HasTable
         $this->dispatch('refreshTable');
     }
 
-    protected function handleInstall(string $zipPath): void
+    protected function handleInstall(array $data): void
     {
-        $result = $this->service->installModulesFromZip($zipPath);
+        $source = $data['source'] ?? 'zip';
+        $result = null;
+
+        if ($source === 'zip' && isset($data['zip'])) {
+            $result = $this->service->installModulesFromZip($data['zip']);
+        }
+
+        if ($source === 'github' && !empty($data['github'])) {
+            $result = $this->service->installModuleFromGitHub($data['github']);
+        }
+
+        if ($source === 'path' && !empty($data['path'])) {
+            $result = $this->service->installModuleFromPath($data['path']);
+        }
+
+        if (!$result) {
+            Notification::make()
+                ->title(__('filament-module-manager::filament-module.notifications.module_install_error'))
+                ->danger()
+                ->send();
+            return;
+        }
 
         if (!empty($result->installed)) {
+            $names = array_map(fn($m) => $m->name ?? 'Unknown', $result->installed);
+
             Notification::make()
                 ->title(__('filament-module-manager::filament-module.notifications.modules_installed'))
                 ->body(__('filament-module-manager::filament-module.notifications.modules_installed_body', [
-                    'names' => implode(', ', array_map(fn($m) => $m?->name, $result->installed))
+                    'names' => implode(', ', $names)
                 ]))
                 ->success()
                 ->send();
@@ -189,13 +235,6 @@ class ModuleManager extends Page implements HasTable
                 ->body(__('filament-module-manager::filament-module.notifications.modules_skipped_body', [
                     'names' => implode(', ', $result->skipped)
                 ]))
-                ->warning()
-                ->send();
-        }
-
-        if (empty($result->installed) && empty($result->skipped)) {
-            Notification::make()
-                ->title(__('filament-module-manager::filament-module.notifications.module_install_error'))
                 ->warning()
                 ->send();
         }
@@ -235,13 +274,44 @@ class ModuleManager extends Page implements HasTable
     private function getUploadSchema(): array
     {
         return [
+            Select::make('source')
+                ->label(__('filament-module-manager::filament-module.form.source'))
+                ->options([
+                    'zip' => __('filament-module-manager::filament-module.form.zip_file'),
+                    'github' => __('filament-module-manager::filament-module.form.github'),
+                    'path' => __('filament-module-manager::filament-module.form.local_path'),
+                ])
+                ->searchable()
+                ->default('zip')
+                ->columnSpanFull()
+                ->live()
+                ->afterStateUpdated(function ($state, callable $set) {
+                    if ($state === 'zip') {
+                        $set('github', null);
+                        $set('path', null);
+                    } elseif ($state === 'github') {
+                        $set('zip', null);
+                    }
+                })
+                ->required()
+                ->reactive(),
+
             FileUpload::make('zip')
                 ->label(__('filament-module-manager::filament-module.form.zip_file'))
                 ->acceptedFileTypes(['application/zip', 'application/x-zip-compressed', 'multipart/x-zip'])
                 ->disk(config('filament-module-manager.upload.disk', 'public'))
                 ->directory(config('filament-module-manager.upload.temp_directory', 'temp/modules'))
-                ->required()
-                ->maxSize(intdiv(config('filament-module-manager.upload.max_size', (20 * 1024 * 1024)), 1024)),
+                ->visible(fn ($get) => $get('source') === 'zip'),
+
+            TextInput::make('github')
+                ->label(__('filament-module-manager::filament-module.form.github'))
+                ->placeholder('example: alizharb/my-module or https://github.com/alizharb/my-module')
+                ->visible(fn ($get) => $get('source') === 'github'),
+
+            TextInput::make('path')
+                ->label(__('filament-module-manager::filament-module.form.local_path'))
+                ->placeholder('/path/to/module')
+                ->visible(fn ($get) => $get('source') === 'path'),
         ];
     }
 
@@ -260,9 +330,15 @@ class ModuleManager extends Page implements HasTable
 
     protected function getHeaderWidgets(): array
     {
-        return [
-            \Alizharb\FilamentModuleManager\Widgets\ModulesOverview::class,
-        ];
+        if (! config('filament-module-manager.widgets.enabled', false)) {
+            return [];
+        }
+
+        if (! config('filament-module-manager.widgets.page', true)) {
+            return [];
+        }
+
+        return config('filament-module-manager.widgets.widgets', []);
     }
 
     public static function shouldRegisterNavigation(): bool

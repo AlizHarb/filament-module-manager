@@ -92,4 +92,45 @@ return [
         'max_size' => 20 * 1024 * 1024, // 20 MB
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Widget Settings
+    |--------------------------------------------------------------------------
+    |
+    | Configure the module manager widgets and their display locations.
+    | You can enable/disable widgets and control where they appear.
+    |
+    */
+    'widgets' => [
+        /**
+         * Whether widgets are enabled globally.
+         *
+         * @var bool
+         */
+        'enabled' => true,
+
+        /**
+         * Whether to show widgets on the Filament dashboard page.
+         *
+         * @var bool
+         */
+        'dashboard' => true,
+
+        /**
+         * Whether to show widgets on the module manager page.
+         *
+         * @var bool
+         */
+        'page' => true,
+
+        /**
+         * Array of widget classes to register.
+         *
+         * @var array
+         */
+        'widgets' => [
+            \Alizharb\FilamentModuleManager\Widgets\ModulesOverview::class,
+        ],
+    ],
+
 ];

@@ -87,6 +87,8 @@ return [
     */
     'form' => [
         'zip_file' => 'Module ZIP File',
+        'github' => 'Github Repositorie',
+        'local_path' => 'Local Path'
     ],
 
     /*

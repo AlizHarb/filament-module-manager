@@ -13,10 +13,17 @@ use Nwidart\Modules\Facades\Module as ModuleFacade;
 use ZipArchive;
 use Throwable;
 
+/**
+ * Service class to handle module management operations.
+ */
 class ModuleManagerService
 {
     /**
      * Enable or disable a module.
+     *
+     * @param string $moduleName The module's folder or name.
+     * @param bool $enable True to enable, false to disable.
+     * @return ModuleData|null Returns module data if successful, null otherwise.
      */
     public function toggleModuleStatus(string $moduleName, bool $enable): ?ModuleData
     {
@@ -31,6 +38,7 @@ class ModuleManagerService
         }
 
         $enable ? ModuleFacade::enable($moduleName) : ModuleFacade::disable($moduleName);
+
         Artisan::call('optimize:clear');
 
         return Module::findData($moduleName);
@@ -38,10 +46,14 @@ class ModuleManagerService
 
     /**
      * Install one or more modules from a ZIP file.
+     *
+     * @param string $relativeZipPath Relative or absolute path to the ZIP file.
+     * @param bool $isAbsolute Set true if the path is absolute.
+     * @return ModuleInstallResultData
      */
-    public function installModulesFromZip(string $relativeZipPath): ModuleInstallResultData
+    public function installModulesFromZip(string $relativeZipPath, bool $isAbsolute = false): ModuleInstallResultData
     {
-        $fullPath = storage_path("app/public/{$relativeZipPath}");
+        $fullPath = $isAbsolute ? $relativeZipPath : storage_path("app/public/{$relativeZipPath}");
         $modulesPath = base_path('Modules');
 
         if (!File::exists($fullPath)) {
@@ -68,22 +80,13 @@ class ModuleManagerService
 
         $zip->close();
 
-        // Optional package.json for multi-module ZIP
-        $packageJsonPath = "{$tempExtractPath}/package.json";
-        $packageModules = [];
-        if (File::exists($packageJsonPath)) {
-            try {
-                $packageData = json_decode(File::get($packageJsonPath), true, 512, JSON_THROW_ON_ERROR);
-                $packageModules = $packageData['modules'] ?? [];
-            } catch (Throwable $e) {
-                Log::warning("Invalid package.json: {$e->getMessage()}");
-            }
-        }
-
         $entries = collect(File::directories($tempExtractPath))
             ->map(fn($path) => basename($path))
             ->values();
-        $files = collect(File::files($tempExtractPath))->map(fn($file) => $file->getFilename());
+
+        $files = collect(File::files($tempExtractPath))
+            ->map(fn($file) => $file->getFilename());
+
         $entries = $entries->merge($files);
 
         if ($entries->isEmpty()) {
@@ -101,6 +104,20 @@ class ModuleManagerService
             foreach ($entries as $entry) {
                 $sourcePath = "{$tempExtractPath}/{$entry}";
                 $moduleName = File::isDirectory($sourcePath) ? $entry : pathinfo($entry, PATHINFO_FILENAME);
+
+                // Check module.json to rename module folder
+                $moduleJsonPath = "{$sourcePath}/module.json";
+                if (File::exists($moduleJsonPath)) {
+                    try {
+                        $moduleConfig = json_decode(File::get($moduleJsonPath), true, 512, JSON_THROW_ON_ERROR);
+                        if (!empty($moduleConfig['name'])) {
+                            $moduleName = $moduleConfig['name'];
+                        }
+                    } catch (Throwable $e) {
+                        Log::warning("Invalid module.json in {$sourcePath}: {$e->getMessage()}");
+                    }
+                }
+
                 $destination = "{$modulesPath}/{$moduleName}";
 
                 // Skip if already exists
@@ -109,19 +126,12 @@ class ModuleManagerService
                     continue;
                 }
 
-                // Move folder or files
+                // Move directory or single file
                 if (File::isDirectory($sourcePath)) {
                     File::moveDirectory($sourcePath, $destination);
                 } else {
                     File::ensureDirectoryExists($destination);
                     File::move($sourcePath, "{$destination}/{$entry}");
-                }
-
-                // Skip if package.json exists and module not listed
-                if (!empty($packageModules) && !in_array($moduleName, $packageModules, true)) {
-                    File::deleteDirectory($destination);
-                    $skippedModules[] = $moduleName;
-                    continue;
                 }
 
                 // Validate module
@@ -139,21 +149,31 @@ class ModuleManagerService
             Log::error("Module installation failed: {$e->getMessage()}");
         }
 
-        // Refresh Nwidart modules after all moves
         ModuleFacade::scan();
 
         $installedModules = [];
-
-        // Collect ModuleData and enable recognized modules
         foreach ($movedModules as $moduleName) {
             if (ModuleFacade::has($moduleName)) {
                 ModuleFacade::enable($moduleName);
                 $installedModules[] = Module::findData($moduleName);
             } else {
-                // Module valid but not recognized by Nwidart
+                $moduleJsonPath = base_path("Modules/{$moduleName}/module.json");
+                $moduleNameFromJson = $moduleName;
+
+                if (File::exists($moduleJsonPath)) {
+                    try {
+                        $moduleConfig = json_decode(File::get($moduleJsonPath), true, 512, JSON_THROW_ON_ERROR);
+                        if (!empty($moduleConfig['name'])) {
+                            $moduleNameFromJson = $moduleConfig['name'];
+                        }
+                    } catch (\Throwable $e) {
+                        Log::warning("Invalid module.json for {$moduleName}: {$e->getMessage()}");
+                    }
+                }
+
                 $installedModules[] = Module::findData($moduleName) ?? new \Alizharb\FilamentModuleManagerData\ModuleData(
-                    name: $moduleName,
-                    alias: Str::lower($moduleName),
+                    name: $moduleNameFromJson,
+                    alias: Str::lower($moduleNameFromJson),
                     description: null,
                     active: false,
                     path: base_path("Modules/{$moduleName}"),
@@ -162,11 +182,9 @@ class ModuleManagerService
             }
         }
 
-        // Clean up
         File::deleteDirectory($tempExtractPath);
         File::delete($fullPath);
 
-        // Clear caches
         Artisan::call('config:clear');
         Artisan::call('cache:clear');
         Artisan::call('route:clear');
@@ -178,7 +196,89 @@ class ModuleManagerService
     }
 
     /**
+     * Install module from a GitHub repository.
+     *
+     * @param string $repo User/repo or full URL.
+     * @param string $branch Branch name, defaults to 'main'.
+     * @return ModuleInstallResultData
+     */
+    public function installModuleFromGitHub(string $repo, string $branch = 'main'): ModuleInstallResultData
+    {
+        $tempPath = storage_path('app/temp_github_module');
+        File::ensureDirectoryExists($tempPath);
+        File::cleanDirectory($tempPath);
+
+        if (!str_contains($repo, 'github.com')) {
+            $repo = "https://github.com/{$repo}";
+        }
+
+        $branchesToTry = [$branch, 'master'];
+        $zipDownloaded = false;
+        $zipPath = "{$tempPath}/repo.zip";
+
+        foreach ($branchesToTry as $b) {
+            $zipUrl = rtrim($repo, '/') . "/archive/refs/heads/{$b}.zip";
+            try {
+                $content = @file_get_contents($zipUrl);
+                if ($content !== false) {
+                    file_put_contents($zipPath, $content);
+                    $zipDownloaded = true;
+                    break;
+                }
+            } catch (Throwable $e) {
+                Log::warning("Failed to download branch {$b} for {$repo}: {$e->getMessage()}");
+            }
+        }
+
+        if (!$zipDownloaded) {
+            Log::error("Failed to download any branch for GitHub repo: {$repo}");
+            return new ModuleInstallResultData(installed: [], skipped: []);
+        }
+
+        return $this->installModulesFromZip($zipPath, true);
+    }
+
+    /**
+     * Install module from local path.
+     *
+     * @param string $path Absolute or relative path.
+     * @return ModuleInstallResultData
+     */
+    public function installModuleFromPath(string $path): ModuleInstallResultData
+    {
+        $modulesPath = base_path('Modules');
+        $moduleName = basename($path);
+        $destination = "{$modulesPath}/{$moduleName}";
+
+        if (File::exists($destination)) {
+            return new ModuleInstallResultData(installed: [], skipped: [$moduleName]);
+        }
+
+        if (File::isDirectory($path)) {
+            File::copyDirectory($path, $destination);
+        } else {
+            File::ensureDirectoryExists($destination);
+            File::copy($path, "{$destination}/" . basename($path));
+        }
+
+        if ($this->isValidModule($moduleName)) {
+            ModuleFacade::scan();
+            ModuleFacade::enable($moduleName);
+
+            return new ModuleInstallResultData(
+                installed: [Module::findData($moduleName)],
+                skipped: []
+            );
+        }
+
+        return new ModuleInstallResultData(installed: [], skipped: [$moduleName]);
+    }
+
+    /**
      * Uninstall a module.
+     *
+     * @param string $moduleName
+     * @return bool
      */
     public function uninstallModule(string $moduleName): bool
     {
@@ -210,7 +310,10 @@ class ModuleManagerService
     }
 
     /**
-     * Check if a module can be disabled.
+     * Determine if a module can be disabled.
+     *
+     * @param string $moduleName
+     * @return bool
      */
     public function canDisable(string $moduleName): bool
     {
@@ -219,7 +322,10 @@ class ModuleManagerService
     }
 
     /**
-     * Check if a module can be uninstalled.
+     * Determine if a module can be uninstalled.
+     *
+     * @param string $moduleName
+     * @return bool
      */
     public function canUninstall(string $moduleName): bool
     {
@@ -229,6 +335,9 @@ class ModuleManagerService
 
     /**
      * Get module.json configuration.
+     *
+     * @param string $moduleName
+     * @return array
      */
     protected function getModuleConfig(string $moduleName): array
     {
@@ -246,7 +355,10 @@ class ModuleManagerService
     }
 
     /**
-     * Check if a folder is a valid module.
+     * Validate if a folder is a module.
+     *
+     * @param string $folder
+     * @return bool
      */
     protected function isValidModule(string $folder): bool
     {
@@ -268,6 +380,9 @@ class ModuleManagerService
 
     /**
      * Check if a module exists.
+     *
+     * @param string $moduleName
+     * @return bool
      */
     protected function moduleExists(string $moduleName): bool
     {
@@ -275,7 +390,11 @@ class ModuleManagerService
     }
 
     /**
-     * Safely extract ZIP file.
+     * Safely extract a ZIP archive.
+     *
+     * @param ZipArchive $zip
+     * @param string $extractTo
+     * @return bool
      */
     protected function extractZipSafely(ZipArchive $zip, string $extractTo): bool
     {

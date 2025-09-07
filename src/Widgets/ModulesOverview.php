@@ -5,6 +5,7 @@ namespace Alizharb\FilamentModuleManager\Widgets;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Alizharb\FilamentModuleManager\Models\Module;
+use Illuminate\Support\Facades\Route;
 
 class ModulesOverview extends StatsOverviewWidget
 {

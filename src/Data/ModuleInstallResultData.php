@@ -13,16 +13,14 @@ use Spatie\LaravelData\DataCollection;
  *
  * Represents the outcome of a module installation operation including
  * successfully installed modules and those that were skipped
- *
- * @package Alizharb\FilamentModuleManagerData
  */
 final class ModuleInstallResultData extends Data
 {
     /**
      * Constructs a new ModuleInstallResultData instance
      *
-     * @param DataCollection<int, ModuleData>|array<ModuleData> $installed Collection of successfully installed modules
-     * @param array<string> $skipped Array of module names that were skipped during installation
+     * @param  DataCollection<int, ModuleData>|array<ModuleData>  $installed  Collection of successfully installed modules
+     * @param  array<string>  $skipped  Array of module names that were skipped during installation
      */
     public function __construct(
         #[ArrayType, Sometimes]
@@ -52,7 +50,7 @@ final class ModuleInstallResultData extends Data
      */
     protected function prepareForTransformation(): void
     {
-        if (is_array($this->installed) && !$this->installed instanceof DataCollection) {
+        if (is_array($this->installed) && ! $this->installed instanceof DataCollection) {
             $this->installed = new DataCollection(ModuleData::class, $this->installed);
         }
     }
@@ -66,7 +64,7 @@ final class ModuleInstallResultData extends Data
     {
         return [
             'installed' => ['sometimes', 'array'],
-            'installed.*' => ['sometimes', 'instance_of:' . ModuleData::class],
+            'installed.*' => ['sometimes', 'instance_of:'.ModuleData::class],
             'skipped' => ['sometimes', 'array'],
             'skipped.*' => ['sometimes', 'string'],
         ];
@@ -74,30 +72,26 @@ final class ModuleInstallResultData extends Data
 
     /**
      * Get the total count of processed modules (installed + skipped)
-     *
-     * @return int
      */
     public function getTotalProcessed(): int
     {
         $installedCount = is_array($this->installed) ? count($this->installed) : $this->installed->count();
+
         return $installedCount + count($this->skipped);
     }
 
     /**
      * Check if any modules were installed
-     *
-     * @return bool
      */
     public function hasInstalled(): bool
     {
         $installedCount = is_array($this->installed) ? count($this->installed) : $this->installed->count();
+
         return $installedCount > 0;
     }
 
     /**
      * Check if any modules were skipped
-     *
-     * @return bool
      */
     public function hasSkipped(): bool
     {
@@ -112,17 +106,16 @@ final class ModuleInstallResultData extends Data
     public function getInstalledNames(): array
     {
         if (is_array($this->installed)) {
-            return array_map(fn(ModuleData $module) => $module->name, $this->installed);
+            return array_map(fn (ModuleData $module) => $module->name, $this->installed);
         }
 
-        return $this->installed->map(fn(ModuleData $module) => $module->name)->toArray();
+        return $this->installed->map(fn (ModuleData $module) => $module->name)->toArray();
     }
 
     /**
      * Create a successful installation result
      *
-     * @param array<ModuleData> $installed
-     * @return self
+     * @param  array<ModuleData>  $installed
      */
     public static function success(array $installed): self
     {
@@ -135,8 +128,7 @@ final class ModuleInstallResultData extends Data
     /**
      * Create a result with skipped modules
      *
-     * @param array<string> $skipped
-     * @return self
+     * @param  array<string>  $skipped
      */
     public static function skipped(array $skipped): self
     {
@@ -149,9 +141,8 @@ final class ModuleInstallResultData extends Data
     /**
      * Create a mixed result with both installed and skipped modules
      *
-     * @param array<ModuleData> $installed
-     * @param array<string> $skipped
-     * @return self
+     * @param  array<ModuleData>  $installed
+     * @param  array<string>  $skipped
      */
     public static function mixed(array $installed, array $skipped): self
     {

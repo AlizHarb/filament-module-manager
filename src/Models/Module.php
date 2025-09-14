@@ -2,13 +2,13 @@
 
 namespace Alizharb\FilamentModuleManager\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Alizharb\FilamentModuleManager\Data\ModuleData;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Nwidart\Modules\Facades\Module as ModuleFacade;
 use Nwidart\Modules\Module as NwidartModule;
 use Sushi\Sushi;
-use Alizharb\FilamentModuleManager\Data\ModuleData;
 
 /**
  * Module model representing application modules with Sushi-powered in-memory storage.
@@ -86,7 +86,7 @@ class Module extends Model
                 'active' => $module->isEnabled(),
                 'path' => $module->getPath(),
                 'version' => $module->get('version'),
-                'authors'     => $module->get('authors')
+                'authors' => $module->get('authors')
                     ? json_encode($module->get('authors'))
                     : null,
             ])
@@ -176,7 +176,7 @@ class Module extends Model
     {
         $module = self::find($name);
 
-        if (!$module instanceof self) {
+        if (! $module instanceof self) {
             return null;
         }
 
@@ -236,7 +236,7 @@ class Module extends Model
      */
     public function hasAuthors(): bool
     {
-        return !empty($this->authors);
+        return ! empty($this->authors);
     }
 
     /**

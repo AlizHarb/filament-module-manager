@@ -3,22 +3,25 @@
 namespace Alizharb\FilamentModuleManager\Pages;
 
 use Alizharb\FilamentModuleManager\Models\Module;
-use Filament\Forms\Components\Select;
-use UnitEnum;
-use BackedEnum;
-use Filament\Pages\Page;
-use Filament\Tables\Table;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\FileUpload;
-use Filament\Notifications\Notification;
-use Filament\Actions\{Action, ActionGroup, BulkAction, BulkActionGroup};
-use Filament\Infolists\Components\TextEntry;
-use Filament\Schemas\Components\Grid;
-use Filament\Tables\Concerns\InteractsWithTable;
-use Filament\Tables\Filters\{Filter, SelectFilter};
 use Alizharb\FilamentModuleManager\Services\ModuleManagerService;
+use BackedEnum;
+use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\BulkAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Notifications\Notification;
+use Filament\Pages\Page;
+use Filament\Schemas\Components\Grid;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
 
 class ModuleManager extends Page implements HasTable
 {
@@ -63,10 +66,10 @@ class ModuleManager extends Page implements HasTable
                     ->label(__('filament-module-manager::filament-module.table.status'))
                     ->sortable()
                     ->badge()
-                    ->icon(fn(Module $record) => $record->active ? 'heroicon-o-check-circle' : 'heroicon-o-x-circle')
+                    ->icon(fn (Module $record) => $record->active ? 'heroicon-o-check-circle' : 'heroicon-o-x-circle')
                     ->color(fn (Module $record) => $record->active ? 'success' : 'danger')
-                    ->formatStateUsing(fn(Module $record) => $record->active ? 'enabled' : 'disabled')
-                    ->tooltip(fn(Module $record) => !$this->service->canDisable($record->name) ? __('filament-module-manager::filament-module.status.cannot_be_disabled') : null),
+                    ->formatStateUsing(fn (Module $record) => $record->active ? 'enabled' : 'disabled')
+                    ->tooltip(fn (Module $record) => ! $this->service->canDisable($record->name) ? __('filament-module-manager::filament-module.status.cannot_be_disabled') : null),
                 TextColumn::make('path')
                     ->label(__('filament-module-manager::filament-module.table.module_path'))
                     ->wrap()
@@ -79,7 +82,7 @@ class ModuleManager extends Page implements HasTable
                         ->label(__('filament-module-manager::filament-module.actions.view'))
                         ->icon('heroicon-o-eye')
                         ->modal()
-                        ->modalHeading(fn(Module $record) => __('filament-module-manager::filament-module.actions.view_module', ['name' => $record->name]))
+                        ->modalHeading(fn (Module $record) => __('filament-module-manager::filament-module.actions.view_module', ['name' => $record->name]))
                         ->schema($this->getViewSchema())
                         ->modalSubmitAction(false)
                         ->modalWidth('2xl'),
@@ -88,23 +91,23 @@ class ModuleManager extends Page implements HasTable
                         ->label(__('filament-module-manager::filament-module.actions.enable'))
                         ->icon('heroicon-o-check-circle')
                         ->color('success')
-                        ->visible(fn(Module $record) => !$record->active)
-                        ->action(fn(Module $record) => $this->handleEnable($record->name)),
+                        ->visible(fn (Module $record) => ! $record->active)
+                        ->action(fn (Module $record) => $this->handleEnable($record->name)),
 
                     Action::make('disable')
                         ->label(__('filament-module-manager::filament-module.actions.disable'))
                         ->icon('heroicon-o-x-circle')
                         ->color('danger')
-                        ->visible(fn(Module $record) => $record->active && $this->service->canDisable($record->name))
-                        ->action(fn(Module $record) => $this->handleDisable($record->name)),
+                        ->visible(fn (Module $record) => $record->active && $this->service->canDisable($record->name))
+                        ->action(fn (Module $record) => $this->handleDisable($record->name)),
 
                     Action::make('uninstall')
                         ->label(__('filament-module-manager::filament-module.actions.uninstall'))
                         ->icon('heroicon-o-trash')
                         ->color('danger')
                         ->requiresConfirmation()
-                        ->visible(fn(Module $record) => $this->service->canUninstall($record->name))
-                        ->action(fn(Module $record) => $this->handleUninstall($record->name)),
+                        ->visible(fn (Module $record) => $this->service->canUninstall($record->name))
+                        ->action(fn (Module $record) => $this->handleUninstall($record->name)),
                 ]),
             ])
             ->filters([
@@ -114,7 +117,7 @@ class ModuleManager extends Page implements HasTable
                         'enabled' => __('filament-module-manager::filament-module.status.enabled'),
                         'disabled' => __('filament-module-manager::filament-module.status.disabled'),
                     ])
-                    ->query(fn($query, $data) => match($data['value'] ?? null) {
+                    ->query(fn ($query, $data) => match ($data['value'] ?? null) {
                         'enabled' => $query->where('active', true),
                         'disabled' => $query->where('active', false),
                         default => $query,
@@ -122,18 +125,18 @@ class ModuleManager extends Page implements HasTable
                 Filter::make('name')
                     ->label(__('filament-module-manager::filament-module.filters.name'))
                     ->schema([TextInput::make('name')->placeholder(__('filament-module-manager::filament-module.filters.name_placeholder'))])
-                    ->query(fn($query, $data) => $data['name'] ? $query->where('name', 'like', "%{$data['name']}%") : $query),
+                    ->query(fn ($query, $data) => $data['name'] ? $query->where('name', 'like', "%{$data['name']}%") : $query),
             ])
             ->headerActions([
                 Action::make('install')
                     ->label(__('filament-module-manager::filament-module.actions.install'))
                     ->icon('heroicon-o-arrow-up-tray')
                     ->schema($this->getUploadSchema())
-                    ->action(fn(array $data) => $this->handleInstall($data)),
+                    ->action(fn (array $data) => $this->handleInstall($data)),
                 Action::make('refresh')
                     ->label(__('filament-module-manager::filament-module.actions.refresh'))
                     ->icon('heroicon-o-arrow-path')
-                    ->action(fn() => $this->dispatch('refreshTable')),
+                    ->action(fn () => $this->dispatch('refreshTable')),
             ])
             ->bulkActions([
                 BulkActionGroup::make([
@@ -156,7 +159,7 @@ class ModuleManager extends Page implements HasTable
                         ->requiresConfirmation(),
                 ]),
             ])
-            ->checkIfRecordIsSelectableUsing(fn(Module $record) => $this->service->canUninstall($record->name) && $this->service->canDisable($record->name));
+            ->checkIfRecordIsSelectableUsing(fn (Module $record) => $this->service->canUninstall($record->name) && $this->service->canDisable($record->name));
     }
 
     protected function handleEnable(string $name): void
@@ -202,39 +205,40 @@ class ModuleManager extends Page implements HasTable
             $result = $this->service->installModulesFromZip($data['zip']);
         }
 
-        if ($source === 'github' && !empty($data['github'])) {
+        if ($source === 'github' && ! empty($data['github'])) {
             $result = $this->service->installModuleFromGitHub($data['github']);
         }
 
-        if ($source === 'path' && !empty($data['path'])) {
+        if ($source === 'path' && ! empty($data['path'])) {
             $result = $this->service->installModuleFromPath($data['path']);
         }
 
-        if (!$result) {
+        if (! $result) {
             Notification::make()
                 ->title(__('filament-module-manager::filament-module.notifications.module_install_error'))
                 ->danger()
                 ->send();
+
             return;
         }
 
-        if (!empty($result->installed)) {
-            $names = array_map(fn($m) => $m->name ?? 'Unknown', $result->installed);
+        if (! empty($result->installed)) {
+            $names = array_map(fn ($m) => $m->name ?? 'Unknown', $result->installed);
 
             Notification::make()
                 ->title(__('filament-module-manager::filament-module.notifications.modules_installed'))
                 ->body(__('filament-module-manager::filament-module.notifications.modules_installed_body', [
-                    'names' => implode(', ', $names)
+                    'names' => implode(', ', $names),
                 ]))
                 ->success()
                 ->send();
         }
 
-        if (!empty($result->skipped)) {
+        if (! empty($result->skipped)) {
             Notification::make()
                 ->title(__('filament-module-manager::filament-module.notifications.modules_skipped'))
                 ->body(__('filament-module-manager::filament-module.notifications.modules_skipped_body', [
-                    'names' => implode(', ', $result->skipped)
+                    'names' => implode(', ', $result->skipped),
                 ]))
                 ->warning()
                 ->send();
@@ -263,13 +267,15 @@ class ModuleManager extends Page implements HasTable
 
     protected function formatAuthors(array|string|null $authors): string
     {
-        if (!$authors) return '';
-
-        if (is_array($authors)) {
-            return collect($authors)->map(fn($a) => ($a['name'] ?? '') . (isset($a['url']) ? " ({$a['url']})" : ''))->join("\n");
+        if (! $authors) {
+            return '';
         }
 
-        return (string)$authors;
+        if (is_array($authors)) {
+            return collect($authors)->map(fn ($a) => ($a['name'] ?? '').(isset($a['url']) ? " ({$a['url']})" : ''))->join("\n");
+        }
+
+        return (string) $authors;
     }
 
     private function getUploadSchema(): array
@@ -321,11 +327,11 @@ class ModuleManager extends Page implements HasTable
         return [
             Grid::make(2)
                 ->schema([
-                    TextEntry::make('name')->default(fn(Module $record) => $record->name)->disabled(),
-                    TextEntry::make('version')->default(fn(Module $record) => $record->version ?? 'N/A')->disabled(),
+                    TextEntry::make('name')->default(fn (Module $record) => $record->name)->disabled(),
+                    TextEntry::make('version')->default(fn (Module $record) => $record->version ?? 'N/A')->disabled(),
                 ]),
-            TextEntry::make('author')->default(fn(Module $record) => $this->formatAuthors($record->authors ?? null))->disabled(),
-            TextEntry::make('description')->default(fn(Module $record) => $record->description ?? 'N/A')->disabled(),
+            TextEntry::make('author')->default(fn (Module $record) => $this->formatAuthors($record->authors ?? null))->disabled(),
+            TextEntry::make('description')->default(fn (Module $record) => $record->description ?? 'N/A')->disabled(),
         ];
     }
 
@@ -352,7 +358,7 @@ class ModuleManager extends Page implements HasTable
         return config('filament-module-manager.navigation.sort', 100);
     }
 
-    public static function getNavigationIcon(): string | BackedEnum | null
+    public static function getNavigationIcon(): string|BackedEnum|null
     {
         return config('filament-module-manager.navigation.icon', 'heroicon-code-bracket');
     }

@@ -7,11 +7,14 @@ namespace Alizharb\FilamentModuleManager\Services;
 use Alizharb\FilamentModuleManager\Data\ModuleData;
 use Alizharb\FilamentModuleManager\Data\ModuleInstallResultData;
 use Alizharb\FilamentModuleManager\Models\Module;
-use Illuminate\Support\Facades\{Artisan, DB, File, Log};
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Nwidart\Modules\Facades\Module as ModuleFacade;
-use ZipArchive;
 use Throwable;
+use ZipArchive;
 
 /**
  * Service class to handle module management operations.
@@ -21,19 +24,21 @@ class ModuleManagerService
     /**
      * Enable or disable a module.
      *
-     * @param string $moduleName The module's folder or name.
-     * @param bool $enable True to enable, false to disable.
+     * @param  string  $moduleName  The module's folder or name.
+     * @param  bool  $enable  True to enable, false to disable.
      * @return ModuleData|null Returns module data if successful, null otherwise.
      */
     public function toggleModuleStatus(string $moduleName, bool $enable): ?ModuleData
     {
-        if (!ModuleFacade::has($moduleName)) {
+        if (! ModuleFacade::has($moduleName)) {
             Log::warning("Module '{$moduleName}' not found.");
+
             return null;
         }
 
-        if (!$enable && !$this->canDisable($moduleName)) {
+        if (! $enable && ! $this->canDisable($moduleName)) {
             Log::warning("Module '{$moduleName}' cannot be disabled.");
+
             return null;
         }
 
@@ -47,23 +52,24 @@ class ModuleManagerService
     /**
      * Install one or more modules from a ZIP file.
      *
-     * @param string $relativeZipPath Relative or absolute path to the ZIP file.
-     * @param bool $isAbsolute Set true if the path is absolute.
-     * @return ModuleInstallResultData
+     * @param  string  $relativeZipPath  Relative or absolute path to the ZIP file.
+     * @param  bool  $isAbsolute  Set true if the path is absolute.
      */
     public function installModulesFromZip(string $relativeZipPath, bool $isAbsolute = false): ModuleInstallResultData
     {
         $fullPath = $isAbsolute ? $relativeZipPath : storage_path("app/public/{$relativeZipPath}");
         $modulesPath = base_path('Modules');
 
-        if (!File::exists($fullPath)) {
+        if (! File::exists($fullPath)) {
             Log::error("ZIP file not found: {$fullPath}");
+
             return new ModuleInstallResultData(installed: [], skipped: []);
         }
 
-        $zip = new ZipArchive();
+        $zip = new ZipArchive;
         if ($zip->open($fullPath) !== true) {
             Log::error("Cannot open ZIP file: {$fullPath}");
+
             return new ModuleInstallResultData(installed: [], skipped: []);
         }
 
@@ -71,21 +77,22 @@ class ModuleManagerService
         File::ensureDirectoryExists($tempExtractPath);
         File::cleanDirectory($tempExtractPath);
 
-        if (!$this->extractZipSafely($zip, $tempExtractPath)) {
+        if (! $this->extractZipSafely($zip, $tempExtractPath)) {
             $zip->close();
             File::delete($fullPath);
             Log::error("ZIP extraction failed: {$fullPath}");
+
             return new ModuleInstallResultData(installed: [], skipped: []);
         }
 
         $zip->close();
 
         $entries = collect(File::directories($tempExtractPath))
-            ->map(fn($path) => basename($path))
+            ->map(fn ($path) => basename($path))
             ->values();
 
         $files = collect(File::files($tempExtractPath))
-            ->map(fn($file) => $file->getFilename());
+            ->map(fn ($file) => $file->getFilename());
 
         $entries = $entries->merge($files);
 
@@ -93,6 +100,7 @@ class ModuleManagerService
             File::deleteDirectory($tempExtractPath);
             File::delete($fullPath);
             Log::error("ZIP is empty after extraction: {$fullPath}");
+
             return new ModuleInstallResultData(installed: [], skipped: []);
         }
 
@@ -110,7 +118,7 @@ class ModuleManagerService
                 if (File::exists($moduleJsonPath)) {
                     try {
                         $moduleConfig = json_decode(File::get($moduleJsonPath), true, 512, JSON_THROW_ON_ERROR);
-                        if (!empty($moduleConfig['name'])) {
+                        if (! empty($moduleConfig['name'])) {
                             $moduleName = $moduleConfig['name'];
                         }
                     } catch (Throwable $e) {
@@ -123,6 +131,7 @@ class ModuleManagerService
                 // Skip if already exists
                 if (File::exists($destination)) {
                     $skippedModules[] = $moduleName;
+
                     continue;
                 }
 
@@ -163,7 +172,7 @@ class ModuleManagerService
                 if (File::exists($moduleJsonPath)) {
                     try {
                         $moduleConfig = json_decode(File::get($moduleJsonPath), true, 512, JSON_THROW_ON_ERROR);
-                        if (!empty($moduleConfig['name'])) {
+                        if (! empty($moduleConfig['name'])) {
                             $moduleNameFromJson = $moduleConfig['name'];
                         }
                     } catch (\Throwable $e) {
@@ -199,9 +208,8 @@ class ModuleManagerService
     /**
      * Install module from a GitHub repository.
      *
-     * @param string $repo User/repo or full URL.
-     * @param string $branch Branch name, defaults to 'main'.
-     * @return ModuleInstallResultData
+     * @param  string  $repo  User/repo or full URL.
+     * @param  string  $branch  Branch name, defaults to 'main'.
      */
     public function installModuleFromGitHub(string $repo, string $branch = 'main'): ModuleInstallResultData
     {
@@ -209,7 +217,7 @@ class ModuleManagerService
         File::ensureDirectoryExists($tempPath);
         File::cleanDirectory($tempPath);
 
-        if (!str_contains($repo, 'github.com')) {
+        if (! str_contains($repo, 'github.com')) {
             $repo = "https://github.com/{$repo}";
         }
 
@@ -218,7 +226,7 @@ class ModuleManagerService
         $zipPath = "{$tempPath}/repo.zip";
 
         foreach ($branchesToTry as $b) {
-            $zipUrl = rtrim($repo, '/') . "/archive/refs/heads/{$b}.zip";
+            $zipUrl = rtrim($repo, '/')."/archive/refs/heads/{$b}.zip";
             try {
                 $content = @file_get_contents($zipUrl);
                 if ($content !== false) {
@@ -231,8 +239,9 @@ class ModuleManagerService
             }
         }
 
-        if (!$zipDownloaded) {
+        if (! $zipDownloaded) {
             Log::error("Failed to download any branch for GitHub repo: {$repo}");
+
             return new ModuleInstallResultData(installed: [], skipped: []);
         }
 
@@ -242,8 +251,7 @@ class ModuleManagerService
     /**
      * Install module from local path.
      *
-     * @param string $path Absolute or relative path.
-     * @return ModuleInstallResultData
+     * @param  string  $path  Absolute or relative path.
      */
     public function installModuleFromPath(string $path): ModuleInstallResultData
     {
@@ -259,7 +267,7 @@ class ModuleManagerService
             File::copyDirectory($path, $destination);
         } else {
             File::ensureDirectoryExists($destination);
-            File::copy($path, "{$destination}/" . basename($path));
+            File::copy($path, "{$destination}/".basename($path));
         }
 
         if ($this->isValidModule($moduleName)) {
@@ -277,20 +285,19 @@ class ModuleManagerService
 
     /**
      * Uninstall a module.
-     *
-     * @param string $moduleName
-     * @return bool
      */
     public function uninstallModule(string $moduleName): bool
     {
-        if (!ModuleFacade::has($moduleName) || !$this->canUninstall($moduleName)) {
+        if (! ModuleFacade::has($moduleName) || ! $this->canUninstall($moduleName)) {
             Log::warning("Cannot uninstall module: {$moduleName}");
+
             return false;
         }
 
         $path = ModuleFacade::find($moduleName)?->getPath();
-        if (!$path || !File::isDirectory($path)) {
+        if (! $path || ! File::isDirectory($path)) {
             Log::warning("Module path not found: {$moduleName}");
+
             return false;
         }
 
@@ -302,48 +309,43 @@ class ModuleManagerService
             Artisan::call('route:clear');
             DB::commit();
             Log::info("Module uninstalled: {$moduleName}");
+
             return true;
         } catch (Throwable $e) {
             DB::rollBack();
             Log::error("Failed to uninstall module '{$moduleName}': {$e->getMessage()}");
+
             return false;
         }
     }
 
     /**
      * Determine if a module can be disabled.
-     *
-     * @param string $moduleName
-     * @return bool
      */
     public function canDisable(string $moduleName): bool
     {
         $config = $this->getModuleConfig($moduleName);
+
         return $config['canBeDisabled'] ?? true;
     }
 
     /**
      * Determine if a module can be uninstalled.
-     *
-     * @param string $moduleName
-     * @return bool
      */
     public function canUninstall(string $moduleName): bool
     {
         $config = $this->getModuleConfig($moduleName);
+
         return $config['canBeUninstalled'] ?? true;
     }
 
     /**
      * Get module.json configuration.
-     *
-     * @param string $moduleName
-     * @return array
      */
     protected function getModuleConfig(string $moduleName): array
     {
         $path = base_path("Modules/{$moduleName}/module.json");
-        if (!File::exists($path)) {
+        if (! File::exists($path)) {
             return [];
         }
 
@@ -351,21 +353,19 @@ class ModuleManagerService
             return json_decode(File::get($path), true, 512, JSON_THROW_ON_ERROR) ?: [];
         } catch (Throwable $e) {
             Log::warning("Invalid module.json for '{$moduleName}': {$e->getMessage()}");
+
             return [];
         }
     }
 
     /**
      * Validate if a folder is a module.
-     *
-     * @param string $folder
-     * @return bool
      */
     protected function isValidModule(string $folder): bool
     {
         $base = base_path("Modules/{$folder}");
 
-        if (!File::isDirectory($base)) {
+        if (! File::isDirectory($base)) {
             return false;
         }
 
@@ -374,16 +374,13 @@ class ModuleManagerService
         }
 
         $phpFiles = collect(File::allFiles($base))
-            ->filter(fn($file) => $file->getExtension() === 'php');
+            ->filter(fn ($file) => $file->getExtension() === 'php');
 
         return $phpFiles->isNotEmpty();
     }
 
     /**
      * Check if a module exists.
-     *
-     * @param string $moduleName
-     * @return bool
      */
     protected function moduleExists(string $moduleName): bool
     {
@@ -392,10 +389,6 @@ class ModuleManagerService
 
     /**
      * Safely extract a ZIP archive.
-     *
-     * @param ZipArchive $zip
-     * @param string $extractTo
-     * @return bool
      */
     protected function extractZipSafely(ZipArchive $zip, string $extractTo): bool
     {
@@ -403,6 +396,7 @@ class ModuleManagerService
             $filename = $zip->getNameIndex($i);
             if (Str::contains($filename, ['..', './', '\\'])) {
                 Log::warning("ZIP contains invalid filename: {$filename}");
+
                 return false;
             }
         }

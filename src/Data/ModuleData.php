@@ -7,8 +7,8 @@ namespace Alizharb\FilamentModuleManager\Data;
 use Spatie\LaravelData\Attributes\Validation\BooleanType;
 use Spatie\LaravelData\Attributes\Validation\Nullable;
 use Spatie\LaravelData\Attributes\Validation\Required;
-use Spatie\LaravelData\Attributes\Validation\StringType;
 use Spatie\LaravelData\Attributes\Validation\Sometimes;
+use Spatie\LaravelData\Attributes\Validation\StringType;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Support\Transformation\TransformationContext;
 use Spatie\LaravelData\Support\Transformation\TransformationContextFactory;
@@ -18,21 +18,19 @@ use Spatie\LaravelData\Support\Validation\ValidationContext;
  * Data Transfer Object for Module entities
  *
  * Represents module information with validation rules and transformation capabilities
- *
- * @package Alizharb\FilamentModuleManagerData
  */
 final class ModuleData extends Data
 {
     /**
      * Constructs a new ModuleData instance
      *
-     * @param string $name The unique name of the module
-     * @param string $alias The alias/short identifier for the module
-     * @param string|null $description Optional description of the module's purpose
-     * @param bool $active Indicates if the module is currently active
-     * @param string $path Filesystem path to the module
-     * @param string|null $version Current version of the module (semantic versioning)
-     * @param null|array|string $authors Optional array of authors or string representing the author's name'
+     * @param  string  $name  The unique name of the module
+     * @param  string  $alias  The alias/short identifier for the module
+     * @param  string|null  $description  Optional description of the module's purpose
+     * @param  bool  $active  Indicates if the module is currently active
+     * @param  string  $path  Filesystem path to the module
+     * @param  string|null  $version  Current version of the module (semantic versioning)
+     * @param  null|array|string  $authors  Optional array of authors or string representing the author's name'
      */
     public function __construct(
         #[Required, StringType]
@@ -54,13 +52,12 @@ final class ModuleData extends Data
         public ?string $version,
 
         #[Nullable, Sometimes]
-        public null | array | string $authors = null,
+        public null|array|string $authors = null,
     ) {}
 
     /**
      * Provides validation rules for the ModuleData object
      *
-     * @param ValidationContext $context
      * @return array<string, array<int, mixed>>
      */
     public static function rules(ValidationContext $context): array
@@ -124,8 +121,7 @@ final class ModuleData extends Data
     /**
      * Custom transformation when creating from array
      *
-     * @param array<string, mixed> $payload
-     * @return self
+     * @param  array<string, mixed>  $payload
      */
     public static function fromArray(array $payload): self
     {
@@ -143,7 +139,6 @@ final class ModuleData extends Data
     /**
      * Prepare data for transformation to array
      *
-     * @param null|TransformationContextFactory|TransformationContext $transformationContext
      * @return array<string, mixed>
      */
     public function transform(null|TransformationContextFactory|TransformationContext $transformationContext = null): array

@@ -2,9 +2,6 @@
 
 use Alizharb\FilamentModuleManager\Facades\ModuleManager;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\DB;
-
-use function Pest\Laravel\artisan;
 
 beforeEach(function () {
     // Set up a fake modules directory
@@ -71,7 +68,6 @@ it('updates database or module.json on enable/disable', function () {
     expect($updated['enabled'])->toBeFalse();
 });
 
-
 it('can uninstall a module', function () {
     // Enable first, then uninstall
     ModuleManager::enable($this->module);
@@ -112,7 +108,7 @@ it('can install modules from ZIP (mocked)', function () {
     File::ensureDirectoryExists($tempModulePath);
     File::makeDirectory("{$tempModulePath}/{$moduleName}", 0777, true);
     File::put("{$tempModulePath}/{$moduleName}/module.json", json_encode(['name' => $moduleName, 'enabled' => false], JSON_PRETTY_PRINT));
-    $zip = new \ZipArchive();
+    $zip = new \ZipArchive;
     $zip->open($zipPath, \ZipArchive::CREATE);
     $zip->addFile("{$tempModulePath}/{$moduleName}/module.json", "{$moduleName}/module.json");
     $zip->close();
@@ -137,7 +133,7 @@ it('can install module from GitHub (mocked)', function () {
 });
 
 it('widget stats overview returns correct counts', function () {
-    $widget = new \Alizharb\FilamentModuleManager\Widgets\ModulesOverview();
+    $widget = new \Alizharb\FilamentModuleManager\Widgets\ModulesOverview;
     $stats = $widget->getStats();
     expect($stats)->toBeArray();
     expect(count($stats))->toBe(3);

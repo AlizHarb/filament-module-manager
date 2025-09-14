@@ -19,6 +19,7 @@ use Alizharb\FilamentModuleManager\Data\ModuleData;
  * @property bool $active
  * @property string $path
  * @property string|null $version
+ * @property array|null $authors
  *
  * @method static Builder active() Scope for active modules
  * @method static Builder inactive() Scope for inactive modules
@@ -53,6 +54,7 @@ class Module extends Model
         'active' => 'boolean',
         'path' => 'string',
         'version' => 'string',
+        'authors' => 'json',
     ];
 
     /** @var array<string, string> */
@@ -71,6 +73,7 @@ class Module extends Model
      *     active: bool,
      *     path: string,
      *     version: string|null,
+     *     authors: array<array{name: string, email: string, homepage: string|null}>|null,
      * }>
      */
     public function getRows(): array
@@ -82,7 +85,10 @@ class Module extends Model
                 'description' => $module->get('description'),
                 'active' => $module->isEnabled(),
                 'path' => $module->getPath(),
-                'version' => $module->getComposerAttr('version'),
+                'version' => $module->get('version'),
+                'authors'     => $module->get('authors')
+                    ? json_encode($module->get('authors'))
+                    : null,
             ])
             ->values()
             ->toArray();
@@ -159,6 +165,7 @@ class Module extends Model
                 active: $module->active,
                 path: $module->path,
                 version: $module->version,
+                authors: $module->authors,
             ));
     }
 
@@ -180,6 +187,7 @@ class Module extends Model
             active: $module->active,
             path: $module->path,
             version: $module->version,
+            authors: $module->authors,
         );
     }
 
@@ -197,16 +205,6 @@ class Module extends Model
     public static function getInactiveCount(): int
     {
         return self::inactive()->count();
-    }
-
-    /**
-     * Get modules grouped by license.
-     *
-     * @return Collection<string, Collection<ModuleData>>
-     */
-    public static function groupedByLicense(): Collection
-    {
-        return self::allData()->groupBy('license');
     }
 
     /**
@@ -229,23 +227,8 @@ class Module extends Model
             active: $this->active,
             path: $this->path,
             version: $this->version,
+            authors: $this->authors
         );
-    }
-
-    /**
-     * Get the module's composer attributes as a collection.
-     */
-    public function getComposerAttributes(): Collection
-    {
-        return collect([
-            'version' => $this->version,
-            'license' => $this->license,
-            'keywords' => $this->keywords,
-            'authors' => $this->authors,
-            'homepage' => $this->homepage,
-            'minimum_stability' => $this->minimum_stability,
-            'prefer_stable' => $this->prefer_stable,
-        ])->filter();
     }
 
     /**

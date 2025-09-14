@@ -178,6 +178,7 @@ class ModuleManagerService
                     active: false,
                     path: base_path("Modules/{$moduleName}"),
                     version: null,
+                    authors: null,
                 );
             }
         }

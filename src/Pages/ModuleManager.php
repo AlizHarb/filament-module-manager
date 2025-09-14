@@ -66,7 +66,7 @@ class ModuleManager extends Page implements HasTable
                     ->icon(fn(Module $record) => $record->active ? 'heroicon-o-check-circle' : 'heroicon-o-x-circle')
                     ->color(fn (Module $record) => $record->active ? 'success' : 'danger')
                     ->formatStateUsing(fn(Module $record) => $record->active ? 'enabled' : 'disabled')
-                    ->tooltip(fn(Module $record) => !$record->active && !$this->service->canDisable($record->name) ? __('filament-module-manager::filament-module.status.cannot_be_disabled') : null),
+                    ->tooltip(fn(Module $record) => !$this->service->canDisable($record->name) ? __('filament-module-manager::filament-module.status.cannot_be_disabled') : null),
                 TextColumn::make('path')
                     ->label(__('filament-module-manager::filament-module.table.module_path'))
                     ->wrap()
@@ -155,7 +155,8 @@ class ModuleManager extends Page implements HasTable
                         ->color('danger')
                         ->requiresConfirmation(),
                 ]),
-            ]);
+            ])
+            ->checkIfRecordIsSelectableUsing(fn(Module $record) => $this->service->canUninstall($record->name) && $this->service->canDisable($record->name));
     }
 
     protected function handleEnable(string $name): void

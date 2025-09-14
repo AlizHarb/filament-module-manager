@@ -32,6 +32,7 @@ final class ModuleData extends Data
      * @param bool $active Indicates if the module is currently active
      * @param string $path Filesystem path to the module
      * @param string|null $version Current version of the module (semantic versioning)
+     * @param null|array|string $authors Optional array of authors or string representing the author's name'
      */
     public function __construct(
         #[Required, StringType]
@@ -51,6 +52,9 @@ final class ModuleData extends Data
 
         #[Nullable, StringType, Sometimes]
         public ?string $version,
+
+        #[Nullable, Sometimes]
+        public null | array | string $authors = null,
     ) {}
 
     /**
@@ -68,6 +72,7 @@ final class ModuleData extends Data
             'active' => ['required', 'boolean'],
             'path' => ['required', 'string', 'max:512'],
             'version' => ['sometimes', 'nullable', 'string', 'regex:/^\d+\.\d+\.\d+$/'],
+            'authors' => ['sometimes', 'nullable', 'array'],
         ];
     }
 
@@ -84,6 +89,7 @@ final class ModuleData extends Data
             'alias.alpha_dash' => __('filament-module-manager::filament-module.validation.alias_alpha_dash'),
             'path.required' => __('filament-module-manager::filament-module.validation.path_required'),
             'version.regex' => __('filament-module-manager::filament-module.validation.version_regex'),
+            'authors.array' => __('filament-module-manager::filament-module.validation.authors_array'),
         ];
     }
 
@@ -98,6 +104,7 @@ final class ModuleData extends Data
             'description' => null,
             'version' => null,
             'active' => false,
+            'authors' => null,
         ];
     }
 
@@ -110,6 +117,7 @@ final class ModuleData extends Data
     {
         return [
             'active' => 'boolean',
+            'authors' => 'array',
         ];
     }
 
@@ -128,6 +136,7 @@ final class ModuleData extends Data
             active: (bool) ($payload['active'] ?? false),
             path: (string) ($payload['path'] ?? ''),
             version: isset($payload['version']) ? (string) $payload['version'] : null,
+            authors: isset($payload['authors']) ? $payload['authors'] : null,
         );
     }
 
@@ -146,6 +155,7 @@ final class ModuleData extends Data
             'active' => $this->active,
             'path' => $this->path,
             'version' => $this->version,
+            'authors' => $this->authors,
         ];
     }
 }

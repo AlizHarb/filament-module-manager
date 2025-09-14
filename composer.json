@@ -24,6 +24,11 @@
   "require-dev": {
     "phpunit/phpunit": "^10.0"
   },
+  "config": {
+    "allow-plugins": {
+      "wikimedia/composer-merge-plugin": true
+    }
+  },
   "autoload": {
     "psr-4": {
       "Alizharb\\FilamentModuleManager\\": "src"
@@ -37,10 +42,5 @@
     }
   },
   "minimum-stability": "stable",
-  "prefer-stable": true,
-  "config": {
-    "allow-plugins": {
-      "wikimedia/composer-merge-plugin": true
-    }
-  }
+  "prefer-stable": true
 }

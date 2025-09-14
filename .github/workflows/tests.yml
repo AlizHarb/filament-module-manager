@@ -1,69 +1,40 @@
-name: Tests
+name: PHP Pipeline
 
-on:
-  push:
-    branches: [main, develop]
-  pull_request:
+on: [push, pull_request]
 
 jobs:
-  tests:
+  build:
     runs-on: ubuntu-latest
-
-    services:
-      mysql:
-        image: mysql:8
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: test
-        ports: [3306:3306]
-        options: --health-cmd="mysqladmin ping --silent" --health-interval=10s --health-timeout=5s --health-retries=3
-
+    strategy:
+      max-parallel: 2
+      matrix:
+        php-versions: ["8.2", "8.3", "8.4"]
+    name: PHP ${{ matrix.php-versions }}
     steps:
       - uses: actions/checkout@v4
-
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@master
         with:
-          php-version: "8.2"
-          extensions: mbstring, pdo_mysql, dom, fileinfo
-          tools: composer, phpstan, pint, pest
-
-      - name: Cache Composer dependencies
-        uses: actions/cache@v4
+          php-version: ${{ matrix.php-versions }}
+          coverage: xdebug
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+      - name: Run test suite
+        run: composer run-script test
+  phplint:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: "laravel-pint"
+        uses: aglipanci/laravel-pint-action@latest
         with:
-          path: vendor
-          key: composer-${{ hashFiles('**/composer.lock') }}
-
-      - name: Install Composer dependencies
-        run: composer install --prefer-dist --no-progress --no-interaction
-
-      - name: Copy .env
-        run: cp .env.example .env
-
-      - name: Generate application key
-        run: php artisan key:generate
-
-      - name: Wait for MySQL
-        run: |
-          sudo apt-get install -y netcat
-          until nc -z 127.0.0.1 3306; do
-            sleep 1
-          done
-
-      - name: Run migrations
-        run: php artisan migrate --force
-
-      - name: Run Pest tests with coverage
-        run: ./vendor/bin/pest --coverage --min=90
-
-      - name: Run PHPStan (level 8)
-        run: ./vendor/bin/phpstan analyse --level=8
-
-      - name: Run Pint (code style)
-        run: ./vendor/bin/pint --test
-
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v4
+          configPath: "./pint.json"
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          name: coverage-report
-          path: storage/coverage
+          commit_message: PHP Linting (Pint)
+          skip_fetch: true

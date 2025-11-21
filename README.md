@@ -38,6 +38,9 @@
 - ⚙️ **Configurable Navigation** (icon, group, sort order)
 - 🆕 **Configurable Widget** (enable, dashboard, page)
 - 🆕 **GitHub Repository Installation** – Install modules directly from GitHub (branch fallback included)
+- 🆕 **Module Dependencies** – Automatic dependency validation and management
+- 🆕 **Module Updates** – Check and apply updates from GitHub releases
+- 🆕 **Backup & Restore** – Automatic backups before updates/uninstalls
 
 </td>
 <td width="50%">
@@ -54,6 +57,10 @@
 - 🆕 **Metadata Handling** Reads description and version from module.json for accurate display and notifications.
 - 🆕 **GitHub Branch Fallback** Installs from main branch, automatically falling back to master if needed.
 - 🆕 **Full Cache & Config Clearing** Clears config, route, and cache after install/uninstall for immediate availability.
+- 🆕 **Health Monitoring** – Automated health checks for module integrity
+- 🆕 **Audit Logging** – Complete audit trail of all module operations
+- 🆕 **Permission System** – Role-based access control for module operations
+- 🆕 **GitHub Releases** – Install from specific tags/releases with changelog display
 
 </td>
 </tr>
@@ -162,6 +169,144 @@ MyModule/
 ├── resources/
 └── ...
 ```
+
+## 🚀 New Features (v2.0)
+
+### 1. Module Dependencies Management
+
+Automatically validates and manages module dependencies defined in `module.json`:
+
+```json
+{
+  "name": "Blog",
+  "requires": {
+    "User": "^1.0",
+    "Media": "*"
+  }
+}
+```
+
+**Features:**
+
+- ✅ Automatic dependency validation before install/enable
+- ✅ Prevents disabling/uninstalling modules with active dependents
+- ✅ Circular dependency detection
+- ✅ Version constraint support (`^1.0`, `~2.0`, `*`)
+
+### 2. Module Update System
+
+Check and apply updates directly from GitHub releases:
+
+**Features:**
+
+- ✅ One-click update from GitHub releases
+- ✅ Automatic version comparison
+- ✅ Changelog display before updating
+- ✅ Automatic backup before update
+- ✅ Install from specific tags/releases
+
+**Configuration:**
+
+```php
+'updates' => [
+    'enabled' => true,
+    'auto_check' => false,
+    'check_frequency' => 24, // hours
+],
+```
+
+### 3. Backup & Restore
+
+Automatic backups before critical operations:
+
+**Features:**
+
+- ✅ Automatic backup before updates
+- ✅ Automatic backup before uninstall
+- ✅ One-click restore from backup
+- ✅ Backup retention management
+- ✅ Backup size tracking
+
+**Configuration:**
+
+```php
+'backups' => [
+    'enabled' => true,
+    'backup_before_update' => true,
+    'backup_before_uninstall' => true,
+    'retention_days' => 30,
+],
+```
+
+### 4. Health Monitoring
+
+Automated health checks for module integrity:
+
+**Checks:**
+
+- ✅ Module files exist
+- ✅ Required files present (`module.json`, `composer.json`)
+- ✅ Service provider exists
+- ✅ Dependencies are met
+- ✅ Files are intact
+
+**Configuration:**
+
+```php
+'health_checks' => [
+    'enabled' => true,
+    'auto_check' => true, // After install/update
+],
+```
+
+### 5. Audit Logging
+
+Complete audit trail of all module operations:
+
+**Logged Actions:**
+
+- Install, Uninstall, Enable, Disable
+- Update, Backup, Restore
+- User, IP address, timestamp
+- Success/failure status
+- Error messages
+
+**Storage:** JSON file at `storage/app/module-manager/audit-logs.json`
+
+### 6. Enhanced GitHub Integration
+
+Advanced GitHub integration with release support:
+
+**Features:**
+
+- ✅ Install from specific tags/releases
+- ✅ Automatic changelog retrieval
+- ✅ GitHub API integration
+- ✅ OAuth token support for private repos
+- ✅ Rate limit management
+
+**Configuration:**
+
+```php
+'github' => [
+    'token' => env('GITHUB_TOKEN'), // Optional, increases rate limits
+    'default_branch' => 'main',
+    'fallback_branch' => 'master',
+],
+```
+
+**Usage:**
+Add `repository` field to your `module.json`:
+
+```json
+{
+  "name": "Blog",
+  "version": "1.0.0",
+  "repository": "username/repository"
+}
+```
+
+---
 
 ## ⚙️ Configuration
 

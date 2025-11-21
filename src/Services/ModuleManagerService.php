@@ -6,6 +6,7 @@ namespace Alizharb\FilamentModuleManager\Services;
 
 use Alizharb\FilamentModuleManager\Data\ModuleData;
 use Alizharb\FilamentModuleManager\Data\ModuleInstallResultData;
+use Alizharb\FilamentModuleManager\Exceptions\ModuleNotFoundException;
 use Alizharb\FilamentModuleManager\Models\Module;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
@@ -21,6 +22,48 @@ use ZipArchive;
  */
 class ModuleManagerService
 {
+    public function __construct(
+        private ?ModuleDependencyService $dependencyService = null,
+        private ?ModuleBackupService $backupService = null,
+        private ?AuditLogService $auditService = null,
+        private ?ModuleHealthService $healthService = null,
+        private ?ModuleUpdateService $updateService = null
+    ) {
+        $this->dependencyService = $dependencyService ?? app(ModuleDependencyService::class);
+        $this->backupService = $backupService ?? app(ModuleBackupService::class);
+        $this->auditService = $auditService ?? app(AuditLogService::class);
+        $this->healthService = $healthService ?? app(ModuleHealthService::class);
+        $this->updateService = $updateService ?? app(ModuleUpdateService::class);
+    }
+
+    /**
+     * Enable a module.
+     *
+     * @throws ModuleNotFoundException
+     */
+    public function enable(string $moduleName): ?ModuleData
+    {
+        if (! ModuleFacade::has($moduleName)) {
+            throw new ModuleNotFoundException($moduleName);
+        }
+
+        return $this->toggleModuleStatus($moduleName, true);
+    }
+
+    /**
+     * Disable a module.
+     *
+     * @throws ModuleNotFoundException
+     */
+    public function disable(string $moduleName): ?ModuleData
+    {
+        if (! ModuleFacade::has($moduleName)) {
+            throw new ModuleNotFoundException($moduleName);
+        }
+
+        return $this->toggleModuleStatus($moduleName, false);
+    }
+
     /**
      * Enable or disable a module.
      *
@@ -32,12 +75,16 @@ class ModuleManagerService
     {
         if (! ModuleFacade::has($moduleName)) {
             Log::warning("Module '{$moduleName}' not found.");
+            $this->auditService?->log($enable ? 'enable' : 'disable', $moduleName, false, null, 'Module not found');
 
             return null;
         }
 
+        // Check dependencies before disabling
         if (! $enable && ! $this->canDisable($moduleName)) {
-            Log::warning("Module '{$moduleName}' cannot be disabled.");
+            $dependents = $this->dependencyService?->getDependents($moduleName) ?? [];
+            Log::warning("Module '{$moduleName}' cannot be disabled. Required by: ".implode(', ', $dependents));
+            $this->auditService?->log('disable', $moduleName, false, ['dependents' => $dependents], 'Module has active dependents');
 
             return null;
         }
@@ -45,6 +92,14 @@ class ModuleManagerService
         $enable ? ModuleFacade::enable($moduleName) : ModuleFacade::disable($moduleName);
 
         Artisan::call('optimize:clear');
+
+        // Audit log
+        $this->auditService?->log($enable ? 'enable' : 'disable', $moduleName, true);
+
+        // Health check if enabled
+        if (config('filament-module-manager.health_checks.auto_check')) {
+            $this->healthService?->checkHealth($moduleName);
+        }
 
         return Module::findData($moduleName);
     }
@@ -180,7 +235,7 @@ class ModuleManagerService
                     }
                 }
 
-                $installedModules[] = Module::findData($moduleName) ?? new \Alizharb\FilamentModuleManagerData\ModuleData(
+                $installedModules[] = Module::findData($moduleName) ?? new \Alizharb\FilamentModuleManager\Data\ModuleData(
                     name: $moduleNameFromJson,
                     alias: Str::lower($moduleNameFromJson),
                     description: null,
@@ -257,6 +312,20 @@ class ModuleManagerService
     {
         $modulesPath = base_path('Modules');
         $moduleName = basename($path);
+
+        // Try to read module name from module.json
+        $moduleJsonPath = "{$path}/module.json";
+        if (File::exists($moduleJsonPath)) {
+            try {
+                $moduleConfig = json_decode(File::get($moduleJsonPath), true, 512, JSON_THROW_ON_ERROR);
+                if (! empty($moduleConfig['name'])) {
+                    $moduleName = $moduleConfig['name'];
+                }
+            } catch (Throwable $e) {
+                Log::warning("Invalid module.json in {$path}: {$e->getMessage()}");
+            }
+        }
+
         $destination = "{$modulesPath}/{$moduleName}";
 
         if (File::exists($destination)) {
@@ -284,36 +353,55 @@ class ModuleManagerService
     }
 
     /**
-     * Uninstall a module.
+     * Uninstall a module by removing its directory.
+     *
+     * @param  string  $moduleName  The module name.
+     * @return bool True if uninstalled successfully, false otherwise.
      */
     public function uninstallModule(string $moduleName): bool
     {
-        if (! ModuleFacade::has($moduleName) || ! $this->canUninstall($moduleName)) {
-            Log::warning("Cannot uninstall module: {$moduleName}");
+        if (! $this->canUninstall($moduleName)) {
+            Log::warning("Module '{$moduleName}' cannot be uninstalled.");
+            $this->auditService?->log('uninstall', $moduleName, false, null, 'Module cannot be uninstalled');
 
             return false;
         }
 
-        $path = ModuleFacade::find($moduleName)?->getPath();
-        if (! $path || ! File::isDirectory($path)) {
-            Log::warning("Module path not found: {$moduleName}");
+        $module = ModuleFacade::find($moduleName);
+
+        if (! $module) {
+            Log::error("Module '{$moduleName}' not found for uninstallation.");
+            $this->auditService?->log('uninstall', $moduleName, false, null, 'Module not found');
 
             return false;
         }
 
-        DB::beginTransaction();
         try {
-            File::deleteDirectory($path);
-            Artisan::call('config:clear');
-            Artisan::call('cache:clear');
-            Artisan::call('route:clear');
-            DB::commit();
-            Log::info("Module uninstalled: {$moduleName}");
+            // Create backup before uninstall if enabled
+            if (config('filament-module-manager.backups.enabled') && config('filament-module-manager.backups.backup_before_uninstall')) {
+                try {
+                    $this->backupService?->createBackup($moduleName, 'Before uninstall');
+                } catch (\Throwable $e) {
+                    // Log warning but don't block uninstall if backup fails
+                    Log::warning("Failed to create backup before uninstalling '{$moduleName}': {$e->getMessage()}");
+                }
+            }
 
-            return true;
+            $modulePath = $module->getPath();
+
+            if (File::deleteDirectory($modulePath)) {
+                Artisan::call('optimize:clear');
+                $this->auditService?->log('uninstall', $moduleName, true);
+
+                return true;
+            }
+
+            $this->auditService?->log('uninstall', $moduleName, false, null, 'Failed to delete directory');
+
+            return false;
         } catch (Throwable $e) {
-            DB::rollBack();
             Log::error("Failed to uninstall module '{$moduleName}': {$e->getMessage()}");
+            $this->auditService?->log('uninstall', $moduleName, false, null, $e->getMessage());
 
             return false;
         }
@@ -326,17 +414,43 @@ class ModuleManagerService
     {
         $config = $this->getModuleConfig($moduleName);
 
-        return $config['canBeDisabled'] ?? true;
+        // Check if module is protected
+        if ($config['protected'] ?? false) {
+            return false;
+        }
+
+        // Check if other modules depend on this one
+        if ($this->dependencyService && ! $this->dependencyService->canDisable($moduleName)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
-     * Determine if a module can be uninstalled.
+     * Check if a module can be uninstalled.
      */
     public function canUninstall(string $moduleName): bool
     {
         $config = $this->getModuleConfig($moduleName);
 
-        return $config['canBeUninstalled'] ?? true;
+        // Check if module is protected
+        if ($config['protected'] ?? false) {
+            return false;
+        }
+
+        // Check if other modules depend on this one
+        try {
+            if ($this->dependencyService) {
+                $this->dependencyService->canUninstall($moduleName);
+            }
+        } catch (\Throwable $e) {
+            Log::warning("Cannot uninstall '{$moduleName}': {$e->getMessage()}");
+
+            return false;
+        }
+
+        return true;
     }
 
     /**

@@ -131,4 +131,175 @@ return [
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Permissions Settings
+    |--------------------------------------------------------------------------
+    |
+    | Configure role-based access control for module operations.
+    |
+    */
+    'permissions' => [
+        /**
+         * Enable permission checks for module operations.
+         *
+         * @var bool
+         */
+        'enabled' => true,
+
+        /**
+         * Permissions required for each action.
+         *
+         * @var array
+         */
+        'actions' => [
+            'view' => 'view-modules',
+            'install' => 'install-modules',
+            'uninstall' => 'uninstall-modules',
+            'enable' => 'enable-modules',
+            'disable' => 'disable-modules',
+            'update' => 'update-modules',
+            'backup' => 'backup-modules',
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Backup Settings
+    |--------------------------------------------------------------------------
+    |
+    | Configure automatic backups before module operations.
+    |
+    */
+    'backups' => [
+        /**
+         * Enable automatic backups.
+         *
+         * @var bool
+         */
+        'enabled' => true,
+
+        /**
+         * Automatically backup before updates.
+         *
+         * @var bool
+         */
+        'backup_before_update' => true,
+
+        /**
+         * Automatically backup before uninstall.
+         *
+         * @var bool
+         */
+        'backup_before_uninstall' => true,
+
+        /**
+         * Number of days to retain backups.
+         *
+         * @var int
+         */
+        'retention_days' => 30,
+
+        /**
+         * Storage path for backups.
+         *
+         * @var string
+         */
+        'storage_path' => 'module-backups',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Health Check Settings
+    |--------------------------------------------------------------------------
+    |
+    | Configure module health monitoring.
+    |
+    */
+    'health_checks' => [
+        /**
+         * Enable health checks.
+         *
+         * @var bool
+         */
+        'enabled' => true,
+
+        /**
+         * Automatically check health after install/update.
+         *
+         * @var bool
+         */
+        'auto_check' => true,
+
+        /**
+         * Schedule for automatic health checks (cron expression).
+         *
+         * @var string|null
+         */
+        'schedule' => null, // e.g., 'daily', '0 */6 * * *'
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Update Settings
+    |--------------------------------------------------------------------------
+    |
+    | Configure module update checking.
+    |
+    */
+    'updates' => [
+        /**
+         * Enable update checking.
+         *
+         * @var bool
+         */
+        'enabled' => true,
+
+        /**
+         * Automatically check for updates.
+         *
+         * @var bool
+         */
+        'auto_check' => false,
+
+        /**
+         * Frequency for checking updates (in hours).
+         *
+         * @var int
+         */
+        'check_frequency' => 24,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | GitHub Integration Settings
+    |--------------------------------------------------------------------------
+    |
+    | Configure GitHub API integration for enhanced features.
+    |
+    */
+    'github' => [
+        /**
+         * GitHub personal access token for API requests.
+         * Increases rate limits and allows access to private repositories.
+         *
+         * @var string|null
+         */
+        'token' => env('GITHUB_TOKEN'),
+
+        /**
+         * Default branch to use when installing from GitHub.
+         *
+         * @var string
+         */
+        'default_branch' => 'main',
+
+        /**
+         * Fallback branch if default branch doesn't exist.
+         *
+         * @var string
+         */
+        'fallback_branch' => 'master',
+    ],
+
 ];

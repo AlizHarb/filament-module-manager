@@ -1,40 +1,41 @@
-name: PHP Pipeline
+name: Tests
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  test:
+    runs-on: ${{ matrix.os }}
     strategy:
-      max-parallel: 2
+      fail-fast: true
       matrix:
-        php-versions: ["8.2", "8.3", "8.4"]
-    name: PHP ${{ matrix.php-versions }}
+        os: [ubuntu-latest]
+        php: [8.2, 8.3, 8.4]
+        stability: [prefer-stable]
+
+    name: PHP ${{ matrix.php }} - ${{ matrix.os }} - ${{ matrix.stability }}
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Setup PHP
-        uses: shivammathur/setup-php@master
+        uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-versions }}
-          coverage: xdebug
-      - name: Validate composer.json and composer.lock
-        run: composer validate
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv
+          coverage: none
+
+      - name: Setup problem matchers
+        run: |
+          echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+          echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
       - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest
-      - name: Run test suite
-        run: composer run-script test
-  phplint:
-    permissions:
-      contents: write
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: "laravel-pint"
-        uses: aglipanci/laravel-pint-action@latest
-        with:
-          configPath: "./pint.json"
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: PHP Linting (Pint)
-          skip_fetch: true
+        run: composer update --${{ matrix.stability }} --prefer-dist --no-interaction
+
+      - name: Execute tests
+        run: composer test

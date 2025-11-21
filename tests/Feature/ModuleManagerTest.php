@@ -2,6 +2,7 @@
 
 use Alizharb\FilamentModuleManager\Facades\ModuleManager;
 use Illuminate\Support\Facades\File;
+use Nwidart\Modules\Facades\Module as ModuleFacade;
 
 beforeEach(function () {
     // Set up a fake modules directory
@@ -14,8 +15,16 @@ beforeEach(function () {
     File::makeDirectory($this->blogPath, 0777, true);
     File::put($this->moduleJsonPath, json_encode([
         'name' => $this->module,
-        'enabled' => false,
+        'alias' => 'blog',
+        'description' => 'Blog module',
+        'keywords' => [],
+        'priority' => 0,
+        'providers' => [],
+        'files' => [],
     ], JSON_PRETTY_PRINT));
+
+    // Scan modules so Nwidart picks them up
+    ModuleFacade::scan();
 });
 
 afterEach(function () {
@@ -23,29 +32,20 @@ afterEach(function () {
 });
 
 it('can enable a disabled module', function () {
-    expect(File::get($this->moduleJsonPath))->toContain('"enabled": false');
-
     ModuleManager::enable($this->module);
 
-    $updated = json_decode(File::get($this->moduleJsonPath), true);
-
-    expect($updated['enabled'])->toBeTrue();
+    expect(ModuleFacade::find($this->module)->isEnabled())->toBeTrue();
 });
 
 it('can disable an enabled module', function () {
-    // Simulate enabled
-    File::put($this->moduleJsonPath, json_encode([
-        'name' => $this->module,
-        'enabled' => true,
-    ], JSON_PRETTY_PRINT));
+    // Enable first
+    ModuleFacade::enable($this->module);
 
-    expect(File::get($this->moduleJsonPath))->toContain('"enabled": true');
+    expect(ModuleFacade::find($this->module)->isEnabled())->toBeTrue();
 
     ModuleManager::disable($this->module);
 
-    $updated = json_decode(File::get($this->moduleJsonPath), true);
-
-    expect($updated['enabled'])->toBeFalse();
+    expect(ModuleFacade::find($this->module)->isDisabled())->toBeTrue();
 });
 
 it('throws exception if module does not exist', function () {
@@ -57,15 +57,13 @@ it('throws exception if module does not exist', function () {
 });
 
 it('updates database or module.json on enable/disable', function () {
-    // Here, test both enable and disable change the .json file
+    // Here, test both enable and disable change the status
 
     ModuleManager::enable($this->module);
-    $updated = json_decode(File::get($this->moduleJsonPath), true);
-    expect($updated['enabled'])->toBeTrue();
+    expect(ModuleFacade::find($this->module)->isEnabled())->toBeTrue();
 
     ModuleManager::disable($this->module);
-    $updated = json_decode(File::get($this->moduleJsonPath), true);
-    expect($updated['enabled'])->toBeFalse();
+    expect(ModuleFacade::find($this->module)->isDisabled())->toBeTrue();
 });
 
 it('can uninstall a module', function () {
@@ -85,8 +83,14 @@ it('can install a module from local path', function () {
     $service = app(\Alizharb\FilamentModuleManager\Services\ModuleManagerService::class);
     $newModule = 'TestModule';
     $testPath = base_path('temp_test_module');
+
+    // Clean up if exists
+    if (File::exists($testPath)) {
+        File::deleteDirectory($testPath);
+    }
+
     File::makeDirectory($testPath, 0777, true);
-    File::put("{$testPath}/module.json", json_encode(['name' => $newModule, 'enabled' => false], JSON_PRETTY_PRINT));
+    File::put("{$testPath}/module.json", json_encode(['name' => $newModule, 'alias' => 'testmodule'], JSON_PRETTY_PRINT));
     $result = $service->installModuleFromPath($testPath);
     expect($result->hasInstalled())->toBeTrue();
     expect(File::exists(base_path("Modules/{$newModule}")))->toBeTrue();
@@ -105,9 +109,18 @@ it('can install modules from ZIP (mocked)', function () {
     $zipPath = storage_path('app/public/test_module.zip');
     $moduleName = 'ZipModule';
     $tempModulePath = storage_path('app/temp_zip_module');
+
+    // Clean up
+    if (File::exists($zipPath)) {
+        File::delete($zipPath);
+    }
+    if (File::exists($tempModulePath)) {
+        File::deleteDirectory($tempModulePath);
+    }
+
     File::ensureDirectoryExists($tempModulePath);
     File::makeDirectory("{$tempModulePath}/{$moduleName}", 0777, true);
-    File::put("{$tempModulePath}/{$moduleName}/module.json", json_encode(['name' => $moduleName, 'enabled' => false], JSON_PRETTY_PRINT));
+    File::put("{$tempModulePath}/{$moduleName}/module.json", json_encode(['name' => $moduleName, 'alias' => 'zipmodule'], JSON_PRETTY_PRINT));
     $zip = new \ZipArchive;
     $zip->open($zipPath, \ZipArchive::CREATE);
     $zip->addFile("{$tempModulePath}/{$moduleName}/module.json", "{$moduleName}/module.json");
@@ -134,7 +147,11 @@ it('can install module from GitHub (mocked)', function () {
 
 it('widget stats overview returns correct counts', function () {
     $widget = new \Alizharb\FilamentModuleManager\Widgets\ModulesOverview;
-    $stats = $widget->getStats();
+    // Use reflection to access protected method
+    $reflection = new \ReflectionClass($widget);
+    $method = $reflection->getMethod('getStats');
+    $method->setAccessible(true);
+    $stats = $method->invoke($widget);
     expect($stats)->toBeArray();
     expect(count($stats))->toBe(3);
 });

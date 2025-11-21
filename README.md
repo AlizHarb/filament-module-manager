@@ -1,7 +1,7 @@
 # 🚀 Filament Module Manager
 
 <div align="center">
-    <img src="https://banners.beyondco.de/Filament%20Module%20Manager.png?theme=light&packageManager=composer+require&packageName=alizharb%2Ffilament-module-manager&pattern=architect&style=style_1&description=Elegant+module+management+for+Filament+admin+panels&md=1&showWatermark=0&fontSize=100px&images=https%3A%2F%2Flaravel.com%2Fimg%2Flogomark.min.svg" alt="Filament Module Manager">
+    <img src="https://banners.beyondco.de/Filament%20Module%20Manager.png?theme=light&packageManager=composer+require&packageName=alizharb%2Ffilament-module-manager&pattern=architect&style=style_1&description=Enterprise-grade+module+management+for+Filament+v4&md=1&showWatermark=0&fontSize=100px&images=https%3A%2F%2Flaravel.com%2Fimg%2Flogomark.min.svg" alt="Filament Module Manager">
 </div>
 
 <div align="center">
@@ -15,60 +15,95 @@
 </div>
 
 <p align="center">
-    <strong>A powerful Filament v4 plugin for managing Laravel application modules with ease</strong><br>
-    Built on top of <a href="https://nwidart.com/laravel-modules">Nwidart/laravel-modules</a> with modern admin interface
+    <strong>Enterprise-grade module management for Filament v4 admin panels</strong><br>
+    Complete lifecycle management with dependencies, updates, backups, and health monitoring<br>
+    Built on <a href="https://nwidart.com/laravel-modules">Nwidart/laravel-modules</a>
 </p>
+
+---
+
+## 📖 Table of Contents
+
+- [Features](#-features)
+- [Requirements](#-requirements)
+- [Installation](#-installation)
+- [Quick Start](#-quick-start)
+- [Core Features](#-core-features)
+- [Enterprise Features](#-enterprise-features)
+- [Configuration](#️-configuration)
+- [Usage Examples](#-usage-examples)
+- [Contributing](#-contributing)
+- [License](#-license)
 
 ---
 
 ## ✨ Features
 
+### 🎯 Core Module Management
+
+- **📦 Full CRUD Operations** - View, install, enable, disable, and uninstall modules
+- **📤 Multiple Installation Methods** - ZIP upload, GitHub repository, or local path
+- **🏷️ Multi-Module Packages** - Install multiple modules from a single package
+- **📊 Dashboard Widget** - Real-time statistics and module overview
+- **🌍 Multi-Language Support** - 20+ languages included
+- **⚙️ Highly Configurable** - Customize navigation, uploads, and behavior
+
+### 🚀 Enterprise Features (v2.0)
+
 <table>
 <tr>
 <td width="50%">
 
-### 🎯 **Core Features**
+#### 🔗 **Dependency Management**
 
-- 🔧 **Full Filament v4 Compatibility**
-- 📦 **Module CRUD Operations** (View, Enable, Disable, Uninstall)
-- 📤 **ZIP Upload Installation** with validation
-- 🏷️ **Multi-Module Package Support** via `package.json`
-- 📊 **Dashboard Widget** with statistics
-- 🌍 **Multi-Language Support** (20+ languages)
-- ⚙️ **Configurable Navigation** (icon, group, sort order)
-- 🆕 **Configurable Widget** (enable, dashboard, page)
-- 🆕 **GitHub Repository Installation** – Install modules directly from GitHub (branch fallback included)
-- 🆕 **Module Dependencies** – Automatic dependency validation and management
-- 🆕 **Module Updates** – Check and apply updates from GitHub releases
-- 🆕 **Backup & Restore** – Automatic backups before updates/uninstalls
+- Automatic dependency validation
+- Circular dependency detection
+- Version constraint support
+- Prevents breaking changes
+
+#### 🔄 **Update System**
+
+- GitHub releases integration
+- One-click updates
+- Changelog display
+- Automatic backups before update
+
+#### 💾 **Backup & Restore**
+
+- Automatic backups (updates/uninstalls)
+- One-click restore
+- Retention management
+- Size tracking
 
 </td>
 <td width="50%">
 
-### 🛠️ **Technical Features**
+#### 🏥 **Health Monitoring**
 
-- ✅ **Smart Module Validation** (`module.json`, `composer.json`)
-- 🔔 **Rich Notifications** (Success, Error, Warnings)
-- 📋 **Spatie DTO Integration** for type safety
-- 🗄️ **Sushi In-Memory Storage** for dynamic queries
-- ⚙️ **Configurable Upload Limits** (default: 20MB)
-- 🆕 **Accurate Module Naming** Reads name directly from module.json for ZIP and GitHub installs.
-- 🆕 **Automatic Folder Renaming** Module directories are automatically renamed to match module.json.
-- 🆕 **Metadata Handling** Reads description and version from module.json for accurate display and notifications.
-- 🆕 **GitHub Branch Fallback** Installs from main branch, automatically falling back to master if needed.
-- 🆕 **Full Cache & Config Clearing** Clears config, route, and cache after install/uninstall for immediate availability.
-- 🆕 **Health Monitoring** – Automated health checks for module integrity
-- 🆕 **Audit Logging** – Complete audit trail of all module operations
-- 🆕 **Permission System** – Role-based access control for module operations
-- 🆕 **GitHub Releases** – Install from specific tags/releases with changelog display
+- Automated integrity checks
+- File validation
+- Dependency verification
+- Health scoring (0-100)
+
+#### 📝 **Audit Logging**
+
+- Complete operation trail
+- User tracking
+- IP & timestamp logging
+- Success/failure tracking
+
+#### 🐙 **GitHub Integration**
+
+- Install from releases/tags
+- OAuth token support
+- Rate limit management
+- Branch fallback (main/master)
 
 </td>
 </tr>
 </table>
 
-## 🎬 Preview
-
-> 📸 _Screenshots and demo GIFs will be added soon_
+---
 
 ## 📋 Requirements
 
@@ -81,9 +116,11 @@
 **Dependencies:**
 
 - [Nwidart Laravel Modules](https://nwidart.com/laravel-modules) - Module foundation
-- [Spatie Data Transfer Objects](https://github.com/spatie/laravel-data) - Type-safe data handling
+- [Spatie Laravel Data](https://github.com/spatie/laravel-data) - Type-safe DTOs
 
-## ⚡ Quick Installation
+---
+
+## ⚡ Installation
 
 ### Step 1: Install via Composer
 
@@ -101,111 +138,203 @@ use Alizharb\FilamentModuleManager\FilamentModuleManagerPlugin;
 public function panel(Panel $panel): Panel
 {
     return $panel
-        // ... other configurations
         ->plugin(FilamentModuleManagerPlugin::make());
 }
 ```
 
-### Step 3: Publish Configuration (Optional)
+### Step 3: Publish Assets (Optional)
 
 ```bash
-# Publish config file
-php artisan vendor:publish --tag="filament-module-manager-config" --force
+# Publish configuration
+php artisan vendor:publish --tag="filament-module-manager-config"
 
 # Publish translations
 php artisan vendor:publish --tag="filament-module-manager-translations"
 ```
 
-## 🎯 Usage Guide
+---
 
-### 📱 **Module Management Page**
+## 🎯 Quick Start
 
-Navigate to **Module Manager** from your Filament admin sidebar to:
+### Access the Module Manager
 
-- 📋 View all installed modules
-- ✅ Enable/disable modules
-- 🗑️ Uninstall unwanted modules
-- 📤 Upload new modules via ZIP
+Navigate to **Module Manager** in your Filament admin sidebar.
 
-### 📊 **Dashboard Widget**
+### Install Your First Module
 
-The overview widget displays:
+**Option 1: Upload ZIP**
 
-- 🟢 **Active Modules** count
-- 🔴 **Disabled Modules** count
-- 📈 **Total Modules** installed
+1. Prepare module as ZIP with `module.json` in root
+2. Click "Upload Module" button
+3. Select ZIP file (max 20MB by default)
+4. Module installs and appears in list
 
-### 📦 **Module Installation**
+**Option 2: Install from GitHub**
 
-#### **Single Module Upload**
-
-1. Prepare your module as a ZIP file
-2. Ensure `module.json` exists in the module root
-3. Upload through the admin interface
-4. Enable the module after installation
-
-#### **Multi-Module Package Upload**
-
-1. Create a ZIP containing multiple modules
-2. Add a `package.json` in the root with module paths:
+1. Add repository to module's `module.json`:
    ```json
    {
-     "name": "my-module-collection",
-     "version": "1.0.0",
-     "modules": ["Modules/Blog", "Modules/Shop"]
+     "name": "Blog",
+     "repository": "username/blog-module"
    }
    ```
-3. Upload the package ZIP file
-4. All modules will be extracted and available for management
+2. Use GitHub installation feature
+3. Module downloads and installs automatically
 
-#### **Module Structure Requirements**
+### Enable/Disable Modules
+
+- Toggle module status with one click
+- Automatic dependency validation
+- Cache clearing after changes
+
+---
+
+## 🎯 Core Features
+
+### 📦 Module Installation
+
+#### ZIP Upload Installation
+
+Upload modules as ZIP files with automatic validation:
 
 ```
-MyModule/
-├── module.json          # Required module configuration
-├── composer.json        # Optional composer configuration
-├── Config/
-├── Http/
-├── resources/
-└── ...
+MyModule.zip
+└── MyModule/
+    ├── module.json      # Required
+    ├── composer.json    # Optional
+    ├── Config/
+    ├── Http/
+    └── resources/
 ```
 
-## 🚀 New Features (v2.0)
+**Features:**
 
-### 1. Module Dependencies Management
+- ✅ Automatic module.json validation
+- ✅ Folder name correction
+- ✅ Metadata extraction
+- ✅ Duplicate detection
+- ✅ Size limit enforcement
 
-Automatically validates and manages module dependencies defined in `module.json`:
+#### Multi-Module Package Installation
+
+Install multiple modules from a single package:
 
 ```json
+// package.json in ZIP root
+{
+  "name": "my-module-collection",
+  "version": "1.0.0",
+  "modules": ["Modules/Blog", "Modules/Shop", "Modules/User"]
+}
+```
+
+Upload the package ZIP and all modules install automatically.
+
+#### GitHub Repository Installation
+
+Install directly from GitHub repositories:
+
+```json
+// module.json
 {
   "name": "Blog",
-  "requires": {
-    "User": "^1.0",
-    "Media": "*"
-  }
+  "version": "1.0.0",
+  "repository": "username/blog-module"
 }
 ```
 
 **Features:**
 
-- ✅ Automatic dependency validation before install/enable
-- ✅ Prevents disabling/uninstalling modules with active dependents
-- ✅ Circular dependency detection
-- ✅ Version constraint support (`^1.0`, `~2.0`, `*`)
+- ✅ Branch fallback (main → master)
+- ✅ OAuth token support for private repos
+- ✅ Automatic extraction and installation
 
-### 2. Module Update System
+### 📊 Dashboard Widget
 
-Check and apply updates directly from GitHub releases:
+Real-time module statistics:
 
-**Features:**
+- 🟢 **Active Modules** - Currently enabled
+- 🔴 **Disabled Modules** - Installed but inactive
+- 📈 **Total Modules** - All installed modules
 
-- ✅ One-click update from GitHub releases
-- ✅ Automatic version comparison
-- ✅ Changelog display before updating
-- ✅ Automatic backup before update
-- ✅ Install from specific tags/releases
+Configure widget placement:
 
-**Configuration:**
+```php
+'widget' => [
+    'enabled' => true,
+    'show_on_dashboard' => true,
+    'show_on_module_page' => true,
+],
+```
+
+---
+
+## 🚀 Enterprise Features
+
+### 1. 🔗 Module Dependencies Management
+
+Automatically manage module dependencies with validation and conflict prevention.
+
+#### Define Dependencies
+
+In your `module.json`:
+
+```json
+{
+  "name": "Blog",
+  "version": "1.0.0",
+  "requires": {
+    "User": "^1.0",
+    "Media": "~2.0",
+    "Core": "*"
+  }
+}
+```
+
+#### Version Constraints
+
+| Constraint | Meaning | Example          |
+| ---------- | ------- | ---------------- |
+| `^1.0`     | Caret   | `>=1.0.0 <2.0.0` |
+| `~2.0`     | Tilde   | `>=2.0.0 <2.1.0` |
+| `*`        | Any     | Any version      |
+| `1.5.0`    | Exact   | Exactly 1.5.0    |
+
+#### Features
+
+- ✅ **Automatic Validation** - Checks dependencies before install/enable
+- ✅ **Circular Detection** - Prevents circular dependency loops
+- ✅ **Dependent Protection** - Can't disable modules with active dependents
+- ✅ **Dependency Tree** - Visual representation of relationships
+- ✅ **Installation Order** - Topological sorting for correct order
+
+#### Usage Example
+
+```php
+use Alizharb\FilamentModuleManager\Services\ModuleDependencyService;
+
+$service = app(ModuleDependencyService::class);
+
+// Validate dependencies
+$service->validateDependencies('Blog');
+
+// Get dependency tree
+$tree = $service->getDependencyTree('Blog');
+
+// Check if can disable
+$canDisable = $service->canDisable('User'); // false if Blog depends on it
+
+// Get modules that depend on this one
+$dependents = $service->getDependents('User'); // ['Blog', 'Shop']
+```
+
+---
+
+### 2. 🔄 Module Update System
+
+Check and apply updates from GitHub releases with automatic backups.
+
+#### Configuration
 
 ```php
 'updates' => [
@@ -215,19 +344,55 @@ Check and apply updates directly from GitHub releases:
 ],
 ```
 
-### 3. Backup & Restore
+#### Setup Module for Updates
 
-Automatic backups before critical operations:
+Add repository to `module.json`:
 
-**Features:**
+```json
+{
+  "name": "Blog",
+  "version": "1.0.0",
+  "repository": "username/blog-module"
+}
+```
 
-- ✅ Automatic backup before updates
-- ✅ Automatic backup before uninstall
-- ✅ One-click restore from backup
-- ✅ Backup retention management
-- ✅ Backup size tracking
+#### Features
 
-**Configuration:**
+- ✅ **Version Comparison** - Automatic detection of newer versions
+- ✅ **Changelog Display** - Shows release notes before updating
+- ✅ **Automatic Backup** - Creates backup before applying update
+- ✅ **Tag/Release Support** - Install from specific versions
+- ✅ **Batch Updates** - Check all modules at once
+
+#### Usage Example
+
+```php
+use Alizharb\FilamentModuleManager\Services\ModuleUpdateService;
+
+$service = app(ModuleUpdateService::class);
+
+// Check for update
+$updateData = $service->checkForUpdate('Blog');
+
+if ($updateData->updateAvailable) {
+    echo "Update available: {$updateData->latestVersion}";
+    echo "Changelog: {$updateData->changelog}";
+
+    // Apply update
+    $service->updateModule('Blog');
+}
+
+// Batch check all modules
+$updates = $service->batchCheckUpdates();
+```
+
+---
+
+### 3. 💾 Backup & Restore
+
+Automatic backups before critical operations with one-click restore.
+
+#### Configuration
 
 ```php
 'backups' => [
@@ -238,19 +403,46 @@ Automatic backups before critical operations:
 ],
 ```
 
-### 4. Health Monitoring
+#### Features
 
-Automated health checks for module integrity:
+- ✅ **Automatic Backups** - Before updates and uninstalls
+- ✅ **ZIP Compression** - Efficient storage
+- ✅ **Metadata Tracking** - Size, date, reason, user
+- ✅ **One-Click Restore** - Restore from backup instantly
+- ✅ **Retention Management** - Auto-cleanup old backups
 
-**Checks:**
+#### Storage
 
-- ✅ Module files exist
-- ✅ Required files present (`module.json`, `composer.json`)
-- ✅ Service provider exists
-- ✅ Dependencies are met
-- ✅ Files are intact
+- **Backups:** `storage/app/module-backups/*.zip`
+- **Metadata:** `storage/app/module-backups/backups.json`
 
-**Configuration:**
+#### Usage Example
+
+```php
+use Alizharb\FilamentModuleManager\Services\ModuleBackupService;
+
+$service = app(ModuleBackupService::class);
+
+// Create backup
+$backup = $service->createBackup('Blog', 'Manual backup');
+
+// List backups
+$backups = $service->getBackups('Blog');
+
+// Restore from backup
+$service->restoreBackup($backup->id);
+
+// Delete old backups
+$service->deleteBackup($backup->id);
+```
+
+---
+
+### 4. 🏥 Health Monitoring
+
+Automated health checks with scoring and status categorization.
+
+#### Configuration
 
 ```php
 'health_checks' => [
@@ -259,33 +451,99 @@ Automated health checks for module integrity:
 ],
 ```
 
-### 5. Audit Logging
+#### Health Checks Performed
 
-Complete audit trail of all module operations:
+| Check                | Description                         |
+| -------------------- | ----------------------------------- |
+| **Module Exists**    | Module directory is present         |
+| **module.json**      | Configuration file exists and valid |
+| **composer.json**    | Composer file exists (if used)      |
+| **Service Provider** | Provider class exists               |
+| **Dependencies**     | All dependencies are met            |
+| **Files Intact**     | Core files are present              |
 
-**Logged Actions:**
+#### Health Scoring
 
-- Install, Uninstall, Enable, Disable
-- Update, Backup, Restore
-- User, IP address, timestamp
-- Success/failure status
-- Error messages
+- **🟢 Healthy (80-100)** - All checks passed
+- **🟡 Warning (50-79)** - Some checks failed
+- **🔴 Critical (0-49)** - Multiple failures
 
-**Storage:** JSON file at `storage/app/module-manager/audit-logs.json`
+#### Storage
 
-### 6. Enhanced GitHub Integration
+- **Health Data:** `storage/app/module-manager/health-checks.json`
 
-Advanced GitHub integration with release support:
+#### Usage Example
 
-**Features:**
+```php
+use Alizharb\FilamentModuleManager\Services\ModuleHealthService;
 
-- ✅ Install from specific tags/releases
-- ✅ Automatic changelog retrieval
-- ✅ GitHub API integration
-- ✅ OAuth token support for private repos
-- ✅ Rate limit management
+$service = app(ModuleHealthService::class);
 
-**Configuration:**
+// Check module health
+$health = $service->checkHealth('Blog');
+
+echo "Status: {$health->status}"; // healthy, warning, critical
+echo "Score: {$health->score}/100";
+echo "Message: {$health->message}";
+
+// Individual checks
+foreach ($health->checks as $check => $passed) {
+    echo "{$check}: " . ($passed ? '✅' : '❌');
+}
+```
+
+---
+
+### 5. 📝 Audit Logging
+
+Complete audit trail of all module operations for compliance and debugging.
+
+#### Logged Information
+
+- **Action** - install, uninstall, enable, disable, update, backup, restore
+- **Module Name** - Which module was affected
+- **User** - ID and name of user who performed action
+- **IP Address** - Request IP
+- **User Agent** - Browser/client information
+- **Timestamp** - When action occurred
+- **Status** - Success or failure
+- **Error Message** - If action failed
+- **Metadata** - Additional context
+
+#### Storage
+
+- **Audit Logs:** `storage/app/module-manager/audit-logs.json`
+- **Retention:** Last 1000 entries
+
+#### Usage Example
+
+```php
+use Alizharb\FilamentModuleManager\Services\AuditLogService;
+
+$service = app(AuditLogService::class);
+
+// Log an action
+$service->log(
+    action: 'install',
+    moduleName: 'Blog',
+    success: true,
+    metadata: ['version' => '1.0.0']
+);
+
+// Logs are automatically created for:
+// - Module install/uninstall
+// - Module enable/disable
+// - Module updates
+// - Backup creation/restoration
+```
+
+---
+
+### 6. 🐙 Enhanced GitHub Integration
+
+Advanced GitHub API integration with release management and OAuth support.
+
+#### Configuration
 
 ```php
 'github' => [
@@ -295,88 +553,197 @@ Advanced GitHub integration with release support:
 ],
 ```
 
-**Usage:**
-Add `repository` field to your `module.json`:
+#### Features
 
-```json
-{
-  "name": "Blog",
-  "version": "1.0.0",
-  "repository": "username/repository"
-}
+- ✅ **Release Management** - Fetch and install from releases
+- ✅ **Tag Support** - Install specific versions
+- ✅ **Changelog Retrieval** - Display release notes
+- ✅ **OAuth Token** - Support for private repositories
+- ✅ **Rate Limit Management** - Handles API limits gracefully
+- ✅ **Branch Fallback** - Tries main, falls back to master
+
+#### Setup
+
+1. **Add GitHub Token (Optional)**
+
+   ```bash
+   # .env
+   GITHUB_TOKEN=ghp_your_token_here
+   ```
+
+2. **Add Repository to module.json**
+   ```json
+   {
+     "name": "Blog",
+     "version": "1.0.0",
+     "repository": "username/blog-module"
+   }
+   ```
+
+#### Usage Example
+
+```php
+use Alizharb\FilamentModuleManager\Services\GitHubService;
+
+$service = app(GitHubService::class);
+
+// Get latest release
+$release = $service->getLatestRelease('username/blog-module');
+
+// Get all releases
+$releases = $service->getAllReleases('username/blog-module');
+
+// Get specific release
+$release = $service->getReleaseByTag('username/blog-module', 'v1.0.0');
+
+// Download release
+$zipPath = $service->downloadRelease('username/blog-module', 'v1.0.0');
+
+// Get changelog
+$changelog = $service->getChangelog('username/blog-module', 'v1.0.0');
 ```
 
 ---
 
 ## ⚙️ Configuration
 
-The published configuration file (`config/filament-module-manager.php`) allows you to customize various aspects:
-
-### 🧭 **Navigation Settings**
+### Navigation Settings
 
 ```php
 'navigation' => [
-    'register' => true,                    // Show in navigation menu
-    'sort' => 100,                        // Navigation order
-    'icon' => 'heroicon-o-code-bracket',  // Navigation icon
-    'group' => 'filament-module-manager::filament-module.navigation.group',
-    'label' => 'filament-module-manager::filament-module.navigation.label',
+    'register' => true,
+    'sort' => 100,
+    'icon' => 'heroicon-o-code-bracket',
+    'group' => 'System',
+    'label' => 'Module Manager',
 ],
 ```
 
-### 📤 **Upload Settings**
+### Upload Settings
 
 ```php
 'upload' => [
-    'disk' => 'public',                   // Storage disk
-    'temp_directory' => 'temp/modules',   // Temporary upload path
-    'max_size' => 20 * 1024 * 1024,      // Max file size (20MB)
+    'disk' => 'public',
+    'temp_directory' => 'temp/modules',
+    'max_size' => 20 * 1024 * 1024, // 20MB
 ],
 ```
 
-### 🌍 **Multi-Language Support**
+### Widget Settings
 
-The package supports multiple languages through translation files:
+```php
+'widget' => [
+    'enabled' => true,
+    'show_on_dashboard' => true,
+    'show_on_module_page' => true,
+],
+```
 
-- English (default)
-- Arabic
-- Spanish
-- French
-- German
+### Permissions
+
+```php
+'permissions' => [
+    'enabled' => true,
+    'prefix' => 'module',
+    'actions' => [
+        'view' => 'module.view',
+        'install' => 'module.install',
+        'uninstall' => 'module.uninstall',
+        'enable' => 'module.enable',
+        'disable' => 'module.disable',
+        'update' => 'module.update',
+    ],
+],
+```
+
+---
+
+## 💡 Usage Examples
+
+### Programmatic Module Management
+
+```php
+use Alizharb\FilamentModuleManager\Facades\ModuleManager;
+
+// Enable a module
+ModuleManager::enable('Blog');
+
+// Disable a module
+ModuleManager::disable('Blog');
+
+// Get module data
+$module = ModuleManager::findModule('Blog');
+
+// Install from ZIP
+$result = ModuleManager::installModulesFromZip('/path/to/module.zip');
+
+// Install from GitHub
+$result = ModuleManager::installModuleFromGitHub('Blog');
+
+// Uninstall module
+$result = ModuleManager::uninstallModule('Blog');
+```
+
+### Working with Dependencies
+
+```php
+use Alizharb\FilamentModuleManager\Services\ModuleDependencyService;
+
+$service = app(ModuleDependencyService::class);
+
+// Get all dependencies
+$dependencies = $service->getModuleDependencies('Blog');
+
+// Get dependency tree
+$tree = $service->getDependencyTree('Blog');
+
+// Resolve installation order
+$order = $service->resolveDependencies(['Blog', 'Shop', 'User']);
+```
+
+### Health Monitoring
+
+```php
+use Alizharb\FilamentModuleManager\Services\ModuleHealthService;
+
+$service = app(ModuleHealthService::class);
+
+$health = $service->checkHealth('Blog');
+
+if ($health->isCritical()) {
+    // Handle critical issues
+    Log::error("Module Blog has critical issues: {$health->message}");
+}
+```
+
+---
+
+## 🌍 Multi-Language Support
+
+The package includes translations for 20+ languages:
+
+- English, Arabic, Spanish, French, German
+- Italian, Portuguese, Russian, Chinese, Japanese
 - And more...
 
-Publish translations and customize them:
+### Customize Translations
 
 ```bash
 php artisan vendor:publish --tag="filament-module-manager-translations"
 ```
 
-### 📦 **Package Module Support**
+Edit files in `lang/vendor/filament-module-manager/`.
 
-The plugin supports multi-module packages via `package.json`:
-
-```json
-{
-  "name": "my-module-package",
-  "version": "1.0.0",
-  "modules": ["Modules/Blog", "Modules/Shop", "Modules/User"]
-}
-```
+---
 
 ## 🤝 Contributing
 
-We welcome contributions! Here's how you can help:
-
-1. 🍴 Fork the repository
-2. 🌿 Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. ✅ Commit your changes (`git commit -m 'Add amazing feature'`)
-4. 📤 Push to the branch (`git push origin feature/amazing-feature`)
-5. 🎯 Open a Pull Request
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
 ### Development Setup
 
 ```bash
-# Clone the repository
+# Clone repository
 git clone https://github.com/AlizHarb/filament-module-manager.git
 
 # Install dependencies
@@ -384,7 +751,22 @@ composer install
 
 # Run tests
 composer test
+
+# Format code
+composer format
 ```
+
+### Testing
+
+```bash
+# Run all tests
+composer test
+
+# Run specific test
+./vendor/bin/pest --filter=ModuleManagerTest
+```
+
+---
 
 ## 💖 Sponsor This Project
 
@@ -396,7 +778,9 @@ If this package helps you, consider sponsoring its development:
 
 </div>
 
-Your support helps maintain and improve this package for the entire community! 🙏
+Your support helps maintain and improve this package! 🙏
+
+---
 
 ## 🐛 Issues & Support
 
@@ -404,15 +788,19 @@ Your support helps maintain and improve this package for the entire community! �
 - 💡 **Feature Requests**: [Request a feature](https://github.com/AlizHarb/filament-module-manager/issues/new?template=feature_request.md)
 - 💬 **Discussions**: [Join the discussion](https://github.com/AlizHarb/filament-module-manager/discussions)
 
+---
+
 ## 📄 License
 
 This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
+---
+
 ## 🙏 Acknowledgments
 
-- [Filament PHP](https://filamentphp.com/) - For the amazing admin panel framework
-- [Nwidart Laravel Modules](https://nwidart.com/laravel-modules) - For solid module foundation
-- [Spatie](https://spatie.be/) - For excellent Laravel packages
+- [Filament PHP](https://filamentphp.com/) - Amazing admin panel framework
+- [Nwidart Laravel Modules](https://nwidart.com/laravel-modules) - Solid module foundation
+- [Spatie](https://spatie.be/) - Excellent Laravel packages
 - All contributors and supporters 🎉
 
 ---

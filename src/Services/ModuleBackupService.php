@@ -63,10 +63,11 @@ class ModuleBackupService
 
             $sizeBytes = File::size($backupPath);
 
+            // Store only the filename, not the full path
             ModuleBackup::store([
                 'module_name' => $moduleName,
                 'version' => $module->get('version'),
-                'backup_path' => $backupPath,
+                'backup_path' => $backupFileName, // Store filename only
                 'size_bytes' => $sizeBytes,
                 'reason' => $reason,
                 'created_by' => auth()->id(),
@@ -83,7 +84,7 @@ class ModuleBackupService
                 id: $backup->id,
                 moduleName: $backup->module_name,
                 version: $backup->version,
-                backupPath: $backup->backup_path,
+                backupPath: storage_path('app/module-backups/'.$backup->backup_path), // Return full path
                 sizeBytes: $backup->size_bytes,
                 reason: $backup->reason,
                 createdBy: $backup->created_by,
@@ -99,6 +100,20 @@ class ModuleBackupService
     }
 
     /**
+     * Resolve backup path - handles both old full paths and new filename-only format
+     */
+    private function resolveBackupPath(string $storedPath): string
+    {
+        // If it's already an absolute path, use it as-is (backward compatibility)
+        if (str_starts_with($storedPath, '/')) {
+            return $storedPath;
+        }
+
+        // Otherwise, resolve it as a filename
+        return storage_path('app/module-backups/'.$storedPath);
+    }
+
+    /**
      * Restore a module from backup
      */
     public function restoreBackup(int $backupId): bool
@@ -109,8 +124,11 @@ class ModuleBackupService
             throw BackupException::backupNotFound($backupId);
         }
 
-        if (! File::exists($backup->backup_path)) {
-            throw BackupException::restoreFailed($backupId, 'Backup file not found');
+        // Resolve the full path from the stored filename
+        $backupPath = $this->resolveBackupPath($backup->backup_path);
+
+        if (! File::exists($backupPath)) {
+            throw BackupException::restoreFailed($backupId, "Backup file not found at: {$backupPath}");
         }
 
         try {
@@ -124,7 +142,7 @@ class ModuleBackupService
 
             // Extract backup
             $zip = new ZipArchive;
-            if ($zip->open($backup->backup_path) !== true) {
+            if ($zip->open($backupPath) !== true) {
                 throw new \Exception('Failed to open backup ZIP');
             }
 
@@ -157,7 +175,7 @@ class ModuleBackupService
                 id: $backup->id,
                 moduleName: $backup->module_name,
                 version: $backup->version,
-                backupPath: $backup->backup_path,
+                backupPath: $this->resolveBackupPath($backup->backup_path), // Resolve to full path
                 sizeBytes: $backup->size_bytes,
                 reason: $backup->reason,
                 createdBy: $backup->created_by,
@@ -178,8 +196,11 @@ class ModuleBackupService
             return false;
         }
 
-        if (File::exists($backup->backup_path)) {
-            File::delete($backup->backup_path);
+        // Resolve the full path from the stored filename
+        $backupPath = $this->resolveBackupPath($backup->backup_path);
+
+        if (File::exists($backupPath)) {
+            File::delete($backupPath);
         }
 
         // Remove from JSON storage

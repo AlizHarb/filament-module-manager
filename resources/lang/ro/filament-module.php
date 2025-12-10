@@ -1,119 +1,119 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Navigation
-    |--------------------------------------------------------------------------
-    */
     'navigation' => [
         'group' => 'Extensii',
         'label' => 'Manager Module',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Table
-    |--------------------------------------------------------------------------
-    */
     'table' => [
         'module_name' => 'Nume Modul',
         'version' => 'Versiune',
         'status' => 'Stare',
         'module_path' => 'Cale Modul',
+        'health' => 'Sănătate',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Actions
-    |--------------------------------------------------------------------------
-    */
     'actions' => [
-        'view' => 'Vizualizează',
-        'enable' => 'Activează',
-        'disable' => 'Dezactivează',
-        'install' => 'Instalează',
-        'uninstall' => 'Dezinstalează',
-        'refresh' => 'Reîmprospătează',
-        'view_module' => 'Vizualizează Modul: :name',
+        'view' => 'Vizualizare',
+        'enable' => 'Activare',
+        'disable' => 'Dezactivare',
+        'install' => 'Instalare',
+        'uninstall' => 'Dezinstalare',
+        'refresh' => 'Reîmprospătare',
+        'view_module' => 'Vizualizare Modul: :name',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Notifications
-    |--------------------------------------------------------------------------
-    */
+    'filters' => [
+        'status' => 'Stare',
+        'name' => 'Nume Modul',
+        'name_placeholder' => 'Caută după numele modulului...',
+    ],
+    'status' => [
+        'enabled' => 'Activat',
+        'disabled' => 'Dezactivat',
+        'cannot_be_disabled' => 'Acest modul nu poate fi dezactivat.',
+    ],
+    'form' => [
+        'source' => 'Sursă',
+        'zip_file' => 'Fișier ZIP Modul',
+        'github' => 'Depozit Github',
+        'local_path' => 'Cale Locală',
+    ],
+    'overview' => [
+        'available' => 'Module Disponibile',
+        'available_description' => 'Total module instalate',
+        'active' => 'Module Active',
+        'active_description' => 'Momentan activate',
+        'disabled' => 'Module Dezactivate',
+        'disabled_description' => 'Momentan dezactivate',
+    ],
+    'validation' => [
+        'name_required' => 'Numele modulului este obligatoriu',
+        'alias_required' => 'Aliasul modulului este obligatoriu',
+        'alias_alpha_dash' => 'Aliasul modulului poate conține doar litere, cifre, cratime și underscore',
+        'path_required' => 'Calea modulului este obligatorie',
+        'version_regex' => 'Versiunea trebuie să respecte formatul semantic (ex: 1.0.0)',
+    ],
+    'maintenance' => [
+        'title' => 'Mentenanță',
+        'install_dependencies' => 'Instalare Dependențe',
+        'run_migrations' => 'Rulare Migrări',
+        'run_seeds' => 'Rulare Semințe',
+        'edit_config' => 'Editare Configurare',
+        'config_label' => 'Configurare (JSON)',
+        'check_health' => 'Verificare Sănătate',
+        'create_backup' => 'Creare Backup',
+        'restore_backup' => 'Restaurare Backup',
+        'check_update' => 'Verificare Actualizări',
+        'backup_reason' => 'Motiv Backup',
+        'select_backup' => 'Selectare Punct de Restaurare',
+    ],
     'notifications' => [
         'module_enabled' => 'Modulul ":name" a fost activat cu succes.',
         'module_disabled' => 'Modulul ":name" a fost dezactivat cu succes.',
         'module_not_found' => 'Modulul nu a fost găsit.',
         'modules_installed' => 'Module Instalate',
         'modules_installed_body' => 'Următoarele module au fost instalate cu succes: :names',
-        'modules_skipped' => 'Module Oprite',
-        'modules_skipped_body' => 'Următoarele module au fost oprite: :names',
+        'modules_skipped' => 'Module Omise',
+        'modules_skipped_body' => 'Următoarele module au fost omise: :names',
         'module_install_error' => 'A apărut o eroare în timpul instalării modulului.',
         'module_uninstalled' => 'Modul Dezinstalat',
         'module_uninstalled_body' => 'Modulul ":name" a fost dezinstalat cu succes.',
         'module_uninstall_error' => 'A apărut o eroare la dezinstalarea modulului.',
+        'dependencies_installed' => 'Dependențe instalate pentru :name',
+        'dependencies_failed' => 'Nu s-au putut instala dependențele pentru :name',
+        'migrations_run' => 'Migrări rulate pentru :name',
+        'migrations_failed' => 'Nu s-au putut rula migrările pentru :name',
+        'seeds_run' => 'Semințe rulate pentru :name',
+        'seeds_failed' => 'Nu s-au putut rula semințele pentru :name',
+        'config_saved' => 'Configurare salvată pentru :name',
+        'health_check_completed' => 'Verificare sănătate completă pentru :name',
+        'backup_created' => 'Backup creat cu succes pentru :name',
+        'backup_failed' => 'Nu s-a putut crea backup pentru :name',
+        'backup_restored' => 'Backup restaurat cu succes',
+        'restore_failed' => 'Restaurare eșuată',
+        'update_check_failed' => 'Nu s-au putut verifica actualizările',
+        'update_available' => 'Actualizare disponibilă: v:version',
+        'no_updates_available' => 'Nu există actualizări disponibile',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Filters
-    |--------------------------------------------------------------------------
-    */
-    'filters' => [
-        'status' => 'Stare',
-        'name' => 'Nume Modul',
-        'name_placeholder' => 'Caută după numele modulului...',
+    'history' => [
+        'title' => 'Jurnal Audit',
+        'modal_heading' => 'Jurnal Audit: :name',
+        'log_label' => 'Intrări Jurnal',
+        'action' => 'Acțiune',
+        'user' => 'Utilizator',
+        'date' => 'Dată',
+        'result' => 'Rezultat',
+        'success' => 'Succes',
+        'failed' => 'Eșec',
+        'error' => 'Mesaj Eroare',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Statuses
-    |--------------------------------------------------------------------------
-    */
-    'status' => [
-        'enabled' => 'Activat',
-        'disabled' => 'Dezactivat',
-        'cannot_be_disabled' => 'Acest modul nu poate fi dezactivat.',
+    'tabs' => [
+        'info' => 'Info',
+        'readme' => 'Citește-mă',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Form Fields
-    |--------------------------------------------------------------------------
-    */
-    'form' => [
-        'zip_file' => 'Fișier ZIP Modul',
+    'readme' => [
+        'not_found' => 'Fișierul README nu a fost găsit.',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Overview Stats
-    |--------------------------------------------------------------------------
-    */
-    'overview' => [
-        'available' => 'Module Disponibile',
-        'available_description' => 'Total module instalate',
-        'active' => 'Module Active',
-        'active_description' => 'În prezent activate',
-        'disabled' => 'Module Dezactivate',
-        'disabled_description' => 'În prezent dezactivate',
+    'health' => [
+        'not_checked' => 'Sănătate ne verificată încă',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Validation
-    |--------------------------------------------------------------------------
-    */
-    'validation' => [
-        'name_required' => 'Numele modulului este obligatoriu',
-        'alias_required' => 'Alias-ul modulului este obligatoriu',
-        'alias_alpha_dash' => 'Alias-ul modulului poate conține doar litere, cifre, liniuțe și underscore-uri',
-        'path_required' => 'Calea modulului este obligatorie',
-        'version_regex' => 'Versiunea trebuie să urmeze formatul de versionare semantică (ex: 1.0.0)',
-    ],
-
 ];

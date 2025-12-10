@@ -1,9 +1,9 @@
-name: Bug Report
+---
+name: Bug report
 about: Create a report to help us improve
-title: '[BUG] '
+title: "[BUG] "
 labels: bug
-assignees: ''
-
+assignees: ""
 ---
 
 **Describe the bug**
@@ -13,8 +13,8 @@ A clear and concise description of what the bug is.
 Steps to reproduce the behavior:
 
 1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
+2. Click on '...'
+3. Scroll down to '...'
 4. See error
 
 **Expected behavior**
@@ -23,12 +23,12 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**Environment:**
+**Environment (please complete the following information):**
 
 - PHP Version: [e.g. 8.2]
-- Laravel Version: [e.g. 10.x]
-- Filament Version: [e.g. 4.x]
-- Package Version: [e.g. 1.0.0]
+- Laravel Version: [e.g. 11.0]
+- Filament Version: [e.g. 4.0]
+- Package Version: [e.g. 2.1.0]
 
 **Additional context**
 Add any other context about the problem here.

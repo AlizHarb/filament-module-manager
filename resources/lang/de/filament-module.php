@@ -1,34 +1,17 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Navigation
-    |--------------------------------------------------------------------------
-    */
     'navigation' => [
         'group' => 'Erweiterungen',
-        'label' => 'Modul-Manager',
+        'label' => 'Modul Manager',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Table
-    |--------------------------------------------------------------------------
-    */
     'table' => [
         'module_name' => 'Modulname',
         'version' => 'Version',
         'status' => 'Status',
         'module_path' => 'Modulpfad',
+        'health' => 'Gesundheit',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Actions
-    |--------------------------------------------------------------------------
-    */
     'actions' => [
         'view' => 'Anzeigen',
         'enable' => 'Aktivieren',
@@ -38,12 +21,51 @@ return [
         'refresh' => 'Aktualisieren',
         'view_module' => 'Modul anzeigen: :name',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Notifications
-    |--------------------------------------------------------------------------
-    */
+    'filters' => [
+        'status' => 'Status',
+        'name' => 'Modulname',
+        'name_placeholder' => 'Nach Modulname suchen...',
+    ],
+    'status' => [
+        'enabled' => 'Aktiviert',
+        'disabled' => 'Deaktiviert',
+        'cannot_be_disabled' => 'Dieses Modul kann nicht deaktiviert werden.',
+    ],
+    'form' => [
+        'source' => 'Quelle',
+        'zip_file' => 'Modul ZIP-Datei',
+        'github' => 'Github Repository',
+        'local_path' => 'Lokaler Pfad',
+    ],
+    'overview' => [
+        'available' => 'Verfügbare Module',
+        'available_description' => 'Insgesamt installierte Module',
+        'active' => 'Aktive Module',
+        'active_description' => 'Derzeit aktiviert',
+        'disabled' => 'Deaktivierte Module',
+        'disabled_description' => 'Derzeit deaktiviert',
+    ],
+    'validation' => [
+        'name_required' => 'Modulname ist erforderlich',
+        'alias_required' => 'Modulalias ist erforderlich',
+        'alias_alpha_dash' => 'Modulalias darf nur Buchstaben, Zahlen, Bindestriche und Unterstriche enthalten',
+        'path_required' => 'Modulpfad ist erforderlich',
+        'version_regex' => 'Version muss dem semantischen Versionierungsformat entsprechen (z.B. 1.0.0)',
+    ],
+    'maintenance' => [
+        'title' => 'Wartung',
+        'install_dependencies' => 'Abhängigkeiten installieren',
+        'run_migrations' => 'Migrationen ausführen',
+        'run_seeds' => 'Seeds ausführen',
+        'edit_config' => 'Konfiguration bearbeiten',
+        'config_label' => 'Konfiguration (JSON)',
+        'check_health' => 'Gesundheit prüfen',
+        'create_backup' => 'Backup erstellen',
+        'restore_backup' => 'Backup wiederherstellen',
+        'check_update' => 'Nach Updates suchen',
+        'backup_reason' => 'Backup-Grund',
+        'select_backup' => 'Wiederherstellungspunkt auswählen',
+    ],
     'notifications' => [
         'module_enabled' => 'Modul ":name" wurde erfolgreich aktiviert.',
         'module_disabled' => 'Modul ":name" wurde erfolgreich deaktiviert.',
@@ -55,65 +77,43 @@ return [
         'module_install_error' => 'Während der Modulinstallation ist ein Fehler aufgetreten.',
         'module_uninstalled' => 'Modul deinstalliert',
         'module_uninstalled_body' => 'Modul ":name" wurde erfolgreich deinstalliert.',
-        'module_uninstall_error' => 'Beim Deinstallieren des Moduls ist ein Fehler aufgetreten.',
+        'module_uninstall_error' => 'Fehler beim Deinstallieren des Moduls.',
+        'dependencies_installed' => 'Abhängigkeiten installiert für :name',
+        'dependencies_failed' => 'Fehler beim Installieren der Abhängigkeiten für :name',
+        'migrations_run' => 'Migrationen ausgeführt für :name',
+        'migrations_failed' => 'Fehler beim Ausführen der Migrationen für :name',
+        'seeds_run' => 'Seeds ausgeführt für :name',
+        'seeds_failed' => 'Fehler beim Ausführen der Seeds für :name',
+        'config_saved' => 'Konfiguration gespeichert für :name',
+        'health_check_completed' => 'Gesundheitsprüfung abgeschlossen für :name',
+        'backup_created' => 'Backup erfolgreich erstellt für :name',
+        'backup_failed' => 'Backup fehlgeschlagen für :name',
+        'backup_restored' => 'Backup erfolgreich wiederhergestellt',
+        'restore_failed' => 'Wiederherstellung fehlgeschlagen',
+        'update_check_failed' => 'Fehler beim Suchen nach Updates',
+        'update_available' => 'Update verfügbar: v:version',
+        'no_updates_available' => 'Keine Updates verfügbar',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Filters
-    |--------------------------------------------------------------------------
-    */
-    'filters' => [
-        'status' => 'Status',
-        'name' => 'Modulname',
-        'name_placeholder' => 'Nach Modulname suchen...',
+    'history' => [
+        'title' => 'Audit-Protokoll',
+        'modal_heading' => 'Audit-Protokoll: :name',
+        'log_label' => 'Protokolleinträge',
+        'action' => 'Aktion',
+        'user' => 'Benutzer',
+        'date' => 'Datum',
+        'result' => 'Ergebnis',
+        'success' => 'Erfolg',
+        'failed' => 'Fehlschlag',
+        'error' => 'Fehlermeldung',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Statuses
-    |--------------------------------------------------------------------------
-    */
-    'status' => [
-        'enabled' => 'Aktiviert',
-        'disabled' => 'Deaktiviert',
-        'cannot_be_disabled' => 'Dieses Modul kann nicht deaktiviert werden.',
+    'tabs' => [
+        'info' => 'Info',
+        'readme' => 'Liesmich',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Form Fields
-    |--------------------------------------------------------------------------
-    */
-    'form' => [
-        'zip_file' => 'Modul-ZIP-Datei',
+    'readme' => [
+        'not_found' => 'README-Datei nicht gefunden.',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Overview Stats
-    |--------------------------------------------------------------------------
-    */
-    'overview' => [
-        'available' => 'Verfügbare Module',
-        'available_description' => 'Gesamtzahl installierter Module',
-        'active' => 'Aktive Module',
-        'active_description' => 'Aktuell aktiviert',
-        'disabled' => 'Deaktivierte Module',
-        'disabled_description' => 'Aktuell deaktiviert',
+    'health' => [
+        'not_checked' => 'Gesundheit noch nicht geprüft',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Validation
-    |--------------------------------------------------------------------------
-    */
-    'validation' => [
-        'name_required' => 'Modulname ist erforderlich',
-        'alias_required' => 'Modulalias ist erforderlich',
-        'alias_alpha_dash' => 'Modulalias darf nur Buchstaben, Zahlen, Bindestriche und Unterstriche enthalten',
-        'path_required' => 'Modulpfad ist erforderlich',
-        'version_regex' => 'Version muss dem semantischen Versionierungsformat folgen (z.B. 1.0.0)',
-    ],
-
 ];

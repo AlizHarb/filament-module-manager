@@ -30,7 +30,7 @@ final class ModuleBackupData extends Data
     public function __construct(
         public int $id,
         public string $moduleName,
-        public string $version,
+        public ?string $version,
         public string $backupPath,
         public int $sizeBytes,
         public ?string $reason = null,

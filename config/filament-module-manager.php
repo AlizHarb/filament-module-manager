@@ -145,7 +145,7 @@ return [
          *
          * @var bool
          */
-        'enabled' => true,
+        'enabled' => false,
 
         /**
          * Permissions required for each action.
@@ -201,11 +201,18 @@ return [
         'retention_days' => 30,
 
         /**
-         * Storage path for backups.
+         * Storage path for backups (relative to storage/app/).
          *
          * @var string
          */
         'storage_path' => 'module-backups',
+
+        /**
+         * Maximum number of backups to keep per module.
+         *
+         * @var int
+         */
+        'max_backups_per_module' => 10,
     ],
 
     /*
@@ -237,6 +244,20 @@ return [
          * @var string|null
          */
         'schedule' => null, // e.g., 'daily', '0 */6 * * *'
+
+        /**
+         * Storage path for health check data (relative to storage/app/).
+         *
+         * @var string
+         */
+        'storage_path' => 'module-manager/health-checks.json',
+
+        /**
+         * Cache duration for health check results (in seconds).
+         *
+         * @var int
+         */
+        'cache_duration' => 3600, // 1 hour
     ],
 
     /*
@@ -268,6 +289,44 @@ return [
          * @var int
          */
         'check_frequency' => 24,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Audit Log Settings
+    |--------------------------------------------------------------------------
+    |
+    | Configure audit logging for module operations.
+    |
+    */
+    'audit' => [
+        /**
+         * Enable audit logging.
+         *
+         * @var bool
+         */
+        'enabled' => true,
+
+        /**
+         * Storage path for audit logs (relative to storage/app/).
+         *
+         * @var string
+         */
+        'storage_path' => 'module-manager/audit-logs.json',
+
+        /**
+         * Maximum number of log entries to keep.
+         *
+         * @var int
+         */
+        'max_logs' => 1000,
+
+        /**
+         * Log retention period (in days).
+         *
+         * @var int
+         */
+        'retention_days' => 90,
     ],
 
     /*

@@ -504,6 +504,66 @@ class ModuleManagerService
     /**
      * Safely extract a ZIP archive.
      */
+    public function installDependencies(string $moduleName): bool
+    {
+        $modulePath = base_path("Modules/{$moduleName}");
+        if (! File::exists("{$modulePath}/composer.json")) {
+            return true; // No dependencies to install
+        }
+
+        // Use shell_exec or Process to run composer.
+        // Warning: Running composer via web request can be slow or blocked.
+        // It's better to use a Queue job, but for this plugin we might do it synchronously or via Artisan if possible.
+        // Artisan doesn't have a 'composer' command by default.
+        // We will try to find composer executable.
+
+        try {
+            $command = "cd {$modulePath} && composer install --no-interaction --prefer-dist --optimize-autoloader 2>&1";
+            // Basic implementation:
+            $output = shell_exec($command);
+            Log::info("Composer install output for {$moduleName}: ".$output);
+
+            return true;
+        } catch (\Throwable $e) {
+            Log::error("Failed to install dependencies for {$moduleName}: {$e->getMessage()}");
+
+            return false;
+        }
+    }
+
+    public function runMigrations(string $moduleName): bool
+    {
+        try {
+            Artisan::call('module:migrate', ['module' => $moduleName, '--force' => true]);
+            $this->auditService?->log('migrate', $moduleName, true);
+
+            return true;
+        } catch (\Throwable $e) {
+            Log::error("Failed to migrate {$moduleName}: {$e->getMessage()}");
+            $this->auditService?->log('migrate', $moduleName, false, null, $e->getMessage());
+
+            return false;
+        }
+    }
+
+    public function runSeeds(string $moduleName): bool
+    {
+        try {
+            Artisan::call('module:seed', ['module' => $moduleName, '--force' => true]);
+            $this->auditService?->log('seed', $moduleName, true);
+
+            return true;
+        } catch (\Throwable $e) {
+            Log::error("Failed to seed {$moduleName}: {$e->getMessage()}");
+            $this->auditService?->log('seed', $moduleName, false, null, $e->getMessage());
+
+            return false;
+        }
+    }
+
+    /**
+     * Safely extract a ZIP archive.
+     */
     protected function extractZipSafely(ZipArchive $zip, string $extractTo): bool
     {
         for ($i = 0; $i < $zip->numFiles; $i++) {

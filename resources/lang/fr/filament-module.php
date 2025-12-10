@@ -1,34 +1,17 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Navigation
-    |--------------------------------------------------------------------------
-    */
     'navigation' => [
         'group' => 'Extensions',
-        'label' => 'Gestionnaire de Modules',
+        'label' => 'Gestionnaire de modules',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Table
-    |--------------------------------------------------------------------------
-    */
     'table' => [
-        'module_name' => 'Nom du Module',
+        'module_name' => 'Nom du module',
         'version' => 'Version',
         'status' => 'Statut',
-        'module_path' => 'Chemin du Module',
+        'module_path' => 'Chemin du module',
+        'health' => 'Santé',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Actions
-    |--------------------------------------------------------------------------
-    */
     'actions' => [
         'view' => 'Voir',
         'enable' => 'Activer',
@@ -36,84 +19,101 @@ return [
         'install' => 'Installer',
         'uninstall' => 'Désinstaller',
         'refresh' => 'Actualiser',
-        'view_module' => 'Voir le Module: :name',
+        'view_module' => 'Voir le module: :name',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Notifications
-    |--------------------------------------------------------------------------
-    */
-    'notifications' => [
-        'module_enabled' => 'Le module ":name" a été activé avec succès.',
-        'module_disabled' => 'Le module ":name" a été désactivé avec succès.',
-        'module_not_found' => 'Module non trouvé.',
-        'modules_installed' => 'Modules Installés',
-        'modules_installed_body' => 'Les modules suivants ont été installés avec succès: :names',
-        'modules_skipped' => 'Modules Ignorés',
-        'modules_skipped_body' => 'Les modules suivants ont été ignorés: :names',
-        'module_install_error' => 'Une erreur s\'est produite lors de l\'installation du module.',
-        'module_uninstalled' => 'Module désinstallé',
-        'module_uninstalled_body' => 'Le module ":name" a été désinstallé avec succès.',
-        'module_uninstall_error' => 'Une erreur s\'est produite lors de la désinstallation du module.',
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Filters
-    |--------------------------------------------------------------------------
-    */
     'filters' => [
         'status' => 'Statut',
-        'name' => 'Nom du Module',
+        'name' => 'Nom du module',
         'name_placeholder' => 'Rechercher par nom de module...',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Statuses
-    |--------------------------------------------------------------------------
-    */
     'status' => [
         'enabled' => 'Activé',
         'disabled' => 'Désactivé',
         'cannot_be_disabled' => 'Ce module ne peut pas être désactivé.',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Form Fields
-    |--------------------------------------------------------------------------
-    */
     'form' => [
-        'zip_file' => 'Fichier ZIP du Module',
+        'source' => 'Source',
+        'zip_file' => 'Fichier ZIP du module',
+        'github' => 'Dépôt Github',
+        'local_path' => 'Chemin local',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Overview Stats
-    |--------------------------------------------------------------------------
-    */
     'overview' => [
-        'available' => 'Modules Disponibles',
+        'available' => 'Modules disponibles',
         'available_description' => 'Total des modules installés',
-        'active' => 'Modules Actifs',
+        'active' => 'Modules actifs',
         'active_description' => 'Actuellement activés',
-        'disabled' => 'Modules Désactivés',
+        'disabled' => 'Modules désactivés',
         'disabled_description' => 'Actuellement désactivés',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Validation
-    |--------------------------------------------------------------------------
-    */
     'validation' => [
         'name_required' => 'Le nom du module est requis',
         'alias_required' => 'L\'alias du module est requis',
         'alias_alpha_dash' => 'L\'alias du module ne peut contenir que des lettres, des chiffres, des tirets et des traits de soulignement',
         'path_required' => 'Le chemin du module est requis',
-        'version_regex' => 'La version doit suivre le format de version sémantique (exemple: 1.0.0)',
+        'version_regex' => 'La version doit suivre le format de version sémantique (ex: 1.0.0)',
     ],
-
+    'maintenance' => [
+        'title' => 'Maintenance',
+        'install_dependencies' => 'Installer les dépendances',
+        'run_migrations' => 'Exécuter les migrations',
+        'run_seeds' => 'Exécuter les seeds',
+        'edit_config' => 'Modifier la configuration',
+        'config_label' => 'Configuration (JSON)',
+        'check_health' => 'Vérifier la santé',
+        'create_backup' => 'Créer une sauvegarde',
+        'restore_backup' => 'Restaurer une sauvegarde',
+        'check_update' => 'Vérifier les mises à jour',
+        'backup_reason' => 'Raison de la sauvegarde',
+        'select_backup' => 'Sélectionner un point de sauvegarde',
+    ],
+    'notifications' => [
+        'module_enabled' => 'Le module ":name" a été activé avec succès.',
+        'module_disabled' => 'Le module ":name" a été désactivé avec succès.',
+        'module_not_found' => 'Module introuvable.',
+        'modules_installed' => 'Modules installés',
+        'modules_installed_body' => 'Les modules suivants ont été installés avec succès: :names',
+        'modules_skipped' => 'Modules ignorés',
+        'modules_skipped_body' => 'Les modules suivants ont été ignorés: :names',
+        'module_install_error' => 'Une erreur s\'est produite lors de l\'installation du module.',
+        'module_uninstalled' => 'Module désinstallé',
+        'module_uninstalled_body' => 'Le module ":name" a été désinstallé avec succès.',
+        'module_uninstall_error' => 'Une erreur s\'est produite lors de la désinstallation du module.',
+        'dependencies_installed' => 'Dépendances installées pour :name',
+        'dependencies_failed' => 'Échec de l\'installation des dépendances pour :name',
+        'migrations_run' => 'Migrations exécutées pour :name',
+        'migrations_failed' => 'Échec de l\'exécution des migrations pour :name',
+        'seeds_run' => 'Seeds exécutés pour :name',
+        'seeds_failed' => 'Échec de l\'exécution des seeds pour :name',
+        'config_saved' => 'Configuration enregistrée pour :name',
+        'health_check_completed' => 'Vérification de santé terminée pour :name',
+        'backup_created' => 'Sauvegarde créée avec succès pour :name',
+        'backup_failed' => 'Échec de la création de la sauvegarde pour :name',
+        'backup_restored' => 'Sauvegarde restaurée avec succès',
+        'restore_failed' => 'Échec de la restauration',
+        'update_check_failed' => 'Échec de la vérification des mises à jour',
+        'update_available' => 'Mise à jour disponible: v:version',
+        'no_updates_available' => 'Aucune mise à jour disponible',
+    ],
+    'history' => [
+        'title' => 'Journal d\'audit',
+        'modal_heading' => 'Journal d\'audit: :name',
+        'log_label' => 'Entrées du journal',
+        'action' => 'Action',
+        'user' => 'Utilisateur',
+        'date' => 'Date',
+        'result' => 'Résultat',
+        'success' => 'Succès',
+        'failed' => 'Échec',
+        'error' => 'Message d\'erreur',
+    ],
+    'tabs' => [
+        'info' => 'Informations',
+        'readme' => 'Lisez-moi',
+    ],
+    'readme' => [
+        'not_found' => 'Fichier README introuvable.',
+    ],
+    'health' => [
+        'not_checked' => 'Santé non vérifiée',
+    ],
 ];

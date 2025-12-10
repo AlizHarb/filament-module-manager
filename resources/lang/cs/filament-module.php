@@ -1,119 +1,119 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Navigation
-    |--------------------------------------------------------------------------
-    */
     'navigation' => [
-        'group' => 'Rozšíření',
-        'label' => 'Správce Modulů',
+        'group' => 'Přípony',
+        'label' => 'Správce modulů',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Table
-    |--------------------------------------------------------------------------
-    */
     'table' => [
-        'module_name' => 'Název Modulu',
+        'module_name' => 'Název modulu',
         'version' => 'Verze',
         'status' => 'Stav',
-        'module_path' => 'Cesta k Modulu',
+        'module_path' => 'Cesta k modulu',
+        'health' => 'Zdraví',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Actions
-    |--------------------------------------------------------------------------
-    */
     'actions' => [
         'view' => 'Zobrazit',
         'enable' => 'Povolit',
         'disable' => 'Zakázat',
-        'install' => 'Nainstalovat',
+        'install' => 'Instalovat',
         'uninstall' => 'Odinstalovat',
         'refresh' => 'Obnovit',
-        'view_module' => 'Zobrazit Modul: :name',
+        'view_module' => 'Zobrazit modul: :name',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Notifications
-    |--------------------------------------------------------------------------
-    */
-    'notifications' => [
-        'module_enabled' => 'Modul ":name" byl úspěšně povolen.',
-        'module_disabled' => 'Modul ":name" byl úspěšně zakázán.',
-        'module_not_found' => 'Modul nebyl nalezen.',
-        'modules_installed' => 'Moduly Nainstalovány',
-        'modules_installed_body' => 'Následující moduly byly úspěšně nainstalovány: :names',
-        'modules_skipped' => 'Moduly Přeskočeny',
-        'modules_skipped_body' => 'Následující moduly byly přeskočeny: :names',
-        'module_install_error' => 'Při instalaci modulu došlo k chybě.',
-        'module_uninstalled' => 'Modul Odinstalován',
-        'module_uninstalled_body' => 'Modul ":name" byl úspěšně odinstalován.',
-        'module_uninstall_error' => 'Při odinstalaci modulu došlo k chybě.',
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Filters
-    |--------------------------------------------------------------------------
-    */
     'filters' => [
         'status' => 'Stav',
-        'name' => 'Název Modulu',
+        'name' => 'Název modulu',
         'name_placeholder' => 'Hledat podle názvu modulu...',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Statuses
-    |--------------------------------------------------------------------------
-    */
     'status' => [
         'enabled' => 'Povoleno',
         'disabled' => 'Zakázáno',
         'cannot_be_disabled' => 'Tento modul nelze zakázat.',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Form Fields
-    |--------------------------------------------------------------------------
-    */
     'form' => [
-        'zip_file' => 'ZIP Soubor Modulu',
+        'source' => 'Zdroj',
+        'zip_file' => 'Soubor ZIP modulu',
+        'github' => 'Repozitář Github',
+        'local_path' => 'Místní cesta',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Overview Stats
-    |--------------------------------------------------------------------------
-    */
     'overview' => [
-        'available' => 'Dostupné Moduly',
-        'available_description' => 'Celkem nainstalovaných modulů',
-        'active' => 'Aktivní Moduly',
-        'active_description' => 'Aktuálně povoleno',
-        'disabled' => 'Zakázané Moduly',
-        'disabled_description' => 'Aktuálně zakázáno',
+        'available' => 'Dostupné moduly',
+        'available_description' => 'Celkem instalovaných modulů',
+        'active' => 'Aktivní moduly',
+        'active_description' => 'Momentálně povoleno',
+        'disabled' => 'Zakázané moduly',
+        'disabled_description' => 'Momentálně zakázáno',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Validation
-    |--------------------------------------------------------------------------
-    */
     'validation' => [
         'name_required' => 'Název modulu je povinný',
         'alias_required' => 'Alias modulu je povinný',
         'alias_alpha_dash' => 'Alias modulu může obsahovat pouze písmena, čísla, pomlčky a podtržítka',
         'path_required' => 'Cesta k modulu je povinná',
-        'version_regex' => 'Verze musí následovat formát sémantického verzování (např. 1.0.0)',
+        'version_regex' => 'Verze musí odpovídat formátu sémantického verzování (např. 1.0.0)',
     ],
-
+    'maintenance' => [
+        'title' => 'Údržba',
+        'install_dependencies' => 'Instalovat závislosti',
+        'run_migrations' => 'Spustit migrace',
+        'run_seeds' => 'Spustit seeder',
+        'edit_config' => 'Upravit konfiguraci',
+        'config_label' => 'Konfigurace (JSON)',
+        'check_health' => 'Zkontrolovat zdraví',
+        'create_backup' => 'Vytvořit zálohu',
+        'restore_backup' => 'Obnovit zálohu',
+        'check_update' => 'Zkontrolovat aktualizace',
+        'backup_reason' => 'Důvod zálohy',
+        'select_backup' => 'Vybrat bod obnovení',
+    ],
+    'notifications' => [
+        'module_enabled' => 'Modul ":name" byl úspěšně povolen.',
+        'module_disabled' => 'Modul ":name" byl úspěšně zakázán.',
+        'module_not_found' => 'Modul nenalezen.',
+        'modules_installed' => 'Moduly nainstalovány',
+        'modules_installed_body' => 'Následující moduly byly úspěšně nainstalovány: :names',
+        'modules_skipped' => 'Moduly přeskočeny',
+        'modules_skipped_body' => 'Následující moduly byly přeskočeny: :names',
+        'module_install_error' => 'Při instalaci modulu došlo k chybě.',
+        'module_uninstalled' => 'Modul odinstalován',
+        'module_uninstalled_body' => 'Modul ":name" byl úspěšně odinstalován.',
+        'module_uninstall_error' => 'Při odinstalaci modulu došlo k chybě.',
+        'dependencies_installed' => 'Závislosti nainstalovány pro :name',
+        'dependencies_failed' => 'Nepodařilo se nainstalovat závislosti pro :name',
+        'migrations_run' => 'Migrace spuštěny pro :name',
+        'migrations_failed' => 'Nepodařilo se spustit migrace pro :name',
+        'seeds_run' => 'Seeder spuštěn pro :name',
+        'seeds_failed' => 'Nepodařilo se spustit seeder pro :name',
+        'config_saved' => 'Konfigurace uložena pro :name',
+        'health_check_completed' => 'Kontrola zdraví dokončena pro :name',
+        'backup_created' => 'Záloha vytvořena úspěšně pro :name',
+        'backup_failed' => 'Vytvoření zálohy selhalo pro :name',
+        'backup_restored' => 'Záloha úspěšně obnovena',
+        'restore_failed' => 'Obnovení selhalo',
+        'update_check_failed' => 'Nepodařilo se zkontrolovat aktualizace',
+        'update_available' => 'Dostupná aktualizace: v:version',
+        'no_updates_available' => 'Žádné aktualizace k dispozici',
+    ],
+    'history' => [
+        'title' => 'Log auditu',
+        'modal_heading' => 'Log auditu: :name',
+        'log_label' => 'Záznamy logu',
+        'action' => 'Akce',
+        'user' => 'Uživatel',
+        'date' => 'Datum',
+        'result' => 'Výsledek',
+        'success' => 'Úspěch',
+        'failed' => 'Selhání',
+        'error' => 'Chybová zpráva',
+    ],
+    'tabs' => [
+        'info' => 'Informace',
+        'readme' => 'Čti mě',
+    ],
+    'readme' => [
+        'not_found' => 'Soubor README nenalezen.',
+    ],
+    'health' => [
+        'not_checked' => 'Zdraví zatím nezkontrolováno',
+    ],
 ];

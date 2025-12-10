@@ -1,99 +1,42 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Navigation
-    |--------------------------------------------------------------------------
-    */
     'navigation' => [
         'group' => 'Extensies',
-        'label' => 'Modulebeheer',
+        'label' => 'Module Manager',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Table
-    |--------------------------------------------------------------------------
-    */
     'table' => [
-        'module_name' => 'Modulenaam',
+        'module_name' => 'Module Naam',
         'version' => 'Versie',
         'status' => 'Status',
-        'module_path' => 'Modulepad',
+        'module_path' => 'Module Pad',
+        'health' => 'Gezondheid',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Actions
-    |--------------------------------------------------------------------------
-    */
     'actions' => [
-        'view' => 'Bekijken',
+        'view' => 'Bekijk',
         'enable' => 'Inschakelen',
         'disable' => 'Uitschakelen',
         'install' => 'Installeren',
-        'uninstall' => 'Verwijderen',
-        'refresh' => 'Vernieuwen',
+        'uninstall' => 'Deïnstalleren',
+        'refresh' => 'Verversen',
         'view_module' => 'Bekijk Module: :name',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Notifications
-    |--------------------------------------------------------------------------
-    */
-    'notifications' => [
-        'module_enabled' => 'Module ":name" is succesvol ingeschakeld.',
-        'module_disabled' => 'Module ":name" is succesvol uitgeschakeld.',
-        'module_not_found' => 'Module niet gevonden.',
-        'modules_installed' => 'Modules Geïnstalleerd',
-        'modules_installed_body' => 'De volgende modules zijn succesvol geïnstalleerd: :names',
-        'modules_skipped' => 'Modules Overgeslagen',
-        'modules_skipped_body' => 'De volgende modules zijn overgeslagen: :names',
-        'module_install_error' => 'Er is een fout opgetreden tijdens de module-installatie.',
-        'module_uninstalled' => 'Module verwijderd',
-        'module_uninstalled_body' => 'Module ":name" is succesvol verwijderd.',
-        'module_uninstall_error' => 'Er is een fout opgetreden bij het verwijderen van de module.',
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Filters
-    |--------------------------------------------------------------------------
-    */
     'filters' => [
         'status' => 'Status',
-        'name' => 'Modulenaam',
-        'name_placeholder' => 'Zoeken op modulenaam...',
+        'name' => 'Module Naam',
+        'name_placeholder' => 'Zoek op module naam...',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Statuses
-    |--------------------------------------------------------------------------
-    */
     'status' => [
         'enabled' => 'Ingeschakeld',
         'disabled' => 'Uitgeschakeld',
         'cannot_be_disabled' => 'Deze module kan niet worden uitgeschakeld.',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Form Fields
-    |--------------------------------------------------------------------------
-    */
     'form' => [
-        'zip_file' => 'Module ZIP-bestand',
+        'source' => 'Bron',
+        'zip_file' => 'Module ZIP Bestand',
+        'github' => 'Github Repository',
+        'local_path' => 'Lokaal Pad',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Overview Stats
-    |--------------------------------------------------------------------------
-    */
     'overview' => [
         'available' => 'Beschikbare Modules',
         'available_description' => 'Totaal geïnstalleerde modules',
@@ -102,18 +45,75 @@ return [
         'disabled' => 'Uitgeschakelde Modules',
         'disabled_description' => 'Momenteel uitgeschakeld',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Validation
-    |--------------------------------------------------------------------------
-    */
     'validation' => [
-        'name_required' => 'Modulenaam is verplicht',
-        'alias_required' => 'Module-alias is verplicht',
-        'alias_alpha_dash' => 'Module-alias mag alleen letters, cijfers, streepjes en underscores bevatten',
-        'path_required' => 'Modulepad is verplicht',
-        'version_regex' => 'Versie moet het semantische versieformaat volgen (bijv. 1.0.0)',
+        'name_required' => 'Module naam is verplicht',
+        'alias_required' => 'Module alias is verplicht',
+        'alias_alpha_dash' => 'Module alias mag alleen letters, nummers, streepjes en underscores bevatten',
+        'path_required' => 'Module pad is verplicht',
+        'version_regex' => 'Versie moet het semantische versie formaat volgen (bijv. 1.0.0)',
     ],
-
+    'maintenance' => [
+        'title' => 'Onderhoud',
+        'install_dependencies' => 'Installeer Afhankelijkheden',
+        'run_migrations' => 'Voer Migraties Uit',
+        'run_seeds' => 'Voer Seeds Uit',
+        'edit_config' => 'Bewerk Configuratie',
+        'config_label' => 'Configuratie (JSON)',
+        'check_health' => 'Controleer Gezondheid',
+        'create_backup' => 'Maak Back-up',
+        'restore_backup' => 'Herstel Back-up',
+        'check_update' => 'Controleer Updates',
+        'backup_reason' => 'Back-up Reden',
+        'select_backup' => 'Selecteer Herstelpunt',
+    ],
+    'notifications' => [
+        'module_enabled' => 'Module ":name" is succesvol ingeschakeld.',
+        'module_disabled' => 'Module ":name" is succesvol uitgeschakeld.',
+        'module_not_found' => 'Module niet gevonden.',
+        'modules_installed' => 'Modules Geïnstalleerd',
+        'modules_installed_body' => 'De volgende modules zijn succesvol geïnstalleerd: :names',
+        'modules_skipped' => 'Modules Overgeslagen',
+        'modules_skipped_body' => 'De volgende modules werden overgeslagen: :names',
+        'module_install_error' => 'Er is een fout opgetreden tijdens de module installatie.',
+        'module_uninstalled' => 'Module Gedeïnstalleerd',
+        'module_uninstalled_body' => 'Module ":name" is succesvol gedeïnstalleerd.',
+        'module_uninstall_error' => 'Er is een fout opgetreden tijdens het deïnstalleren van de module.',
+        'dependencies_installed' => 'Afhankelijkheden geïnstalleerd voor :name',
+        'dependencies_failed' => 'Kon afhankelijkheden niet installeren voor :name',
+        'migrations_run' => 'Migraties uitgevoerd voor :name',
+        'migrations_failed' => 'Kon migraties niet uitvoeren voor :name',
+        'seeds_run' => 'Seeds uitgevoerd voor :name',
+        'seeds_failed' => 'Kon seeds niet uitvoeren voor :name',
+        'config_saved' => 'Configuratie opgeslagen voor :name',
+        'health_check_completed' => 'Gezondheidscontrole voltooid voor :name',
+        'backup_created' => 'Back-up succesvol gemaakt voor :name',
+        'backup_failed' => 'Kon back-up niet maken voor :name',
+        'backup_restored' => 'Back-up succesvol hersteld',
+        'restore_failed' => 'Herstel mislukt',
+        'update_check_failed' => 'Kon updates niet controleren',
+        'update_available' => 'Update beschikbaar: v:version',
+        'no_updates_available' => 'Geen updates beschikbaar',
+    ],
+    'history' => [
+        'title' => 'Audit Log',
+        'modal_heading' => 'Audit Log: :name',
+        'log_label' => 'Logvermeldingen',
+        'action' => 'Actie',
+        'user' => 'Gebruiker',
+        'date' => 'Datum',
+        'result' => 'Resultaat',
+        'success' => 'Succes',
+        'failed' => 'Mislukt',
+        'error' => 'Foutbericht',
+    ],
+    'tabs' => [
+        'info' => 'Info',
+        'readme' => 'Leesmij',
+    ],
+    'readme' => [
+        'not_found' => 'README bestand niet gevonden.',
+    ],
+    'health' => [
+        'not_checked' => 'Gezondheid nog niet gecontroleerd',
+    ],
 ];

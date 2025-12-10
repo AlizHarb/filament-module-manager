@@ -1,6 +1,6 @@
-# Contributing to Filament Module Manager
+# Contributing to Filament Activity Logs
 
-Thank you for considering contributing to Filament Module Manager! We welcome contributions from the community.
+Thank you for considering contributing to Filament Activity Logs! We welcome contributions from the community.
 
 ## Code of Conduct
 
@@ -41,8 +41,8 @@ Feature requests are welcome! Please create an issue with:
 
 ```bash
 # Clone your fork
-git clone https://github.com/YOUR-USERNAME/filament-module-manager.git
-cd filament-module-manager
+git clone https://github.com/YOUR-USERNAME/filament-activity-logs.git
+cd filament-activity-logs
 
 # Install dependencies
 composer install

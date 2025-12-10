@@ -1,34 +1,17 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Navigation
-    |--------------------------------------------------------------------------
-    */
     'navigation' => [
         'group' => 'Rozszerzenia',
         'label' => 'Menedżer Modułów',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Table
-    |--------------------------------------------------------------------------
-    */
     'table' => [
         'module_name' => 'Nazwa Modułu',
         'version' => 'Wersja',
         'status' => 'Status',
         'module_path' => 'Ścieżka Modułu',
+        'health' => 'Zdrowie',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Actions
-    |--------------------------------------------------------------------------
-    */
     'actions' => [
         'view' => 'Podgląd',
         'enable' => 'Włącz',
@@ -36,14 +19,53 @@ return [
         'install' => 'Zainstaluj',
         'uninstall' => 'Odinstaluj',
         'refresh' => 'Odśwież',
-        'view_module' => 'Podgląd Modułu: :name',
+        'view_module' => 'Pokaż Moduł: :name',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Notifications
-    |--------------------------------------------------------------------------
-    */
+    'filters' => [
+        'status' => 'Status',
+        'name' => 'Nazwa Modułu',
+        'name_placeholder' => 'Szukaj nazwy modułu...',
+    ],
+    'status' => [
+        'enabled' => 'Włączony',
+        'disabled' => 'Wyłączony',
+        'cannot_be_disabled' => 'Ten moduł nie może być wyłączony.',
+    ],
+    'form' => [
+        'source' => 'Źródło',
+        'zip_file' => 'Plik ZIP Modułu',
+        'github' => 'Repozytorium Github',
+        'local_path' => 'Ścieżka Lokalna',
+    ],
+    'overview' => [
+        'available' => 'Dostępne Moduły',
+        'available_description' => 'Wszystkie zainstalowane moduły',
+        'active' => 'Aktywne Moduły',
+        'active_description' => 'Obecnie włączone',
+        'disabled' => 'Wyłączone Moduły',
+        'disabled_description' => 'Obecnie wyłączone',
+    ],
+    'validation' => [
+        'name_required' => 'Nazwa modułu jest wymagana',
+        'alias_required' => 'Alias modułu jest wymagany',
+        'alias_alpha_dash' => 'Alias modułu może zawierać tylko litery, cyfry, myślniki i podkreślenia',
+        'path_required' => 'Ścieżka modułu jest wymagana',
+        'version_regex' => 'Wersja musi być zgodna z formatem semantycznym (np. 1.0.0)',
+    ],
+    'maintenance' => [
+        'title' => 'Konserwacja',
+        'install_dependencies' => 'Zainstaluj Zależności',
+        'run_migrations' => 'Uruchom Migracje',
+        'run_seeds' => 'Uruchom Seedy',
+        'edit_config' => 'Edytuj Konfigurację',
+        'config_label' => 'Konfiguracja (JSON)',
+        'check_health' => 'Sprawdź Zdrowie',
+        'create_backup' => 'Utwórz Kopię Zapasową',
+        'restore_backup' => 'Przywróć Kopię',
+        'check_update' => 'Sprawdź Aktualizacje',
+        'backup_reason' => 'Powód Kopii',
+        'select_backup' => 'Wybierz Punkt Przywracania',
+    ],
     'notifications' => [
         'module_enabled' => 'Moduł ":name" został pomyślnie włączony.',
         'module_disabled' => 'Moduł ":name" został pomyślnie wyłączony.',
@@ -56,64 +78,42 @@ return [
         'module_uninstalled' => 'Moduł Odinstalowany',
         'module_uninstalled_body' => 'Moduł ":name" został pomyślnie odinstalowany.',
         'module_uninstall_error' => 'Wystąpił błąd podczas odinstalowywania modułu.',
+        'dependencies_installed' => 'Zależności zainstalowane dla :name',
+        'dependencies_failed' => 'Nie udało się zainstalować zależności dla :name',
+        'migrations_run' => 'Migracje wykonane dla :name',
+        'migrations_failed' => 'Nie udało się wykonać migracji dla :name',
+        'seeds_run' => 'Seedy wykonane dla :name',
+        'seeds_failed' => 'Nie udało się wykonać seedów dla :name',
+        'config_saved' => 'Konfiguracja zapisana dla :name',
+        'health_check_completed' => 'Sprawdzanie zdrowia zakończone dla :name',
+        'backup_created' => 'Kopia zapasowa utworzona pomyślnie dla :name',
+        'backup_failed' => 'Nie udało się utworzyć kopii zapasowej dla :name',
+        'backup_restored' => 'Kopia zapasowa przywrócona pomyślnie',
+        'restore_failed' => 'Przywracanie nie powiodło się',
+        'update_check_failed' => 'Nie udało się sprawdzić aktualizacji',
+        'update_available' => 'Dostępna aktualizacja: v:version',
+        'no_updates_available' => 'Brak dostępnych aktualizacji',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Filters
-    |--------------------------------------------------------------------------
-    */
-    'filters' => [
-        'status' => 'Status',
-        'name' => 'Nazwa Modułu',
-        'name_placeholder' => 'Szukaj według nazwy modułu...',
+    'history' => [
+        'title' => 'Dziennik Audytu',
+        'modal_heading' => 'Dziennik Audytu: :name',
+        'log_label' => 'Wpisy w Dzienniku',
+        'action' => 'Akcja',
+        'user' => 'Użytkownik',
+        'date' => 'Data',
+        'result' => 'Wynik',
+        'success' => 'Sukces',
+        'failed' => 'Niepowodzenie',
+        'error' => 'Treść Błędu',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Statuses
-    |--------------------------------------------------------------------------
-    */
-    'status' => [
-        'enabled' => 'Włączony',
-        'disabled' => 'Wyłączony',
-        'cannot_be_disabled' => 'Ten moduł nie może być wyłączony.',
+    'tabs' => [
+        'info' => 'Info',
+        'readme' => 'Czytaj Mnie',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Form Fields
-    |--------------------------------------------------------------------------
-    */
-    'form' => [
-        'zip_file' => 'Plik ZIP Modułu',
+    'readme' => [
+        'not_found' => 'Plik README nie znaleziony.',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Overview Stats
-    |--------------------------------------------------------------------------
-    */
-    'overview' => [
-        'available' => 'Dostępne Moduły',
-        'available_description' => 'Łącznie zainstalowanych modułów',
-        'active' => 'Aktywne Moduły',
-        'active_description' => 'Obecnie włączone',
-        'disabled' => 'Wyłączone Moduły',
-        'disabled_description' => 'Obecnie wyłączone',
+    'health' => [
+        'not_checked' => 'Zdrowie jeszcze nie sprawdzone',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Validation
-    |--------------------------------------------------------------------------
-    */
-    'validation' => [
-        'name_required' => 'Nazwa modułu jest wymagana',
-        'alias_required' => 'Alias modułu jest wymagany',
-        'alias_alpha_dash' => 'Alias modułu może zawierać tylko litery, cyfry, myślniki i podkreślenia',
-        'path_required' => 'Ścieżka modułu jest wymagana',
-        'version_regex' => 'Wersja musi być w formacie semantycznego wersjonowania (np. 1.0.0)',
-    ],
-
 ];

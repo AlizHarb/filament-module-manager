@@ -1,34 +1,17 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Navigation
-    |--------------------------------------------------------------------------
-    */
     'navigation' => [
         'group' => 'Extensions',
         'label' => 'Modules Manager',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Table
-    |--------------------------------------------------------------------------
-    */
     'table' => [
         'module_name' => 'Module Name',
         'version' => 'Version',
         'status' => 'Status',
         'module_path' => 'Module Path',
+        'health' => 'Health',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Actions
-    |--------------------------------------------------------------------------
-    */
     'actions' => [
         'view' => 'View',
         'enable' => 'Enable',
@@ -38,12 +21,51 @@ return [
         'refresh' => 'Refresh',
         'view_module' => 'View Module: :name',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Notifications
-    |--------------------------------------------------------------------------
-    */
+    'filters' => [
+        'status' => 'Status',
+        'name' => 'Module Name',
+        'name_placeholder' => 'Search by module name...',
+    ],
+    'status' => [
+        'enabled' => 'Enabled',
+        'disabled' => 'Disabled',
+        'cannot_be_disabled' => 'This module cannot be disabled.',
+    ],
+    'form' => [
+        'source' => 'Source',
+        'zip_file' => 'Module ZIP File',
+        'github' => 'Github Repository',
+        'local_path' => 'Local Path',
+    ],
+    'overview' => [
+        'available' => 'Available Modules',
+        'available_description' => 'Total installed modules',
+        'active' => 'Active Modules',
+        'active_description' => 'Currently enabled',
+        'disabled' => 'Disabled Modules',
+        'disabled_description' => 'Currently disabled',
+    ],
+    'validation' => [
+        'name_required' => 'Module name is required',
+        'alias_required' => 'Module alias is required',
+        'alias_alpha_dash' => 'Module alias can only contain letters, numbers, dashes and underscores',
+        'path_required' => 'Module path is required',
+        'version_regex' => 'Version must follow semantic versioning format (e.g., 1.0.0)',
+    ],
+    'maintenance' => [
+        'title' => 'Maintenance',
+        'install_dependencies' => 'Install Dependencies',
+        'run_migrations' => 'Run Migrations',
+        'run_seeds' => 'Run Seeds',
+        'edit_config' => 'Edit Configuration',
+        'config_label' => 'Configuration (JSON)',
+        'check_health' => 'Check Health',
+        'create_backup' => 'Create Backup',
+        'restore_backup' => 'Restore Backup',
+        'check_update' => 'Check Updates',
+        'backup_reason' => 'Backup Reason',
+        'select_backup' => 'Select Backup Point',
+    ],
     'notifications' => [
         'module_enabled' => 'Module ":name" has been enabled successfully.',
         'module_disabled' => 'Module ":name" has been disabled successfully.',
@@ -56,66 +78,42 @@ return [
         'module_uninstalled' => 'Module uninstalled',
         'module_uninstalled_body' => 'Module ":name" has been uninstalled successfully.',
         'module_uninstall_error' => 'An error occurred while uninstalling the module.',
+        'dependencies_installed' => 'Dependencies installed for :name',
+        'dependencies_failed' => 'Failed to install dependencies for :name',
+        'migrations_run' => 'Migrations executed for :name',
+        'migrations_failed' => 'Failed to run migrations for :name',
+        'seeds_run' => 'Seeds executed for :name',
+        'seeds_failed' => 'Failed to run seeds for :name',
+        'config_saved' => 'Configuration saved for :name',
+        'health_check_completed' => 'Health check completed for :name',
+        'backup_created' => 'Backup created successfully for :name',
+        'backup_failed' => 'Backup failed for :name',
+        'backup_restored' => 'Backup restored successfully',
+        'restore_failed' => 'Restoration failed',
+        'update_check_failed' => 'Failed to check for updates',
+        'update_available' => 'Update available: v:version',
+        'no_updates_available' => 'No updates available',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Filters
-    |--------------------------------------------------------------------------
-    */
-    'filters' => [
-        'status' => 'Status',
-        'name' => 'Module Name',
-        'name_placeholder' => 'Search by module name...',
+    'history' => [
+        'title' => 'Audit Log',
+        'modal_heading' => 'Audit Log: :name',
+        'log_label' => 'Audit Logs',
+        'action' => 'Action',
+        'user' => 'User',
+        'date' => 'Date',
+        'result' => 'Result',
+        'success' => 'Success',
+        'failed' => 'Failed',
+        'error' => 'Error',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Statuses
-    |--------------------------------------------------------------------------
-    */
-    'status' => [
-        'enabled' => 'Enabled',
-        'disabled' => 'Disabled',
-        'cannot_be_disabled' => 'This module cannot be disabled.',
+    'tabs' => [
+        'info' => 'Info',
+        'readme' => 'Readme',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Form Fields
-    |--------------------------------------------------------------------------
-    */
-    'form' => [
-        'zip_file' => 'Module ZIP File',
-        'github' => 'Github Repositorie',
-        'local_path' => 'Local Path',
+    'readme' => [
+        'not_found' => '_No README found._',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Overview Stats
-    |--------------------------------------------------------------------------
-    */
-    'overview' => [
-        'available' => 'Available Modules',
-        'available_description' => 'Total installed modules',
-        'active' => 'Active Modules',
-        'active_description' => 'Currently enabled',
-        'disabled' => 'Disabled Modules',
-        'disabled_description' => 'Currently disabled',
+    'health' => [
+        'not_checked' => 'Health not checked yet',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Validation
-    |--------------------------------------------------------------------------
-    */
-    'validation' => [
-        'name_required' => 'Module name is required',
-        'alias_required' => 'Module alias is required',
-        'alias_alpha_dash' => 'Module alias can only contain letters, numbers, dashes and underscores',
-        'path_required' => 'Module path is required',
-        'version_regex' => 'Version must follow semantic versioning format (e.g., 1.0.0)',
-    ],
-
 ];

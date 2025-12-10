@@ -37,7 +37,7 @@ class ModuleUpdateService
      * @param  string  $moduleName  The module to check for updates
      * @return ModuleUpdateData Update information including availability and changelog
      */
-    public function checkForUpdate(string $moduleName): ModuleUpdateData
+    public function checkForUpdate(string $moduleName): ?ModuleUpdateData
     {
         $module = ModuleFacade::find($moduleName);
 
@@ -137,7 +137,7 @@ class ModuleUpdateService
         $updates = [];
 
         foreach (ModuleFacade::all() as $module) {
-            $updateData = $this->checkForUpdates($module->getName());
+            $updateData = $this->checkForUpdate($module->getName());
 
             if ($updateData && $updateData->updateAvailable) {
                 $updates[] = $updateData;

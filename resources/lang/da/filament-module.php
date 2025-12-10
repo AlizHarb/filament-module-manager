@@ -1,34 +1,17 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Navigation
-    |--------------------------------------------------------------------------
-    */
     'navigation' => [
         'group' => 'Udvidelser',
-        'label' => 'Modul Manager',
+        'label' => 'Modulmanager',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Table
-    |--------------------------------------------------------------------------
-    */
     'table' => [
-        'module_name' => 'Modul Navn',
+        'module_name' => 'Modulnavn',
         'version' => 'Version',
         'status' => 'Status',
-        'module_path' => 'Modul Sti',
+        'module_path' => 'Modulsti',
+        'health' => 'Sundhed',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Actions
-    |--------------------------------------------------------------------------
-    */
     'actions' => [
         'view' => 'Vis',
         'enable' => 'Aktiver',
@@ -36,84 +19,101 @@ return [
         'install' => 'Installer',
         'uninstall' => 'Afinstaller',
         'refresh' => 'Opdater',
-        'view_module' => 'Vis Modul: :name',
+        'view_module' => 'Vis modul: :name',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Notifications
-    |--------------------------------------------------------------------------
-    */
-    'notifications' => [
-        'module_enabled' => 'Modulet ":name" er blevet aktiveret.',
-        'module_disabled' => 'Modulet ":name" er blevet deaktiveret.',
-        'module_not_found' => 'Modul ikke fundet.',
-        'modules_installed' => 'Moduler Installeret',
-        'modules_installed_body' => 'Følgende moduler er blevet installeret: :names',
-        'modules_skipped' => 'Moduler Sprunget Over',
-        'modules_skipped_body' => 'Følgende moduler er blevet sprunget over: :names',
-        'module_install_error' => 'Der opstod en fejl under modulinstallation.',
-        'module_uninstalled' => 'Modul Afinstalleret',
-        'module_uninstalled_body' => 'Modulet ":name" er blevet afinstalleret.',
-        'module_uninstall_error' => 'Der opstod en fejl under afinstallation af modulet.',
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Filters
-    |--------------------------------------------------------------------------
-    */
     'filters' => [
         'status' => 'Status',
-        'name' => 'Modul Navn',
+        'name' => 'Modulnavn',
         'name_placeholder' => 'Søg efter modulnavn...',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Statuses
-    |--------------------------------------------------------------------------
-    */
     'status' => [
         'enabled' => 'Aktiveret',
         'disabled' => 'Deaktiveret',
         'cannot_be_disabled' => 'Dette modul kan ikke deaktiveres.',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Form Fields
-    |--------------------------------------------------------------------------
-    */
     'form' => [
+        'source' => 'Kilde',
         'zip_file' => 'Modul ZIP-fil',
+        'github' => 'Github Repository',
+        'local_path' => 'Lokal sti',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Overview Stats
-    |--------------------------------------------------------------------------
-    */
     'overview' => [
-        'available' => 'Tilgængelige Moduler',
-        'available_description' => 'Samlet antal installerede moduler',
-        'active' => 'Aktive Moduler',
+        'available' => 'Tilgængelige moduler',
+        'available_description' => 'I alt installerede moduler',
+        'active' => 'Aktive moduler',
         'active_description' => 'I øjeblikket aktiveret',
-        'disabled' => 'Deaktiverede Moduler',
+        'disabled' => 'Deaktiverede moduler',
         'disabled_description' => 'I øjeblikket deaktiveret',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Validation
-    |--------------------------------------------------------------------------
-    */
     'validation' => [
         'name_required' => 'Modulnavn er påkrævet',
         'alias_required' => 'Modulalias er påkrævet',
         'alias_alpha_dash' => 'Modulalias må kun indeholde bogstaver, tal, bindestreger og understregninger',
         'path_required' => 'Modulsti er påkrævet',
-        'version_regex' => 'Version skal følge semantisk versioneringsformat (f.eks. 1.0.0)',
+        'version_regex' => 'Version skal følge semantisk versionsformat (f.eks. 1.0.0)',
     ],
-
+    'maintenance' => [
+        'title' => 'Vedligeholdelse',
+        'install_dependencies' => 'Installer afhængigheder',
+        'run_migrations' => 'Kør migreringer',
+        'run_seeds' => 'Kør seeds',
+        'edit_config' => 'Rediger konfiguration',
+        'config_label' => 'Konfiguration (JSON)',
+        'check_health' => 'Tjek sundhed',
+        'create_backup' => 'Opret backup',
+        'restore_backup' => 'Gendan backup',
+        'check_update' => 'Tjek for opdateringer',
+        'backup_reason' => 'Backup årsag',
+        'select_backup' => 'Vælg gendannelsespunkt',
+    ],
+    'notifications' => [
+        'module_enabled' => 'Modul ":name" er blevet aktiveret.',
+        'module_disabled' => 'Modul ":name" er blevet deaktiveret.',
+        'module_not_found' => 'Modul ikke fundet.',
+        'modules_installed' => 'Moduler installeret',
+        'modules_installed_body' => 'Følgende moduler er blevet installeret: :names',
+        'modules_skipped' => 'Moduler sprunget over',
+        'modules_skipped_body' => 'Følgende moduler blev sprunget over: :names',
+        'module_install_error' => 'Der opstod en fejl under modulinstallationen.',
+        'module_uninstalled' => 'Modul afinstalleret',
+        'module_uninstalled_body' => 'Modul ":name" er blevet afinstalleret.',
+        'module_uninstall_error' => 'Der opstod en fejl under afinstallation af modulet.',
+        'dependencies_installed' => 'Afhængigheder installeret for :name',
+        'dependencies_failed' => 'Kunne ikke installere afhængigheder for :name',
+        'migrations_run' => 'Migreringer kørt for :name',
+        'migrations_failed' => 'Kunne ikke køre migreringer for :name',
+        'seeds_run' => 'Seeds kørt for :name',
+        'seeds_failed' => 'Kunne ikke køre seeds for :name',
+        'config_saved' => 'Konfiguration gemt for :name',
+        'health_check_completed' => 'Sundhedstjek gennemført for :name',
+        'backup_created' => 'Backup oprettet succesfuldt for :name',
+        'backup_failed' => 'Backup mislykkedes for :name',
+        'backup_restored' => 'Backup gendannet succesfuldt',
+        'restore_failed' => 'Gendannelse mislykkedes',
+        'update_check_failed' => 'Kunne ikke tjekke for opdateringer',
+        'update_available' => 'Opdatering tilgængelig: v:version',
+        'no_updates_available' => 'Ingen opdateringer tilgængelige',
+    ],
+    'history' => [
+        'title' => 'Audit Log',
+        'modal_heading' => 'Audit Log: :name',
+        'log_label' => 'Logposter',
+        'action' => 'Handling',
+        'user' => 'Bruger',
+        'date' => 'Dato',
+        'result' => 'Resultat',
+        'success' => 'Succes',
+        'failed' => 'Fejl',
+        'error' => 'Fejlbesked',
+    ],
+    'tabs' => [
+        'info' => 'Info',
+        'readme' => 'Læs mig',
+    ],
+    'readme' => [
+        'not_found' => 'README fil ikke fundet.',
+    ],
+    'health' => [
+        'not_checked' => 'Sundhed ikke tjekket endnu',
+    ],
 ];

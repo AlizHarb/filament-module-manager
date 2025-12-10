@@ -1,34 +1,17 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Navigation
-    |--------------------------------------------------------------------------
-    */
     'navigation' => [
-        'group' => 'Extensiones',
+        'group' => 'Extensión',
         'label' => 'Administrador de Módulos',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Table
-    |--------------------------------------------------------------------------
-    */
     'table' => [
         'module_name' => 'Nombre del Módulo',
         'version' => 'Versión',
         'status' => 'Estado',
         'module_path' => 'Ruta del Módulo',
+        'health' => 'Salud',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Actions
-    |--------------------------------------------------------------------------
-    */
     'actions' => [
         'view' => 'Ver',
         'enable' => 'Habilitar',
@@ -38,82 +21,99 @@ return [
         'refresh' => 'Actualizar',
         'view_module' => 'Ver Módulo: :name',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Notifications
-    |--------------------------------------------------------------------------
-    */
-    'notifications' => [
-        'module_enabled' => 'El módulo ":name" ha sido habilitado correctamente.',
-        'module_disabled' => 'El módulo ":name" ha sido deshabilitado correctamente.',
-        'module_not_found' => 'Módulo no encontrado.',
-        'modules_installed' => 'Módulos Instalados',
-        'modules_installed_body' => 'Los siguientes módulos se han instalado correctamente: :names',
-        'modules_skipped' => 'Módulos Omitidos',
-        'modules_skipped_body' => 'Se omitieron los siguientes módulos: :names',
-        'module_install_error' => 'Ocurrió un error durante la instalación del módulo.',
-        'module_uninstalled' => 'Módulo desinstalado',
-        'module_uninstalled_body' => 'El módulo ":name" ha sido desinstalado correctamente.',
-        'module_uninstall_error' => 'Ocurrió un error al desinstalar el módulo.',
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Filters
-    |--------------------------------------------------------------------------
-    */
     'filters' => [
         'status' => 'Estado',
         'name' => 'Nombre del Módulo',
-        'name_placeholder' => 'Buscar por nombre de módulo...',
+        'name_placeholder' => 'Buscar por nombre del módulo...',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Statuses
-    |--------------------------------------------------------------------------
-    */
     'status' => [
         'enabled' => 'Habilitado',
         'disabled' => 'Deshabilitado',
         'cannot_be_disabled' => 'Este módulo no puede ser deshabilitado.',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Form Fields
-    |--------------------------------------------------------------------------
-    */
     'form' => [
+        'source' => 'Fuente',
         'zip_file' => 'Archivo ZIP del Módulo',
+        'github' => 'Repositorio Github',
+        'local_path' => 'Ruta Local',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Overview Stats
-    |--------------------------------------------------------------------------
-    */
     'overview' => [
         'available' => 'Módulos Disponibles',
-        'available_description' => 'Total de módulos instalados',
+        'available_description' => 'Total módulos instalados',
         'active' => 'Módulos Activos',
         'active_description' => 'Actualmente habilitados',
         'disabled' => 'Módulos Deshabilitados',
         'disabled_description' => 'Actualmente deshabilitados',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Validation
-    |--------------------------------------------------------------------------
-    */
     'validation' => [
-        'name_required' => 'El nombre del módulo es obligatorio',
-        'alias_required' => 'El alias del módulo es obligatorio',
+        'name_required' => 'El nombre del módulo es requerido',
+        'alias_required' => 'El alias del módulo es requerido',
         'alias_alpha_dash' => 'El alias del módulo solo puede contener letras, números, guiones y guiones bajos',
-        'path_required' => 'La ruta del módulo es obligatoria',
-        'version_regex' => 'La versión debe seguir el formato de versionado semántico (ejemplo: 1.0.0)',
+        'path_required' => 'La ruta del módulo es requerida',
+        'version_regex' => 'La versión debe seguir el formato de versionado semántico (ej: 1.0.0)',
     ],
-
+    'maintenance' => [
+        'title' => 'Mantenimiento',
+        'install_dependencies' => 'Instalar Dependencias',
+        'run_migrations' => 'Ejecutar Migraciones',
+        'run_seeds' => 'Ejecutar Seeds',
+        'edit_config' => 'Editar Configuración',
+        'config_label' => 'Configuración (JSON)',
+        'check_health' => 'Verificar Salud',
+        'create_backup' => 'Crear Copia de Seguridad',
+        'restore_backup' => 'Restaurar Copia',
+        'check_update' => 'Buscar Actualizaciones',
+        'backup_reason' => 'Razón de Copia',
+        'select_backup' => 'Seleccionar Punto de Restauración',
+    ],
+    'notifications' => [
+        'module_enabled' => 'El módulo ":name" ha sido habilitado exitosamente.',
+        'module_disabled' => 'El módulo ":name" ha sido deshabilitado exitosamente.',
+        'module_not_found' => 'Módulo no encontrado.',
+        'modules_installed' => 'Módulos Instalados',
+        'modules_installed_body' => 'Los siguientes módulos han sido instalados exitosamente: :names',
+        'modules_skipped' => 'Módulos Omitidos',
+        'modules_skipped_body' => 'Los siguientes módulos fueron omitidos: :names',
+        'module_install_error' => 'Ocurrió un error durante la instalación del módulo.',
+        'module_uninstalled' => 'Módulo Desinstalado',
+        'module_uninstalled_body' => 'El módulo ":name" ha sido desinstalado exitosamente.',
+        'module_uninstall_error' => 'Ocurrió un error al desinstalar el módulo.',
+        'dependencies_installed' => 'Dependencias instaladas para :name',
+        'dependencies_failed' => 'Fallo al instalar dependencias para :name',
+        'migrations_run' => 'Migraciones ejecutadas para :name',
+        'migrations_failed' => 'Fallo al ejecutar migraciones para :name',
+        'seeds_run' => 'Semillas ejecutadas para :name',
+        'seeds_failed' => 'Fallo al ejecutar semillas para :name',
+        'config_saved' => 'Configuración guardada para :name',
+        'health_check_completed' => 'Verificación de salud completada para :name',
+        'backup_created' => 'Copia de seguridad creada con éxito para :name',
+        'backup_failed' => 'Fallo al crear copia de seguridad para :name',
+        'backup_restored' => 'Copia de seguridad restaurada con éxito',
+        'restore_failed' => 'Restauración fallida',
+        'update_check_failed' => 'Error al buscar actualizaciones',
+        'update_available' => 'Actualización disponible: v:version',
+        'no_updates_available' => 'No hay actualizaciones disponibles',
+    ],
+    'history' => [
+        'title' => 'Registro de Auditoría',
+        'modal_heading' => 'Registro de Auditoría: :name',
+        'log_label' => 'Entradas de Registro',
+        'action' => 'Acción',
+        'user' => 'Usuario',
+        'date' => 'Fecha',
+        'result' => 'Resultado',
+        'success' => 'Éxito',
+        'failed' => 'Fallo',
+        'error' => 'Mensaje de Error',
+    ],
+    'tabs' => [
+        'info' => 'Información',
+        'readme' => 'Léeme',
+    ],
+    'readme' => [
+        'not_found' => 'Archivo README no encontrado.',
+    ],
+    'health' => [
+        'not_checked' => 'Salud no verificada aún',
+    ],
 ];

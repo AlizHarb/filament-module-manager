@@ -1,119 +1,119 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Navigation
-    |--------------------------------------------------------------------------
-    */
     'navigation' => [
-        'group' => 'Kiegészítők',
-        'label' => 'Modul Kezelő',
+        'group' => 'Kiterjesztések',
+        'label' => 'Modulkezelő',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Table
-    |--------------------------------------------------------------------------
-    */
     'table' => [
-        'module_name' => 'Modul Név',
+        'module_name' => 'Modul neve',
         'version' => 'Verzió',
         'status' => 'Állapot',
-        'module_path' => 'Modul Útvonal',
+        'module_path' => 'Modul elérési útja',
+        'health' => 'Egészség',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Actions
-    |--------------------------------------------------------------------------
-    */
     'actions' => [
         'view' => 'Megtekintés',
-        'enable' => 'Bekapcsolás',
-        'disable' => 'Kikapcsolás',
+        'enable' => 'Engedélyezés',
+        'disable' => 'Letiltás',
         'install' => 'Telepítés',
         'uninstall' => 'Eltávolítás',
         'refresh' => 'Frissítés',
-        'view_module' => 'Modul Megtekintése: :name',
+        'view_module' => 'Modul megtekintése: :name',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Notifications
-    |--------------------------------------------------------------------------
-    */
-    'notifications' => [
-        'module_enabled' => '":name" modul sikeresen bekapcsolva.',
-        'module_disabled' => '":name" modul sikeresen kikapcsolva.',
-        'module_not_found' => 'Modul nem található.',
-        'modules_installed' => 'Modulok Telepítve',
-        'modules_installed_body' => 'A következő modulok sikeresen telepítve: :names',
-        'modules_skipped' => 'Modulok Kihagyva',
-        'modules_skipped_body' => 'A következő modulok kihagyva: :names',
-        'module_install_error' => 'Hiba történt a modul telepítése során.',
-        'module_uninstalled' => 'Modul Eltávolítva',
-        'module_uninstalled_body' => '":name" modul sikeresen eltávolítva.',
-        'module_uninstall_error' => 'Hiba történt a modul eltávolítása során.',
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Filters
-    |--------------------------------------------------------------------------
-    */
     'filters' => [
         'status' => 'Állapot',
-        'name' => 'Modul Név',
-        'name_placeholder' => 'Keresés modul név szerint...',
+        'name' => 'Modul neve',
+        'name_placeholder' => 'Keresés modul neve alapján...',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Statuses
-    |--------------------------------------------------------------------------
-    */
     'status' => [
-        'enabled' => 'Bekapcsolva',
-        'disabled' => 'Kikapcsolva',
-        'cannot_be_disabled' => 'Ez a modul nem kapcsolható ki.',
+        'enabled' => 'Engedélyezve',
+        'disabled' => 'Letiltva',
+        'cannot_be_disabled' => 'Ez a modul nem tiltható le.',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Form Fields
-    |--------------------------------------------------------------------------
-    */
     'form' => [
+        'source' => 'Forrás',
         'zip_file' => 'Modul ZIP fájl',
+        'github' => 'Github tároló',
+        'local_path' => 'Helyi elérési út',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Overview Stats
-    |--------------------------------------------------------------------------
-    */
     'overview' => [
-        'available' => 'Elérhető Modulok',
+        'available' => 'Elérhető modulok',
         'available_description' => 'Összes telepített modul',
-        'active' => 'Aktív Modulok',
-        'active_description' => 'Jelenleg bekapcsolva',
-        'disabled' => 'Letiltott Modulok',
-        'disabled_description' => 'Jelenleg kikapcsolva',
+        'active' => 'Aktív modulok',
+        'active_description' => 'Jelenleg engedélyezve',
+        'disabled' => 'Letiltott modulok',
+        'disabled_description' => 'Jelenleg letiltva',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Validation
-    |--------------------------------------------------------------------------
-    */
     'validation' => [
-        'name_required' => 'Modul név kötelező',
-        'alias_required' => 'Modul alias kötelező',
-        'alias_alpha_dash' => 'Modul alias csak betűket, számokat, kötőjeleket és aláhúzásjeleket tartalmazhat',
-        'path_required' => 'Modul útvonal kötelező',
-        'version_regex' => 'A verziónak a szemantikus verziószámozás formátumát kell követnie (pl.: 1.0.0)',
+        'name_required' => 'A modul neve kötelező',
+        'alias_required' => 'A modul áliasa kötelező',
+        'alias_alpha_dash' => 'A modul áliasa csak betűket, számokat, kötőjeleket és aláhúzásokat tartalmazhat',
+        'path_required' => 'A modul elérési útja kötelező',
+        'version_regex' => 'A verziónak követnie kell a szemantikus verziózási formátumot (pl. 1.0.0)',
     ],
-
+    'maintenance' => [
+        'title' => 'Karbantartás',
+        'install_dependencies' => 'Függőségek telepítése',
+        'run_migrations' => 'Migrációk futtatása',
+        'run_seeds' => 'Seedek futtatása',
+        'edit_config' => 'Konfiguráció szerkesztése',
+        'config_label' => 'Konfiguráció (JSON)',
+        'check_health' => 'Egészség ellenőrzése',
+        'create_backup' => 'Biztonsági mentés készítése',
+        'restore_backup' => 'Biztonsági mentés visszaállítása',
+        'check_update' => 'Frissítések keresése',
+        'backup_reason' => 'Biztonsági mentés oka',
+        'select_backup' => 'Visszaállítási pont kiválasztása',
+    ],
+    'notifications' => [
+        'module_enabled' => 'A ":name" modul sikeresen engedélyezve lett.',
+        'module_disabled' => 'A ":name" modul sikeresen le lett tiltva.',
+        'module_not_found' => 'A modul nem található.',
+        'modules_installed' => 'Modulok telepítve',
+        'modules_installed_body' => 'A következő modulok sikeresen telepítve lettek: :names',
+        'modules_skipped' => 'Modulok kihagyva',
+        'modules_skipped_body' => 'A következő modulok ki lettek hagyva: :names',
+        'module_install_error' => 'Hiba történt a modul telepítése közben.',
+        'module_uninstalled' => 'Modul eltávolítva',
+        'module_uninstalled_body' => 'A ":name" modul sikeresen el lett távolítva.',
+        'module_uninstall_error' => 'Hiba történt a modul eltávolítása közben.',
+        'dependencies_installed' => 'Függőségek telepítve a következőhöz: :name',
+        'dependencies_failed' => 'Nem sikerült telepíteni a függőségeket a következőhöz: :name',
+        'migrations_run' => 'Migrációk futtatva a következőhöz: :name',
+        'migrations_failed' => 'Nem sikerült futtatni a migrációkat a következőhöz: :name',
+        'seeds_run' => 'Seedek futtatva a következőhöz: :name',
+        'seeds_failed' => 'Nem sikerült futtatni a seedeket a következőhöz: :name',
+        'config_saved' => 'Konfiguráció mentve a következőhöz: :name',
+        'health_check_completed' => 'Egészség ellenőrzése befejeződött a következőhöz: :name',
+        'backup_created' => 'Biztonsági mentés sikeresen elkészült a következőhöz: :name',
+        'backup_failed' => 'Biztonsági mentés készítése sikertelen a következőhöz: :name',
+        'backup_restored' => 'Biztonsági mentés sikeresen visszaállítva',
+        'restore_failed' => 'Visszaállítás sikertelen',
+        'update_check_failed' => 'Nem sikerült frissítéseket keresni',
+        'update_available' => 'Frissítés elérhető: v:version',
+        'no_updates_available' => 'Nincs elérhető frissítés',
+    ],
+    'history' => [
+        'title' => 'Audit napló',
+        'modal_heading' => 'Audit napló: :name',
+        'log_label' => 'Naplóbejegyzések',
+        'action' => 'Művelet',
+        'user' => 'Felhasználó',
+        'date' => 'Dátum',
+        'result' => 'Eredmény',
+        'success' => 'Siker',
+        'failed' => 'Sikertelen',
+        'error' => 'Hibaüzenet',
+    ],
+    'tabs' => [
+        'info' => 'Információ',
+        'readme' => 'Olvass el',
+    ],
+    'readme' => [
+        'not_found' => 'README fájl nem található.',
+    ],
+    'health' => [
+        'not_checked' => 'Az egészség még nincs ellenőrizve',
+    ],
 ];

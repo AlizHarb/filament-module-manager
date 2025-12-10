@@ -1,34 +1,17 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Navigation
-    |--------------------------------------------------------------------------
-    */
     'navigation' => [
         'group' => '扩展',
-        'label' => '模块管理器',
+        'label' => '模块管理',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Table
-    |--------------------------------------------------------------------------
-    */
     'table' => [
         'module_name' => '模块名称',
         'version' => '版本',
         'status' => '状态',
         'module_path' => '模块路径',
+        'health' => '健康状况',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Actions
-    |--------------------------------------------------------------------------
-    */
     'actions' => [
         'view' => '查看',
         'enable' => '启用',
@@ -38,62 +21,22 @@ return [
         'refresh' => '刷新',
         'view_module' => '查看模块: :name',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Notifications
-    |--------------------------------------------------------------------------
-    */
-    'notifications' => [
-        'module_enabled' => '模块":name"已成功启用。',
-        'module_disabled' => '模块":name"已成功禁用。',
-        'module_not_found' => '未找到模块。',
-        'modules_installed' => '模块已安装',
-        'modules_installed_body' => '以下模块已成功安装: :names',
-        'modules_skipped' => '模块已跳过',
-        'modules_skipped_body' => '以下模块已跳过: :names',
-        'module_install_error' => '模块安装过程中发生错误。',
-        'module_uninstalled' => '模块已卸载',
-        'module_uninstalled_body' => '模块":name"已成功卸载。',
-        'module_uninstall_error' => '卸载模块时发生错误。',
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Filters
-    |--------------------------------------------------------------------------
-    */
     'filters' => [
         'status' => '状态',
         'name' => '模块名称',
         'name_placeholder' => '按模块名称搜索...',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Statuses
-    |--------------------------------------------------------------------------
-    */
     'status' => [
         'enabled' => '已启用',
         'disabled' => '已禁用',
-        'cannot_be_disabled' => '此模块无法禁用。',
+        'cannot_be_disabled' => '此模块不能被禁用。',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Form Fields
-    |--------------------------------------------------------------------------
-    */
     'form' => [
-        'zip_file' => '模块ZIP文件',
+        'source' => '来源',
+        'zip_file' => '模块 ZIP 文件',
+        'github' => 'Github 仓库',
+        'local_path' => '本地路径',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Overview Stats
-    |--------------------------------------------------------------------------
-    */
     'overview' => [
         'available' => '可用模块',
         'available_description' => '已安装模块总数',
@@ -102,18 +45,75 @@ return [
         'disabled' => '禁用模块',
         'disabled_description' => '当前已禁用',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Validation
-    |--------------------------------------------------------------------------
-    */
     'validation' => [
-        'name_required' => '模块名称是必需的',
-        'alias_required' => '模块别名是必需的',
+        'name_required' => '模块名称是必填项',
+        'alias_required' => '模块别名是必填项',
         'alias_alpha_dash' => '模块别名只能包含字母、数字、破折号和下划线',
-        'path_required' => '模块路径是必需的',
-        'version_regex' => '版本必须遵循语义版本格式（例如：1.0.0）',
+        'path_required' => '模块路径是必填项',
+        'version_regex' => '版本必须遵循语义化版本格式（例如：1.0.0）',
     ],
-
+    'maintenance' => [
+        'title' => '维护',
+        'install_dependencies' => '安装依赖',
+        'run_migrations' => '运行迁移',
+        'run_seeds' => '运行种子',
+        'edit_config' => '编辑配置',
+        'config_label' => '配置 (JSON)',
+        'check_health' => '检查健康',
+        'create_backup' => '创建备份',
+        'restore_backup' => '恢复备份',
+        'check_update' => '检查更新',
+        'backup_reason' => '备份原因',
+        'select_backup' => '选择备份点',
+    ],
+    'notifications' => [
+        'module_enabled' => '模块 ":name" 已成功启用。',
+        'module_disabled' => '模块 ":name" 已成功禁用。',
+        'module_not_found' => '未找到模块。',
+        'modules_installed' => '模块已安装',
+        'modules_installed_body' => '以下模块已成功安装：:names',
+        'modules_skipped' => '跳过的模块',
+        'modules_skipped_body' => '以下模块被跳过：:names',
+        'module_install_error' => '模块安装过程中发生错误。',
+        'module_uninstalled' => '模块已卸载',
+        'module_uninstalled_body' => '模块 ":name" 已成功卸载。',
+        'module_uninstall_error' => '卸载模块时发生错误。',
+        'dependencies_installed' => '已为 :name 安装依赖',
+        'dependencies_failed' => '为 :name 安装依赖失败',
+        'migrations_run' => '已为 :name 运行迁移',
+        'migrations_failed' => '为 :name 运行迁移失败',
+        'seeds_run' => '已为 :name 运行种子',
+        'seeds_failed' => '为 :name 运行种子失败',
+        'config_saved' => '配置已保存：:name',
+        'health_check_completed' => ':name 健康检查完成',
+        'backup_created' => ':name 备份创建成功',
+        'backup_failed' => ':name 备份创建失败',
+        'backup_restored' => '备份恢复成功',
+        'restore_failed' => '恢复失败',
+        'update_check_failed' => '检查更新失败',
+        'update_available' => '可用更新：v:version',
+        'no_updates_available' => '暂无更新',
+    ],
+    'history' => [
+        'title' => '审计日志',
+        'modal_heading' => '审计日志：:name',
+        'log_label' => '日志记录',
+        'action' => '操作',
+        'user' => '用户',
+        'date' => '日期',
+        'result' => '结果',
+        'success' => '成功',
+        'failed' => '失败',
+        'error' => '错误信息',
+    ],
+    'tabs' => [
+        'info' => '信息',
+        'readme' => '自述文件',
+    ],
+    'readme' => [
+        'not_found' => '未找到 README 文件。',
+    ],
+    'health' => [
+        'not_checked' => '尚未检查健康状况',
+    ],
 ];

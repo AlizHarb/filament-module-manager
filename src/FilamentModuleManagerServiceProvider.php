@@ -17,4 +17,12 @@ class FilamentModuleManagerServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasViews();
     }
+
+    public function packageBooted(): void
+    {
+        \Illuminate\Support\Facades\Gate::policy(
+            \Alizharb\FilamentModuleManager\Models\Module::class,
+            \Alizharb\FilamentModuleManager\Policies\ModulePolicy::class
+        );
+    }
 }

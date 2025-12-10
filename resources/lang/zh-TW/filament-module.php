@@ -1,119 +1,119 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Navigation
-    |--------------------------------------------------------------------------
-    */
     'navigation' => [
         'group' => '擴展',
-        'label' => '模組管理器',
+        'label' => '模組管理',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Table
-    |--------------------------------------------------------------------------
-    */
     'table' => [
         'module_name' => '模組名稱',
         'version' => '版本',
         'status' => '狀態',
         'module_path' => '模組路徑',
+        'health' => '健康狀況',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Actions
-    |--------------------------------------------------------------------------
-    */
     'actions' => [
-        'view' => '查看',
+        'view' => '檢視',
         'enable' => '啟用',
-        'disable' => '停用',
+        'disable' => '禁用',
         'install' => '安裝',
-        'uninstall' => '卸載',
-        'refresh' => '刷新',
-        'view_module' => '查看模組: :name',
+        'uninstall' => '解除安裝',
+        'refresh' => '重新整理',
+        'view_module' => '檢視模組: :name',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Notifications
-    |--------------------------------------------------------------------------
-    */
-    'notifications' => [
-        'module_enabled' => '模組":name"已成功啟用。',
-        'module_disabled' => '模組":name"已成功停用。',
-        'module_not_found' => '找不到模組。',
-        'modules_installed' => '模組已安裝',
-        'modules_installed_body' => '以下模組已成功安裝: :names',
-        'modules_skipped' => '模組已跳過',
-        'modules_skipped_body' => '以下模組已跳過: :names',
-        'module_install_error' => '模組安裝過程中發生錯誤。',
-        'module_uninstalled' => '模組已卸載',
-        'module_uninstalled_body' => '模組":name"已成功卸載。',
-        'module_uninstall_error' => '卸載模組時發生錯誤。',
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Filters
-    |--------------------------------------------------------------------------
-    */
     'filters' => [
         'status' => '狀態',
         'name' => '模組名稱',
-        'name_placeholder' => '按模組名稱搜尋...',
+        'name_placeholder' => '搜尋模組名稱...',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Statuses
-    |--------------------------------------------------------------------------
-    */
     'status' => [
         'enabled' => '已啟用',
-        'disabled' => '已停用',
-        'cannot_be_disabled' => '此模組無法停用。',
+        'disabled' => '已禁用',
+        'cannot_be_disabled' => '此模組無法禁用。',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Form Fields
-    |--------------------------------------------------------------------------
-    */
     'form' => [
-        'zip_file' => '模組ZIP文件',
+        'source' => '來源',
+        'zip_file' => '模組 ZIP 檔案',
+        'github' => 'Github 存儲庫',
+        'local_path' => '本地路徑',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Overview Stats
-    |--------------------------------------------------------------------------
-    */
     'overview' => [
         'available' => '可用模組',
-        'available_description' => '已安裝模組總數',
+        'available_description' => '總安裝模組',
         'active' => '活動模組',
-        'active_description' => '當前已啟用',
-        'disabled' => '停用模組',
-        'disabled_description' => '當前已停用',
+        'active_description' => '目前啟用',
+        'disabled' => '禁用模組',
+        'disabled_description' => '目前禁用',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Validation
-    |--------------------------------------------------------------------------
-    */
     'validation' => [
-        'name_required' => '模組名稱是必需的',
-        'alias_required' => '模組別名是必需的',
-        'alias_alpha_dash' => '模組別名只能包含字母、數字、破折號和底線',
-        'path_required' => '模組路徑是必需的',
-        'version_regex' => '版本必須遵循語意版本格式（例如：1.0.0）',
+        'name_required' => '模組名稱為必填項',
+        'alias_required' => '模組別名為必填項',
+        'alias_alpha_dash' => '模組別名僅能包含字母、數字、破折號和底線',
+        'path_required' => '模組路徑為必填項',
+        'version_regex' => '版本必須遵循語義化版本格式（例如：1.0.0）',
     ],
-
+    'maintenance' => [
+        'title' => '維護',
+        'install_dependencies' => '安裝依賴',
+        'run_migrations' => '執行遷移',
+        'run_seeds' => '執行種子',
+        'edit_config' => '編輯配置',
+        'config_label' => '配置 (JSON)',
+        'check_health' => '檢查健康',
+        'create_backup' => '建立備份',
+        'restore_backup' => '還原備份',
+        'check_update' => '檢查更新',
+        'backup_reason' => '備份原因',
+        'select_backup' => '選擇還原點',
+    ],
+    'notifications' => [
+        'module_enabled' => '模組 ":name" 已成功啟用。',
+        'module_disabled' => '模組 ":name" 已成功禁用。',
+        'module_not_found' => '找不到模組。',
+        'modules_installed' => '模組已安裝',
+        'modules_installed_body' => '以下模組已成功安裝：:names',
+        'modules_skipped' => '跳過的模組',
+        'modules_skipped_body' => '以下模組已跳過：:names',
+        'module_install_error' => '安裝模組時發生錯誤。',
+        'module_uninstalled' => '模組已解除安裝',
+        'module_uninstalled_body' => '模組 ":name" 已成功解除安裝。',
+        'module_uninstall_error' => '解除安裝模組時發生錯誤。',
+        'dependencies_installed' => '已安裝依賴項於 :name',
+        'dependencies_failed' => '無法安裝依賴項於 :name',
+        'migrations_run' => '已執行遷移於 :name',
+        'migrations_failed' => '無法執行遷移於 :name',
+        'seeds_run' => '已執行種子於 :name',
+        'seeds_failed' => '無法執行種子於 :name',
+        'config_saved' => '已儲存配置於 :name',
+        'health_check_completed' => '已完成健康檢查於 :name',
+        'backup_created' => '已成功建立備份於 :name',
+        'backup_failed' => '無法建立備份於 :name',
+        'backup_restored' => '備份已成功還原',
+        'restore_failed' => '還原失敗',
+        'update_check_failed' => '無法檢查更新',
+        'update_available' => '可用更新: v:version',
+        'no_updates_available' => '沒有可用更新',
+    ],
+    'history' => [
+        'title' => '稽核日誌',
+        'modal_heading' => '稽核日誌: :name',
+        'log_label' => '日誌項目',
+        'action' => '動作',
+        'user' => '使用者',
+        'date' => '日期',
+        'result' => '結果',
+        'success' => '成功',
+        'failed' => '失敗',
+        'error' => '錯誤訊息',
+    ],
+    'tabs' => [
+        'info' => '資訊',
+        'readme' => '讀我檔案',
+    ],
+    'readme' => [
+        'not_found' => '找不到 README 檔案。',
+    ],
+    'health' => [
+        'not_checked' => '尚未檢查健康',
+    ],
 ];

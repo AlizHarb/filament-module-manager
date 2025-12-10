@@ -11,6 +11,14 @@ use Spatie\LaravelData\LaravelDataServiceProvider;
 
 class TestCase extends Orchestra
 {
+    protected string $module;
+
+    protected string $modulesPath;
+
+    protected string $blogPath;
+
+    protected string $moduleJsonPath;
+
     protected function setUp(): void
     {
         parent::setUp();

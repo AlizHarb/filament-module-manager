@@ -1,119 +1,119 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Navigation
-    |--------------------------------------------------------------------------
-    */
     'navigation' => [
         'group' => 'Ekstensi',
         'label' => 'Manajer Modul',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Table
-    |--------------------------------------------------------------------------
-    */
     'table' => [
         'module_name' => 'Nama Modul',
         'version' => 'Versi',
         'status' => 'Status',
         'module_path' => 'Path Modul',
+        'health' => 'Kesehatan',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Actions
-    |--------------------------------------------------------------------------
-    */
     'actions' => [
         'view' => 'Lihat',
         'enable' => 'Aktifkan',
         'disable' => 'Nonaktifkan',
         'install' => 'Instal',
-        'uninstall' => 'Uninstall',
-        'refresh' => 'Refresh',
+        'uninstall' => 'Hapus Instalasi',
+        'refresh' => 'Segarkan',
         'view_module' => 'Lihat Modul: :name',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Notifications
-    |--------------------------------------------------------------------------
-    */
-    'notifications' => [
-        'module_enabled' => 'Modul ":name" berhasil diaktifkan.',
-        'module_disabled' => 'Modul ":name" berhasil dinonaktifkan.',
-        'module_not_found' => 'Modul tidak ditemukan.',
-        'modules_installed' => 'Modul Terinstall',
-        'modules_installed_body' => 'Modul berikut berhasil diinstall: :names',
-        'modules_skipped' => 'Modul Dilewati',
-        'modules_skipped_body' => 'Modul berikut dilewati: :names',
-        'module_install_error' => 'Terjadi kesalahan saat menginstall modul.',
-        'module_uninstalled' => 'Modul Diuninstall',
-        'module_uninstalled_body' => 'Modul ":name" berhasil diuninstall.',
-        'module_uninstall_error' => 'Terjadi kesalahan saat menguninstall modul.',
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Filters
-    |--------------------------------------------------------------------------
-    */
     'filters' => [
         'status' => 'Status',
         'name' => 'Nama Modul',
         'name_placeholder' => 'Cari berdasarkan nama modul...',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Statuses
-    |--------------------------------------------------------------------------
-    */
     'status' => [
         'enabled' => 'Aktif',
         'disabled' => 'Nonaktif',
         'cannot_be_disabled' => 'Modul ini tidak dapat dinonaktifkan.',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Form Fields
-    |--------------------------------------------------------------------------
-    */
     'form' => [
+        'source' => 'Sumber',
         'zip_file' => 'File ZIP Modul',
+        'github' => 'Repositori Github',
+        'local_path' => 'Path Lokal',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Overview Stats
-    |--------------------------------------------------------------------------
-    */
     'overview' => [
         'available' => 'Modul Tersedia',
-        'available_description' => 'Total modul terinstall',
+        'available_description' => 'Total modul terinstal',
         'active' => 'Modul Aktif',
         'active_description' => 'Saat ini aktif',
         'disabled' => 'Modul Nonaktif',
         'disabled_description' => 'Saat ini nonaktif',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Validation
-    |--------------------------------------------------------------------------
-    */
     'validation' => [
         'name_required' => 'Nama modul wajib diisi',
         'alias_required' => 'Alias modul wajib diisi',
         'alias_alpha_dash' => 'Alias modul hanya boleh berisi huruf, angka, tanda hubung, dan garis bawah',
         'path_required' => 'Path modul wajib diisi',
-        'version_regex' => 'Versi harus mengikuti format semantic versioning (contoh: 1.0.0)',
+        'version_regex' => 'Versi harus mengikuti format penomoran versi semantik (misal: 1.0.0)',
     ],
-
+    'maintenance' => [
+        'title' => 'Pemeliharaan',
+        'install_dependencies' => 'Instal Dependensi',
+        'run_migrations' => 'Jalankan Migrasi',
+        'run_seeds' => 'Jalankan Seeds',
+        'edit_config' => 'Edit Konfigurasi',
+        'config_label' => 'Konfigurasi (JSON)',
+        'check_health' => 'Cek Kesehatan',
+        'create_backup' => 'Buat Cadangan',
+        'restore_backup' => 'Pulihkan Cadangan',
+        'check_update' => 'Cek Pembaruan',
+        'backup_reason' => 'Alasan Cadangan',
+        'select_backup' => 'Pilih Titik Pemulihan',
+    ],
+    'notifications' => [
+        'module_enabled' => 'Modul ":name" berhasil diaktifkan.',
+        'module_disabled' => 'Modul ":name" berhasil dinonaktifkan.',
+        'module_not_found' => 'Modul tidak ditemukan.',
+        'modules_installed' => 'Modul Terinstal',
+        'modules_installed_body' => 'Modul berikut berhasil diinstal: :names',
+        'modules_skipped' => 'Modul Dilewati',
+        'modules_skipped_body' => 'Modul berikut dilewati: :names',
+        'module_install_error' => 'Terjadi kesalahan saat instalasi modul.',
+        'module_uninstalled' => 'Modul Dihapus',
+        'module_uninstalled_body' => 'Modul ":name" berhasil dihapus instalasinya.',
+        'module_uninstall_error' => 'Terjadi kesalahan saat menghapus instalasi modul.',
+        'dependencies_installed' => 'Dependensi diinstal untuk :name',
+        'dependencies_failed' => 'Gagal menginstal dependensi untuk :name',
+        'migrations_run' => 'Migrasi dijalankan untuk :name',
+        'migrations_failed' => 'Gagal menjalankan migrasi untuk :name',
+        'seeds_run' => 'Seeds dijalankan untuk :name',
+        'seeds_failed' => 'Gagal menjalankan seeds untuk :name',
+        'config_saved' => 'Konfigurasi disimpan untuk :name',
+        'health_check_completed' => 'Pemeriksaan kesehatan selesai untuk :name',
+        'backup_created' => 'Cadangan berhasil dibuat untuk :name',
+        'backup_failed' => 'Gagal membuat cadangan untuk :name',
+        'backup_restored' => 'Cadangan berhasil dipulihkan',
+        'restore_failed' => 'Pemulihan gagal',
+        'update_check_failed' => 'Gagal memeriksa pembaruan',
+        'update_available' => 'Pembaruan tersedia: v:version',
+        'no_updates_available' => 'Tidak ada pembaruan tersedia',
+    ],
+    'history' => [
+        'title' => 'Log Audit',
+        'modal_heading' => 'Log Audit: :name',
+        'log_label' => 'Entri Log',
+        'action' => 'Aksi',
+        'user' => 'Pengguna',
+        'date' => 'Tanggal',
+        'result' => 'Hasil',
+        'success' => 'Sukses',
+        'failed' => 'Gagal',
+        'error' => 'Pesan Kesalahan',
+    ],
+    'tabs' => [
+        'info' => 'Info',
+        'readme' => 'Baca Saya',
+    ],
+    'readme' => [
+        'not_found' => 'File README tidak ditemukan.',
+    ],
+    'health' => [
+        'not_checked' => 'Kesehatan belum diperiksa',
+    ],
 ];

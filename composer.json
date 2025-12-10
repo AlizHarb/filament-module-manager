@@ -6,12 +6,21 @@
   "authors": [
     {
       "name": "Ali Harb",
-      "email": "harbzali@gmail.com"
+      "email": "harbzali@gmail.com",
+      "role": "Developer"
     }
   ],
   "keywords": [
     "alizharb",
-    "filament-module-manager"
+    "filament-module-manager",
+    "filament-module",
+    "laravel-modules",
+    "filament-plugin",
+    "laravel-plugin",
+    "filament-laravel-modules",
+    "laravel-laravel-modules",
+    "filament-laravel-plugin",
+    "laravel-laravel-plugin"
   ],
   "require": {
     "php": "^8.2",

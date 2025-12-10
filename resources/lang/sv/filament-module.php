@@ -1,34 +1,17 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Navigation
-    |--------------------------------------------------------------------------
-    */
     'navigation' => [
         'group' => 'Tillägg',
         'label' => 'Modulhanterare',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Table
-    |--------------------------------------------------------------------------
-    */
     'table' => [
         'module_name' => 'Modulnamn',
         'version' => 'Version',
         'status' => 'Status',
         'module_path' => 'Modulsökväg',
+        'health' => 'Hälsa',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Actions
-    |--------------------------------------------------------------------------
-    */
     'actions' => [
         'view' => 'Visa',
         'enable' => 'Aktivera',
@@ -38,82 +21,99 @@ return [
         'refresh' => 'Uppdatera',
         'view_module' => 'Visa Modul: :name',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Notifications
-    |--------------------------------------------------------------------------
-    */
+    'filters' => [
+        'status' => 'Status',
+        'name' => 'Modulnamn',
+        'name_placeholder' => 'Sök på modulnamn...',
+    ],
+    'status' => [
+        'enabled' => 'Aktiverad',
+        'disabled' => 'Inaktiverad',
+        'cannot_be_disabled' => 'Denna modul kan inte inaktiveras.',
+    ],
+    'form' => [
+        'source' => 'Källa',
+        'zip_file' => 'Modul ZIP-fil',
+        'github' => 'Github Repository',
+        'local_path' => 'Lokal Sökväg',
+    ],
+    'overview' => [
+        'available' => 'Tillgängliga Moduler',
+        'available_description' => 'Totalt installerade moduler',
+        'active' => 'Aktiva Moduler',
+        'active_description' => 'För närvarande aktiverade',
+        'disabled' => 'Inaktiva Moduler',
+        'disabled_description' => 'För närvarande inaktiverade',
+    ],
+    'validation' => [
+        'name_required' => 'Modulnamn krävs',
+        'alias_required' => 'Modulalias krävs',
+        'alias_alpha_dash' => 'Modulalias får endast innehålla bokstäver, siffror, bindestreck och understreck',
+        'path_required' => 'Modulsökväg krävs',
+        'version_regex' => 'Versionen måste följa formatet för semantisk versionering (t.ex. 1.0.0)',
+    ],
+    'maintenance' => [
+        'title' => 'Underhåll',
+        'install_dependencies' => 'Installera Beroenden',
+        'run_migrations' => 'Kör Migrationer',
+        'run_seeds' => 'Kör Seeds',
+        'edit_config' => 'Redigera Konfiguration',
+        'config_label' => 'Konfiguration (JSON)',
+        'check_health' => 'Kontrollera Hälsa',
+        'create_backup' => 'Skapa Säkerhetskopia',
+        'restore_backup' => 'Återställ Säkerhetskopia',
+        'check_update' => 'Sök Uppdateringar',
+        'backup_reason' => 'Orsak till Säkerhetskopia',
+        'select_backup' => 'Välj Återställningspunkt',
+    ],
     'notifications' => [
         'module_enabled' => 'Modulen ":name" har aktiverats.',
         'module_disabled' => 'Modulen ":name" har inaktiverats.',
         'module_not_found' => 'Modulen hittades inte.',
         'modules_installed' => 'Moduler Installerade',
         'modules_installed_body' => 'Följande moduler har installerats: :names',
-        'modules_skipped' => 'Moduler Hoppades Över',
+        'modules_skipped' => 'Moduler Hoppade Över',
         'modules_skipped_body' => 'Följande moduler hoppades över: :names',
-        'module_install_error' => 'Ett fel uppstod under modulinstallation.',
+        'module_install_error' => 'Ett fel uppstod under modulinstallationen.',
         'module_uninstalled' => 'Modul Avinstallerad',
         'module_uninstalled_body' => 'Modulen ":name" har avinstallerats.',
-        'module_uninstall_error' => 'Ett fel uppstod under avinstallation av modulen.',
+        'module_uninstall_error' => 'Ett fel uppstod vid avinstallation av modulen.',
+        'dependencies_installed' => 'Beroenden installerade för :name',
+        'dependencies_failed' => 'Misslyckades att installera beroenden för :name',
+        'migrations_run' => 'Migrationer körda för :name',
+        'migrations_failed' => 'Misslyckades att köra migrationer för :name',
+        'seeds_run' => 'Seeds körda för :name',
+        'seeds_failed' => 'Misslyckades att köra seeds för :name',
+        'config_saved' => 'Konfiguration sparad för :name',
+        'health_check_completed' => 'Hälsokontroll slutförd för :name',
+        'backup_created' => 'Säkerhetskopia skapad för :name',
+        'backup_failed' => 'Misslyckades att skapa säkerhetskopia för :name',
+        'backup_restored' => 'Säkerhetskopia återställd',
+        'restore_failed' => 'Återställning misslyckades',
+        'update_check_failed' => 'Misslyckades att söka efter uppdateringar',
+        'update_available' => 'Uppdatering tillgänglig: v:version',
+        'no_updates_available' => 'Inga uppdateringar tillgängliga',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Filters
-    |--------------------------------------------------------------------------
-    */
-    'filters' => [
-        'status' => 'Status',
-        'name' => 'Modulnamn',
-        'name_placeholder' => 'Sök efter modulnamn...',
+    'history' => [
+        'title' => 'Auditlogg',
+        'modal_heading' => 'Auditlogg: :name',
+        'log_label' => 'Loggposter',
+        'action' => 'Åtgärd',
+        'user' => 'Användare',
+        'date' => 'Datum',
+        'result' => 'Resultat',
+        'success' => 'Lyckades',
+        'failed' => 'Misslyckades',
+        'error' => 'Felmeddelande',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Statuses
-    |--------------------------------------------------------------------------
-    */
-    'status' => [
-        'enabled' => 'Aktiverad',
-        'disabled' => 'Inaktiverad',
-        'cannot_be_disabled' => 'Denna modul kan inte inaktiveras.',
+    'tabs' => [
+        'info' => 'Info',
+        'readme' => 'Läs Mig',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Form Fields
-    |--------------------------------------------------------------------------
-    */
-    'form' => [
-        'zip_file' => 'Modul ZIP-fil',
+    'readme' => [
+        'not_found' => 'README-fil hittades inte.',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Overview Stats
-    |--------------------------------------------------------------------------
-    */
-    'overview' => [
-        'available' => 'Tillgängliga Moduler',
-        'available_description' => 'Totalt installerade moduler',
-        'active' => 'Aktiva Moduler',
-        'active_description' => 'För närvarande aktiverade',
-        'disabled' => 'Inaktiverade Moduler',
-        'disabled_description' => 'För närvarande inaktiverade',
+    'health' => [
+        'not_checked' => 'Hälsa inte kontrollerad ännu',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Validation
-    |--------------------------------------------------------------------------
-    */
-    'validation' => [
-        'name_required' => 'Modulnamn krävs',
-        'alias_required' => 'Modulalias krävs',
-        'alias_alpha_dash' => 'Modulalias får endast innehålla bokstäver, siffror, bindestreck och understreck',
-        'path_required' => 'Modulsökväg krävs',
-        'version_regex' => 'Version måste följa semantisk versionshanteringsformat (t.ex. 1.0.0)',
-    ],
-
 ];

@@ -1,49 +1,71 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Navigation
-    |--------------------------------------------------------------------------
-    */
     'navigation' => [
         'group' => 'Estensioni',
-        'label' => 'Gestore Moduli',
+        'label' => 'Gestione Moduli',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Table
-    |--------------------------------------------------------------------------
-    */
     'table' => [
         'module_name' => 'Nome Modulo',
         'version' => 'Versione',
         'status' => 'Stato',
         'module_path' => 'Percorso Modulo',
+        'health' => 'Salute',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Actions
-    |--------------------------------------------------------------------------
-    */
     'actions' => [
-        'view' => 'Visualizza',
+        'view' => 'Vedi',
         'enable' => 'Abilita',
         'disable' => 'Disabilita',
         'install' => 'Installa',
         'uninstall' => 'Disinstalla',
         'refresh' => 'Aggiorna',
-        'view_module' => 'Visualizza Modulo: :name',
+        'view_module' => 'Vedi Modulo: :name',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Notifications
-    |--------------------------------------------------------------------------
-    */
+    'filters' => [
+        'status' => 'Stato',
+        'name' => 'Nome Modulo',
+        'name_placeholder' => 'Cerca per nome modulo...',
+    ],
+    'status' => [
+        'enabled' => 'Abilitato',
+        'disabled' => 'Disabilitato',
+        'cannot_be_disabled' => 'Questo modulo non può essere disabilitato.',
+    ],
+    'form' => [
+        'source' => 'Sorgente',
+        'zip_file' => 'File ZIP Modulo',
+        'github' => 'Repository Github',
+        'local_path' => 'Percorso Locale',
+    ],
+    'overview' => [
+        'available' => 'Moduli Disponibili',
+        'available_description' => 'Totale moduli installati',
+        'active' => 'Moduli Attivi',
+        'active_description' => 'Attualmente abilitati',
+        'disabled' => 'Moduli Disabilitati',
+        'disabled_description' => 'Attualmente disabilitati',
+    ],
+    'validation' => [
+        'name_required' => 'Il nome del modulo è obbligatorio',
+        'alias_required' => 'L\'alias del modulo è obbligatorio',
+        'alias_alpha_dash' => 'L\'alias del modulo può contenere solo lettere, numeri, trattini e trattini bassi',
+        'path_required' => 'Il percorso del modulo è obbligatorio',
+        'version_regex' => 'La versione deve seguire il formato di versionamento semantico (es. 1.0.0)',
+    ],
+    'maintenance' => [
+        'title' => 'Manutenzione',
+        'install_dependencies' => 'Installa Dipendenze',
+        'run_migrations' => 'Esegui Migrazioni',
+        'run_seeds' => 'Esegui Seeds',
+        'edit_config' => 'Modifica Configurazione',
+        'config_label' => 'Configurazione (JSON)',
+        'check_health' => 'Controlla Salute',
+        'create_backup' => 'Crea Backup',
+        'restore_backup' => 'Ripristina Backup',
+        'check_update' => 'Controlla Aggiornamenti',
+        'backup_reason' => 'Motivo Backup',
+        'select_backup' => 'Seleziona Punto di Ripristino',
+    ],
     'notifications' => [
         'module_enabled' => 'Il modulo ":name" è stato abilitato con successo.',
         'module_disabled' => 'Il modulo ":name" è stato disabilitato con successo.',
@@ -53,67 +75,45 @@ return [
         'modules_skipped' => 'Moduli Saltati',
         'modules_skipped_body' => 'I seguenti moduli sono stati saltati: :names',
         'module_install_error' => 'Si è verificato un errore durante l\'installazione del modulo.',
-        'module_uninstalled' => 'Modulo disinstallato',
+        'module_uninstalled' => 'Modulo Disinstallato',
         'module_uninstalled_body' => 'Il modulo ":name" è stato disinstallato con successo.',
         'module_uninstall_error' => 'Si è verificato un errore durante la disinstallazione del modulo.',
+        'dependencies_installed' => 'Dipendenze installate per :name',
+        'dependencies_failed' => 'Impossibile installare dipendenze per :name',
+        'migrations_run' => 'Migrazioni eseguite per :name',
+        'migrations_failed' => 'Impossibile eseguire migrazioni per :name',
+        'seeds_run' => 'Seeds eseguiti per :name',
+        'seeds_failed' => 'Impossibile eseguire seeds per :name',
+        'config_saved' => 'Configurazione salvata per :name',
+        'health_check_completed' => 'Controllo salute completato per :name',
+        'backup_created' => 'Backup creato con successo per :name',
+        'backup_failed' => 'Creazione backup fallita per :name',
+        'backup_restored' => 'Backup ripristinato con successo',
+        'restore_failed' => 'Ripristino fallito',
+        'update_check_failed' => 'Impossibile controllare aggiornamenti',
+        'update_available' => 'Aggiornamento disponibile: v:version',
+        'no_updates_available' => 'Nessun aggiornamento disponibile',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Filters
-    |--------------------------------------------------------------------------
-    */
-    'filters' => [
-        'status' => 'Stato',
-        'name' => 'Nome Modulo',
-        'name_placeholder' => 'Cerca per nome modulo...',
+    'history' => [
+        'title' => 'Registro Audit',
+        'modal_heading' => 'Registro Audit: :name',
+        'log_label' => 'Voci di Registro',
+        'action' => 'Azione',
+        'user' => 'Utente',
+        'date' => 'Data',
+        'result' => 'Risultato',
+        'success' => 'Successo',
+        'failed' => 'Fallito',
+        'error' => 'Messaggio Errore',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Statuses
-    |--------------------------------------------------------------------------
-    */
-    'status' => [
-        'enabled' => 'Abilitato',
-        'disabled' => 'Disabilitado',
-        'cannot_be_disabled' => 'Questo modulo non può essere disabilitato.',
+    'tabs' => [
+        'info' => 'Info',
+        'readme' => 'Leggimi',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Form Fields
-    |--------------------------------------------------------------------------
-    */
-    'form' => [
-        'zip_file' => 'File ZIP del Modulo',
+    'readme' => [
+        'not_found' => 'File README non trovato.',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Overview Stats
-    |--------------------------------------------------------------------------
-    */
-    'overview' => [
-        'available' => 'Moduli Disponibili',
-        'available_description' => 'Totale moduli installati',
-        'active' => 'Moduli Attivi',
-        'active_description' => 'Attualmente abilitati',
-        'disabled' => 'Moduli Disabilitati',
-        'disabled_description' => 'Attualmente disabilitati',
+    'health' => [
+        'not_checked' => 'Salute non ancora controllata',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Validation
-    |--------------------------------------------------------------------------
-    */
-    'validation' => [
-        'name_required' => 'Il nome del modulo è obbligatorio',
-        'alias_required' => 'L\'alias del modulo è obbligatorio',
-        'alias_alpha_dash' => 'L\'alias del modulo può contenere solo lettere, numeri, trattini e trattini bassi',
-        'path_required' => 'Il percorso del modulo è obbligatorio',
-        'version_regex' => 'La versione deve seguire il formato di versionamento semantico (esempio: 1.0.0)',
-    ],
-
 ];

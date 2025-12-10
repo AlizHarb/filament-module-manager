@@ -1,34 +1,17 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Navigation
-    |--------------------------------------------------------------------------
-    */
     'navigation' => [
         'group' => 'Eklentiler',
         'label' => 'Modül Yöneticisi',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Table
-    |--------------------------------------------------------------------------
-    */
     'table' => [
         'module_name' => 'Modül Adı',
         'version' => 'Sürüm',
         'status' => 'Durum',
         'module_path' => 'Modül Yolu',
+        'health' => 'Sağlık',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Actions
-    |--------------------------------------------------------------------------
-    */
     'actions' => [
         'view' => 'Görüntüle',
         'enable' => 'Etkinleştir',
@@ -38,12 +21,51 @@ return [
         'refresh' => 'Yenile',
         'view_module' => 'Modülü Görüntüle: :name',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Notifications
-    |--------------------------------------------------------------------------
-    */
+    'filters' => [
+        'status' => 'Durum',
+        'name' => 'Modül Adı',
+        'name_placeholder' => 'Modül adına göre ara...',
+    ],
+    'status' => [
+        'enabled' => 'Etkin',
+        'disabled' => 'Devre Dışı',
+        'cannot_be_disabled' => 'Bu modül devre dışı bırakılamaz.',
+    ],
+    'form' => [
+        'source' => 'Kaynak',
+        'zip_file' => 'Modül ZIP Dosyası',
+        'github' => 'Github Deposu',
+        'local_path' => 'Yerel Yol',
+    ],
+    'overview' => [
+        'available' => 'Kullanılabilir Modüller',
+        'available_description' => 'Toplam yüklü modüller',
+        'active' => 'Aktif Modüller',
+        'active_description' => 'Şu anda etkin',
+        'disabled' => 'Devre Dışı Modüller',
+        'disabled_description' => 'Şu anda devre dışı',
+    ],
+    'validation' => [
+        'name_required' => 'Modül adı gereklidir',
+        'alias_required' => 'Modül takma adı gereklidir',
+        'alias_alpha_dash' => 'Modül takma adı sadece harf, rakam, tire ve alt çizgi içerebilir',
+        'path_required' => 'Modül yolu gereklidir',
+        'version_regex' => 'Sürüm, anlamsal sürüm formatına uymalıdır (örn. 1.0.0)',
+    ],
+    'maintenance' => [
+        'title' => 'Bakım',
+        'install_dependencies' => 'Bağımlılıkları Yükle',
+        'run_migrations' => 'Göçleri Çalıştır',
+        'run_seeds' => 'Tohumları Çalıştır',
+        'edit_config' => 'Yapılandırmayı Düzenle',
+        'config_label' => 'Yapılandırma (JSON)',
+        'check_health' => 'Sağlık Kontrolü',
+        'create_backup' => 'Yedek Oluştur',
+        'restore_backup' => 'Yedeği Geri Yükle',
+        'check_update' => 'Güncellemeleri Kontrol Et',
+        'backup_reason' => 'Yedekleme Nedeni',
+        'select_backup' => 'Geri Yükleme Noktası Seç',
+    ],
     'notifications' => [
         'module_enabled' => '":name" modülü başarıyla etkinleştirildi.',
         'module_disabled' => '":name" modülü başarıyla devre dışı bırakıldı.',
@@ -52,68 +74,46 @@ return [
         'modules_installed_body' => 'Aşağıdaki modüller başarıyla yüklendi: :names',
         'modules_skipped' => 'Modüller Atlandı',
         'modules_skipped_body' => 'Aşağıdaki modüller atlandı: :names',
-        'module_install_error' => 'Modül yükleme sırasında bir hata oluştu.',
+        'module_install_error' => 'Modül yüklenirken bir hata oluştu.',
         'module_uninstalled' => 'Modül Kaldırıldı',
         'module_uninstalled_body' => '":name" modülü başarıyla kaldırıldı.',
-        'module_uninstall_error' => 'Modül kaldırma sırasında bir hata oluştu.',
+        'module_uninstall_error' => 'Modül kaldırılırken bir hata oluştu.',
+        'dependencies_installed' => ':name için bağımlılıklar yüklendi',
+        'dependencies_failed' => ':name için bağımlılıklar yüklenemedi',
+        'migrations_run' => ':name için göçler çalıştırıldı',
+        'migrations_failed' => ':name için göçler çalıştırılamadı',
+        'seeds_run' => ':name için tohumlar çalıştırıldı',
+        'seeds_failed' => ':name için tohumlar çalıştırılamadı',
+        'config_saved' => ':name için yapılandırma kaydedildi',
+        'health_check_completed' => ':name için sağlık kontrolü tamamlandı',
+        'backup_created' => ':name için yedek başarıyla oluşturuldu',
+        'backup_failed' => ':name için yedek oluşturulamadı',
+        'backup_restored' => 'Yedek başarıyla geri yüklendi',
+        'restore_failed' => 'Geri yükleme başarısız',
+        'update_check_failed' => 'Güncellemeler kontrol edilemedi',
+        'update_available' => 'Güncelleme mevcut: v:version',
+        'no_updates_available' => 'Güncelleme mevcut değil',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Filters
-    |--------------------------------------------------------------------------
-    */
-    'filters' => [
-        'status' => 'Durum',
-        'name' => 'Modül Adı',
-        'name_placeholder' => 'Modül adıyla ara...',
+    'history' => [
+        'title' => 'Denetim Günlüğü',
+        'modal_heading' => 'Denetim Günlüğü: :name',
+        'log_label' => 'Günlük Girdileri',
+        'action' => 'Eylem',
+        'user' => 'Kullanıcı',
+        'date' => 'Tarih',
+        'result' => 'Sonuç',
+        'success' => 'Başarılı',
+        'failed' => 'Başarısız',
+        'error' => 'Hata Mesajı',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Statuses
-    |--------------------------------------------------------------------------
-    */
-    'status' => [
-        'enabled' => 'Etkin',
-        'disabled' => 'Devre Dışı',
-        'cannot_be_disabled' => 'Bu modül devre dışı bırakılamaz.',
+    'tabs' => [
+        'info' => 'Bilgi',
+        'readme' => 'Beni Oku',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Form Fields
-    |--------------------------------------------------------------------------
-    */
-    'form' => [
-        'zip_file' => 'Modül ZIP Dosyası',
+    'readme' => [
+        'not_found' => 'README dosyası bulunamadı.',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Overview Stats
-    |--------------------------------------------------------------------------
-    */
-    'overview' => [
-        'available' => 'Mevcut Modüller',
-        'available_description' => 'Toplam yüklü modüller',
-        'active' => 'Aktif Modüller',
-        'active_description' => 'Şu anda etkin',
-        'disabled' => 'Devre Dışı Modüller',
-        'disabled_description' => 'Şu anda devre dışı',
+    'health' => [
+        'not_checked' => 'Sağlık henüz kontrol edilmedi',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Validation
-    |--------------------------------------------------------------------------
-    */
-    'validation' => [
-        'name_required' => 'Modül adı gereklidir',
-        'alias_required' => 'Modül takma adı gereklidir',
-        'alias_alpha_dash' => 'Modül takma adı yalnızca harfler, rakamlar, tireler ve alt çizgiler içerebilir',
-        'path_required' => 'Modül yolu gereklidir',
-        'version_regex' => 'Sürüm anlamsal sürüm formatını takip etmelidir (örnek: 1.0.0)',
-    ],
-
 ];

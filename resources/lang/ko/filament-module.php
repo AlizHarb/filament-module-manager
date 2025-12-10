@@ -1,34 +1,17 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Navigation
-    |--------------------------------------------------------------------------
-    */
     'navigation' => [
-        'group' => '확장 기능',
+        'group' => '확장',
         'label' => '모듈 관리자',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Table
-    |--------------------------------------------------------------------------
-    */
     'table' => [
         'module_name' => '모듈 이름',
         'version' => '버전',
         'status' => '상태',
         'module_path' => '모듈 경로',
+        'health' => '상태',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Actions
-    |--------------------------------------------------------------------------
-    */
     'actions' => [
         'view' => '보기',
         'enable' => '활성화',
@@ -38,62 +21,22 @@ return [
         'refresh' => '새로 고침',
         'view_module' => '모듈 보기: :name',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Notifications
-    |--------------------------------------------------------------------------
-    */
-    'notifications' => [
-        'module_enabled' => '모듈 ":name"이(가) 성공적으로 활성화되었습니다.',
-        'module_disabled' => '모듈 ":name"이(가) 성공적으로 비활성화되었습니다.',
-        'module_not_found' => '모듈을 찾을 수 없습니다.',
-        'modules_installed' => '모듈 설치됨',
-        'modules_installed_body' => '다음 모듈이 성공적으로 설치되었습니다: :names',
-        'modules_skipped' => '모듈 건너뜀',
-        'modules_skipped_body' => '다음 모듈이 건너뛰어졌습니다: :names',
-        'module_install_error' => '모듈 설치 중 오류가 발생했습니다.',
-        'module_uninstalled' => '모듈 제거됨',
-        'module_uninstalled_body' => '모듈 ":name"이(가) 성공적으로 제거되었습니다.',
-        'module_uninstall_error' => '모듈 제거 중 오류가 발생했습니다.',
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Filters
-    |--------------------------------------------------------------------------
-    */
     'filters' => [
         'status' => '상태',
         'name' => '모듈 이름',
         'name_placeholder' => '모듈 이름으로 검색...',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Statuses
-    |--------------------------------------------------------------------------
-    */
     'status' => [
         'enabled' => '활성화됨',
         'disabled' => '비활성화됨',
         'cannot_be_disabled' => '이 모듈은 비활성화할 수 없습니다.',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Form Fields
-    |--------------------------------------------------------------------------
-    */
     'form' => [
+        'source' => '출처',
         'zip_file' => '모듈 ZIP 파일',
+        'github' => 'Github 저장소',
+        'local_path' => '로컬 경로',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Overview Stats
-    |--------------------------------------------------------------------------
-    */
     'overview' => [
         'available' => '사용 가능한 모듈',
         'available_description' => '총 설치된 모듈',
@@ -102,18 +45,75 @@ return [
         'disabled' => '비활성 모듈',
         'disabled_description' => '현재 비활성화됨',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Validation
-    |--------------------------------------------------------------------------
-    */
     'validation' => [
         'name_required' => '모듈 이름은 필수입니다',
         'alias_required' => '모듈 별칭은 필수입니다',
         'alias_alpha_dash' => '모듈 별칭은 문자, 숫자, 대시 및 밑줄만 포함할 수 있습니다',
         'path_required' => '모듈 경로는 필수입니다',
-        'version_regex' => '버전은 시맨틱 버저닝 형식을 따라야 합니다 (예: 1.0.0)',
+        'version_regex' => '버전은 시맨틱 버전 형식을 따라야 합니다 (예: 1.0.0)',
     ],
-
+    'maintenance' => [
+        'title' => '유지 관리',
+        'install_dependencies' => '종속성 설치',
+        'run_migrations' => '마이그레이션 실행',
+        'run_seeds' => '시드 실행',
+        'edit_config' => '구성 편집',
+        'config_label' => '구성 (JSON)',
+        'check_health' => '상태 확인',
+        'create_backup' => '백업 생성',
+        'restore_backup' => '백업 복원',
+        'check_update' => '업데이트 확인',
+        'backup_reason' => '백업 이유',
+        'select_backup' => '복원 지점 선택',
+    ],
+    'notifications' => [
+        'module_enabled' => '모듈 ":name"이(가) 성공적으로 활성화되었습니다.',
+        'module_disabled' => '모듈 ":name"이(가) 성공적으로 비활성화되었습니다.',
+        'module_not_found' => '모듈을 찾을 수 없습니다.',
+        'modules_installed' => '모듈 설치됨',
+        'modules_installed_body' => '다음 모듈이 성공적으로 설치되었습니다: :names',
+        'modules_skipped' => '모듈 건너뜀',
+        'modules_skipped_body' => '다음 모듈을 건너뛰었습니다: :names',
+        'module_install_error' => '모듈 설치 중 오류가 발생했습니다.',
+        'module_uninstalled' => '모듈 제거됨',
+        'module_uninstalled_body' => '모듈 ":name"이(가) 성공적으로 제거되었습니다.',
+        'module_uninstall_error' => '모듈 제거 중 오류가 발생했습니다.',
+        'dependencies_installed' => ':name에 대한 종속성 설치됨',
+        'dependencies_failed' => ':name에 대한 종속성 설치 실패',
+        'migrations_run' => ':name에 대한 마이그레이션 실행됨',
+        'migrations_failed' => ':name에 대한 마이그레이션 실행 실패',
+        'seeds_run' => ':name에 대한 시드 실행됨',
+        'seeds_failed' => ':name에 대한 시드 실행 실패',
+        'config_saved' => ':name에 대한 구성 저장됨',
+        'health_check_completed' => ':name에 대한 상태 확인 완료',
+        'backup_created' => ':name에 대한 백업이 성공적으로 생성되었습니다',
+        'backup_failed' => ':name에 대한 백업 생성 실패',
+        'backup_restored' => '백업이 성공적으로 복원되었습니다',
+        'restore_failed' => '복원 실패',
+        'update_check_failed' => '업데이트 확인 실패',
+        'update_available' => '업데이트 가능: v:version',
+        'no_updates_available' => '사용 가능한 업데이트 없음',
+    ],
+    'history' => [
+        'title' => '감사 로그',
+        'modal_heading' => '감사 로그: :name',
+        'log_label' => '로그 항목',
+        'action' => '작업',
+        'user' => '사용자',
+        'date' => '날짜',
+        'result' => '결과',
+        'success' => '성공',
+        'failed' => '실패',
+        'error' => '오류 메시지',
+    ],
+    'tabs' => [
+        'info' => '정보',
+        'readme' => '읽어보기',
+    ],
+    'readme' => [
+        'not_found' => 'README 파일을 찾을 수 없습니다.',
+    ],
+    'health' => [
+        'not_checked' => '상태가 아직 확인되지 않음',
+    ],
 ];

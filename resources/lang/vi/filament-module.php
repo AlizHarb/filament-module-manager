@@ -1,119 +1,119 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Navigation
-    |--------------------------------------------------------------------------
-    */
     'navigation' => [
-        'group' => 'Tiện ích mở rộng',
+        'group' => 'Mở rộng',
         'label' => 'Quản lý Module',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Table
-    |--------------------------------------------------------------------------
-    */
     'table' => [
         'module_name' => 'Tên Module',
         'version' => 'Phiên bản',
         'status' => 'Trạng thái',
         'module_path' => 'Đường dẫn Module',
+        'health' => 'Sức khỏe',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Actions
-    |--------------------------------------------------------------------------
-    */
     'actions' => [
         'view' => 'Xem',
-        'enable' => 'Kích hoạt',
-        'disable' => 'Vô hiệu hóa',
+        'enable' => 'Bật',
+        'disable' => 'Tắt',
         'install' => 'Cài đặt',
         'uninstall' => 'Gỡ cài đặt',
         'refresh' => 'Làm mới',
         'view_module' => 'Xem Module: :name',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Modules Notifications
-    |--------------------------------------------------------------------------
-    */
-    'notifications' => [
-        'module_enabled' => 'Module ":name" đã được kích hoạt thành công.',
-        'module_disabled' => 'Module ":name" đã được vô hiệu hóa thành công.',
-        'module_not_found' => 'Không tìm thấy module.',
-        'modules_installed' => 'Module Đã Cài Đặt',
-        'modules_installed_body' => 'Các module sau đã được cài đặt thành công: :names',
-        'modules_skipped' => 'Module Đã Bỏ Qua',
-        'modules_skipped_body' => 'Các module sau đã bị bỏ qua: :names',
-        'module_install_error' => 'Đã xảy ra lỗi trong quá trình cài đặt module.',
-        'module_uninstalled' => 'Module Đã Gỡ Cài Đặt',
-        'module_uninstalled_body' => 'Module ":name" đã được gỡ cài đặt thành công.',
-        'module_uninstall_error' => 'Đã xảy ra lỗi khi gỡ cài đặt module.',
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Filters
-    |--------------------------------------------------------------------------
-    */
     'filters' => [
         'status' => 'Trạng thái',
         'name' => 'Tên Module',
         'name_placeholder' => 'Tìm kiếm theo tên module...',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Statuses
-    |--------------------------------------------------------------------------
-    */
     'status' => [
-        'enabled' => 'Đã kích hoạt',
-        'disabled' => 'Đã vô hiệu hóa',
-        'cannot_be_disabled' => 'Module này không thể bị vô hiệu hóa.',
+        'enabled' => 'Đã bật',
+        'disabled' => 'Đã tắt',
+        'cannot_be_disabled' => 'Module này không thể tắt.',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Form Fields
-    |--------------------------------------------------------------------------
-    */
     'form' => [
-        'zip_file' => 'File ZIP Module',
+        'source' => 'Nguồn',
+        'zip_file' => 'Tệp ZIP Module',
+        'github' => 'Kho lưu trữ Github',
+        'local_path' => 'Đường dẫn cục bộ',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Overview Stats
-    |--------------------------------------------------------------------------
-    */
     'overview' => [
-        'available' => 'Module Có Sẵn',
+        'available' => 'Module có sẵn',
         'available_description' => 'Tổng số module đã cài đặt',
-        'active' => 'Module Hoạt Động',
-        'active_description' => 'Hiện đang kích hoạt',
-        'disabled' => 'Module Vô Hiệu Hóa',
-        'disabled_description' => 'Hiện đang vô hiệu hóa',
+        'active' => 'Module hoạt động',
+        'active_description' => 'Hiện đang bật',
+        'disabled' => 'Module đã tắt',
+        'disabled_description' => 'Hiện đang tắt',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Module Validation
-    |--------------------------------------------------------------------------
-    */
     'validation' => [
         'name_required' => 'Tên module là bắt buộc',
         'alias_required' => 'Bí danh module là bắt buộc',
-        'alias_alpha_dash' => 'Bí danh module chỉ có thể chứa chữ cái, số, dấu gạch ngang và gạch dưới',
+        'alias_alpha_dash' => 'Bí danh module chỉ được chứa chữ cái, số, gạch ngang và gạch dưới',
         'path_required' => 'Đường dẫn module là bắt buộc',
-        'version_regex' => 'Phiên bản phải tuân theo định dạng semantic versioning (ví dụ: 1.0.0)',
+        'version_regex' => 'Phiên bản phải tuân theo định dạng phiên bản ngữ nghĩa (ví dụ: 1.0.0)',
     ],
-
+    'maintenance' => [
+        'title' => 'Bảo trì',
+        'install_dependencies' => 'Cài đặt phụ thuộc',
+        'run_migrations' => 'Chạy di cư',
+        'run_seeds' => 'Chạy hạt giống',
+        'edit_config' => 'Chỉnh sửa cấu hình',
+        'config_label' => 'Cấu hình (JSON)',
+        'check_health' => 'Kiểm tra sức khỏe',
+        'create_backup' => 'Tạo sao lưu',
+        'restore_backup' => 'Khôi phục sao lưu',
+        'check_update' => 'Kiểm tra cập nhật',
+        'backup_reason' => 'Lý do sao lưu',
+        'select_backup' => 'Chọn điểm khôi phục',
+    ],
+    'notifications' => [
+        'module_enabled' => 'Module ":name" đã được bật thành công.',
+        'module_disabled' => 'Module ":name" đã được tắt thành công.',
+        'module_not_found' => 'Không tìm thấy module.',
+        'modules_installed' => 'Module đã cài đặt',
+        'modules_installed_body' => 'Các module sau đã được cài đặt thành công: :names',
+        'modules_skipped' => 'Module đã bỏ qua',
+        'modules_skipped_body' => 'Các module sau đã bị bỏ qua: :names',
+        'module_install_error' => 'Đã xảy ra lỗi khi cài đặt module.',
+        'module_uninstalled' => 'Module đã gỡ cài đặt',
+        'module_uninstalled_body' => 'Module ":name" đã được gỡ cài đặt thành công.',
+        'module_uninstall_error' => 'Đã xảy ra lỗi khi gỡ cài đặt module.',
+        'dependencies_installed' => 'Đã cài đặt phụ thuộc cho :name',
+        'dependencies_failed' => 'Không thể cài đặt phụ thuộc cho :name',
+        'migrations_run' => 'Đã chạy di cư cho :name',
+        'migrations_failed' => 'Không thể chạy di cư cho :name',
+        'seeds_run' => 'Đã chạy hạt giống cho :name',
+        'seeds_failed' => 'Không thể chạy hạt giống cho :name',
+        'config_saved' => 'Đã lưu cấu hình cho :name',
+        'health_check_completed' => 'Đã hoàn tất kiểm tra sức khỏe cho :name',
+        'backup_created' => 'Đã tạo sao lưu thành công cho :name',
+        'backup_failed' => 'Không thể tạo sao lưu cho :name',
+        'backup_restored' => 'Đã khôi phục sao lưu thành công',
+        'restore_failed' => 'Khôi phục thất bại',
+        'update_check_failed' => 'Không thể kiểm tra cập nhật',
+        'update_available' => 'Có bản cập nhật: v:version',
+        'no_updates_available' => 'Không có bản cập nhật',
+    ],
+    'history' => [
+        'title' => 'Nhật ký kiểm toán',
+        'modal_heading' => 'Nhật ký kiểm toán: :name',
+        'log_label' => 'Mục nhật ký',
+        'action' => 'Hành động',
+        'user' => 'Người dùng',
+        'date' => 'Ngày',
+        'result' => 'Kết quả',
+        'success' => 'Thành công',
+        'failed' => 'Thất bại',
+        'error' => 'Thông báo lỗi',
+    ],
+    'tabs' => [
+        'info' => 'Thông tin',
+        'readme' => 'Đọc tôi',
+    ],
+    'readme' => [
+        'not_found' => 'Không tìm thấy tệp README.',
+    ],
+    'health' => [
+        'not_checked' => 'Chưa kiểm tra sức khỏe',
+    ],
 ];

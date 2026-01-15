@@ -100,7 +100,7 @@ it('can install a module from local path', function () {
     File::put("{$testPath}/module.json", json_encode(['name' => $newModule, 'alias' => 'testmodule'], JSON_PRETTY_PRINT));
     $result = $service->installModuleFromPath($testPath);
     expect($result->hasInstalled())->toBeTrue();
-    expect(File::exists(base_path("Modules/{$newModule}")))->toBeTrue();
+    expect(File::exists($service->getPathToModule($newModule)))->toBeTrue();
     File::deleteDirectory($testPath);
 });
 
@@ -134,7 +134,7 @@ it('can install modules from ZIP (mocked)', function () {
     $zip->close();
     $result = $service->installModulesFromZip('test_module.zip');
     expect($result->hasInstalled())->toBeTrue();
-    expect(File::exists(base_path("Modules/{$moduleName}")))->toBeTrue();
+    expect(File::exists($service->getPathToModule($moduleName)))->toBeTrue();
     File::delete($zipPath);
     File::deleteDirectory($tempModulePath);
 });

@@ -499,7 +499,8 @@ class ModuleManager extends Page implements HasTable
 
     protected function getModuleConfigJson(string $moduleName): string
     {
-        $path = base_path("Modules/{$moduleName}/module.json");
+        $modulePath = $this->service->getPathToModule($moduleName);
+        $path = "{$modulePath}/module.json";
 
         return File::exists($path)
             ? File::get($path)
@@ -508,7 +509,9 @@ class ModuleManager extends Page implements HasTable
 
     protected function saveModuleConfigJson(string $moduleName, string $content): void
     {
-        $path = base_path("Modules/{$moduleName}/module.json");
+        $modulePath = $this->service->getPathToModule($moduleName);
+        $path = "{$modulePath}/module.json";
+
         File::put($path, $content);
 
         Notification::make()->title(__('filament-module-manager::filament-module.notifications.config_saved', ['name' => $moduleName]))->success()->send();
@@ -629,7 +632,7 @@ class ModuleManager extends Page implements HasTable
     protected function getModuleReadme(string $moduleName): string
     {
         // Try common readme filenames
-        $basePath = base_path("Modules/{$moduleName}");
+        $basePath = $this->service->getPathToModule($moduleName);
         $candidates = ['README.md', 'readme.md', 'Readme.md', 'README.txt'];
 
         foreach ($candidates as $candidate) {

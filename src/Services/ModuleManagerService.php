@@ -221,7 +221,8 @@ class ModuleManagerService
                 ModuleFacade::enable($moduleName);
                 $installedModules[] = Module::findData($moduleName);
             } else {
-                $moduleJsonPath = base_path("Modules/{$moduleName}/module.json");
+                $modulePath = $this->getPathToModule($moduleName);
+                $moduleJsonPath = "{$modulePath}/module.json";
                 $moduleNameFromJson = $moduleName;
 
                 if (File::exists($moduleJsonPath)) {
@@ -240,7 +241,7 @@ class ModuleManagerService
                     alias: Str::lower($moduleNameFromJson),
                     description: null,
                     active: false,
-                    path: base_path("Modules/{$moduleName}"),
+                    path: $this->getPathToModule($moduleName),
                     version: null,
                     authors: null,
                 );
@@ -458,7 +459,8 @@ class ModuleManagerService
      */
     protected function getModuleConfig(string $moduleName): array
     {
-        $path = base_path("Modules/{$moduleName}/module.json");
+        $modulePath = $this->getPathToModule($moduleName);
+        $path = "{$modulePath}/module.json";
         if (! File::exists($path)) {
             return [];
         }
@@ -477,7 +479,7 @@ class ModuleManagerService
      */
     protected function isValidModule(string $folder): bool
     {
-        $base = base_path("Modules/{$folder}");
+        $base = $this->getPathToModule($folder);
 
         if (! File::isDirectory($base)) {
             return false;
@@ -498,7 +500,7 @@ class ModuleManagerService
      */
     protected function moduleExists(string $moduleName): bool
     {
-        return ModuleFacade::has($moduleName) || File::isDirectory(base_path("Modules/{$moduleName}"));
+        return ModuleFacade::has($moduleName) || File::isDirectory($this->getPathToModule($moduleName));
     }
 
     /**
@@ -506,7 +508,7 @@ class ModuleManagerService
      */
     public function installDependencies(string $moduleName): bool
     {
-        $modulePath = base_path("Modules/{$moduleName}");
+        $modulePath = $this->getPathToModule($moduleName);
         if (! File::exists("{$modulePath}/composer.json")) {
             return true; // No dependencies to install
         }
@@ -559,6 +561,13 @@ class ModuleManagerService
 
             return false;
         }
+    }
+
+    public function getPathToModule(string $moduleName): string
+    {
+        $modulesBasePath = config('modules.paths.modules', base_path('Modules'));
+
+        return "{$modulesBasePath}/{$moduleName}";
     }
 
     /**

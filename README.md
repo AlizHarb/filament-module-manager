@@ -15,7 +15,7 @@
 </div>
 
 <p align="center">
-    <strong>Enterprise-grade module management for Filament v4 admin panels</strong><br>
+    <strong>Enterprise-grade module management for Filament v4 & v5 admin panels</strong><br>
     Complete lifecycle management with dependencies, updates, backups, and health monitoring<br>
     Built on <a href="https://nwidart.com/laravel-modules">Nwidart/laravel-modules</a>
 </p>
@@ -109,9 +109,9 @@
 
 | Requirement                                                                                         | Version | Status |
 | --------------------------------------------------------------------------------------------------- | ------- | ------ |
-| ![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=flat&logo=php&logoColor=white)            | 8.2+    | ✅     |
+| ![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=flat&logo=php&logoColor=white)            | 8.3+    | ✅     |
 | ![Laravel](https://img.shields.io/badge/Laravel-10+-FF2D20?style=flat&logo=laravel&logoColor=white) | 10+     | ✅     |
-| ![Filament](https://img.shields.io/badge/Filament-v4+-F59E0B?style=flat&logo=php&logoColor=white)   | v4+     | ✅     |
+| ![Filament](https://img.shields.io/badge/Filament-v4+-F59E0B?style=flat&logo=php&logoColor=white)   | v4/v5   | ✅     |
 
 **Dependencies:**
 

@@ -200,7 +200,7 @@ it('can read module readme', function () {
 // --- Enterprise Features Tests ---
 
 it('can check health status of a module', function () {
-    $result = app(ModuleHealthService::class)->getLatestHealth($this->module);
+    $result = app(ModuleHealthService::class)->checkHealth($this->module);
     expect($result)->toBeInstanceOf(\Alizharb\FilamentModuleManager\Data\ModuleHealthData::class);
     expect($result->score)->toBeInt();
 });

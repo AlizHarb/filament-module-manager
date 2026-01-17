@@ -2,12 +2,29 @@
 
 All notable changes to `filament-module-manager` will be documented in this file.
 
+## v2.2.0 - 2026-01-16
+
+### Added
+
+- **Filament v5 Support**
+  - Added support for Filament v5 (in addition to v4)
+  - Updated dependencies to allow `filament/filament: ^4.0|^5.0`
+
+- **PHP 8.3+ Support**
+  - Added full support for PHP 8.3 and 8.4
+  - Updated CI/CD validation matrix
+
+### Fixed
+
+- **CI/CD Improvements**
+  - Fixed test runner configuration for newer PHP versions
+  - Broadened test dependency constraints for better compatibility
+
 ## v2.1.0 - 2025-12-10
 
 ### Added
 
 - **Enhanced Configuration System**
-
   - Added comprehensive configuration file with all options
   - Configurable storage paths for backups, health checks, and audit logs
   - Added `max_backups_per_module` setting
@@ -16,14 +33,12 @@ All notable changes to `filament-module-manager` will be documented in this file
   - Permissions can now be disabled via config
 
 - **Improved Backup System**
-
   - Backward-compatible path resolution for existing backups
   - Support for both absolute and relative backup paths
   - Better error messages showing actual file paths
   - Configurable backup retention and limits
 
 - **Enhanced Testing**
-
   - Added cleanup for module-backups directory in tests
   - Fixed test property declarations
   - All 22 tests passing with 33 assertions

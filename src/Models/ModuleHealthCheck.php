@@ -61,7 +61,9 @@ class ModuleHealthCheck extends Model
         // Remove old check for same module
         $checks = array_filter($checks, fn ($check) => $check['module_name'] !== $data['module_name']);
 
-        $data['id'] = count($checks) + 1;
+        // Generate ID based on max existing ID to avoid duplicates
+        $maxId = empty($checks) ? 0 : max(array_column($checks, 'id'));
+        $data['id'] = $maxId + 1;
         $data['checked_at'] = now()->toIso8601String();
         $data['checks'] = json_encode($data['checks'] ?? []);
 
